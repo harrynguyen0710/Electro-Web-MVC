@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
+namespace DACS.Models
 
-namespace WebDT.Models
 {
     public class LoginViewModel
     {

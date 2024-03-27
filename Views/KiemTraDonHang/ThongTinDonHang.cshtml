@@ -1,0 +1,62 @@
+﻿@using DACS.Models
+@using DACS.ViewModel
+@model DonHangViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/stylescart.css">
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12 mt-4">
+            <div class="card">
+                <div class="card-header pb-0 px-3">
+                    <h6 class="mb-0">Thông tin đơn hàng</h6>
+                </div>
+                <div class="card-body pt-4 p-3">
+                    <ul class="list-group">
+                        @if (Model.DonHangList != null)
+                    {
+                        @foreach (var donhang in Model.DonHangList)
+                        {
+
+                            // Get name
+                            var tenTrangThaiThanhToan = Model._context.TrangThaiThanhToan.Where(x => x.MaTrangThaiThanhToan == donhang.MaTrangThaiThanhToan).Select(x => x.TenTrangThaiThanhToan).FirstOrDefault();
+                            var tenTrangThaiDonHang = Model._context.TrangThaiDonHang.Where(x => x.MaTrangThaiDonHang == donhang.MaTrangThaiDonHang).Select(x => x.TenTrangThaiDonHang).FirstOrDefault();
+                            <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-3 text-sm">@donhang.TenKhachHang</h6>
+                                    <span class="mb-2 text-xs">Ngày lập hoá đơn: <span class="text-dark font-weight-bold ms-sm-2">@donhang.NgayLapDonHang</span></span>
+                                    <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.SoDienThoai</span></span>
+                                    <span class="mb-2 text-xs">Địa chỉ: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.DiaChi</span></span>
+                                    <span class="mb-2 text-xs">Yêu cầu khác: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
+                                    <span class="mb-2 text-xs">Trạng thái đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiDonHang</span></span>
+                                    <span class="mb-2 text-xs">Trạng thái thanh toán: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
+                                    <span class="mb-2 text-xs">Tổng giá trị đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold"></span></span>
+
+                                </div>
+
+                                <div class="ms-auto text-end">
+                                    <a asp-controller="KiemTraDonHang" asp-action="Details" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
+                                        <i aria-hidden="true"></i>Chi tiết
+                                    </a>
+                                </div>
+                            </li>
+                        }
+                    }
+                        <div class="col-md-6">
+                            <div class="pt-5">
+                                <h6 class="mb-0">
+                                    <a href="@Url.Action("Index", "Home")" class="text-body" style="text-decoration: none;">
+                                        <i class="fas fa-long-arrow-alt-left me-2"></i>Quay lại
+                                    </a>
+                                </h6>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

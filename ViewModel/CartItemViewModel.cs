@@ -1,6 +1,5 @@
-﻿using WebDT.Models;
-
-namespace WebDT.ViewModel
+using DACS.Models;
+namespace DACS.ViewModel
 {
     public class CartItemViewModel
     {
