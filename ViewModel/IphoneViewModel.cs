@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WebDT.Models;
-namespace WebDT.ViewModel
+using DACS.Models;
+namespace DACS.ViewModel
 {
     public class IphoneViewModel
     {

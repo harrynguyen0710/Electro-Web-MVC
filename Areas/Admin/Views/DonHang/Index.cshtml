@@ -1,4 +1,4 @@
-﻿@model WebDT.ViewModel.DonHangViewModel
+﻿@model DACS.ViewModel.DonHangViewModel
 @{
     Layout = "_DashBoardAdmin";
 }
@@ -68,8 +68,8 @@
                         foreach(var donhang in Model.DonHangList){
                             
                             // Get name
-                        var tenTrangThaiThanhToan = Model._context.TrangThaiThanhToan.Where(x => x.MaTrangThaiThanhToan == donhang.MaTrangThaiThanhToan).Select(x => x.TenTrangThaiThanhToan).FirstOrDefault();
-                        var tenTrangThaiDonHang = Model._context.TrangThaiDonHang.Where(x => x.MaTrangThaiDonHang == donhang.MaTrangThaiDonHang).Select(x => x.TenTrangThaiDonHang).FirstOrDefault();
+                        var tenTrangThaiThanhToan = Model._context.TRANGTHAITHANHTOAN.Where(x => x.MaTrangThaiThanhToan == donhang.MaTrangThaiThanhToan).Select(x => x.TenTrangThaiThanhToan).FirstOrDefault();
+                        var tenTrangThaiDonHang = Model._context.TRANGTHAIDONHANG.Where(x => x.MaTrangThaiDonHang == donhang.MaTrangThaiDonHang).Select(x => x.TenTrangThaiDonHang).FirstOrDefault();
                         <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                             <div class="d-flex flex-column">
                                 <h6 class="mb-3 text-sm">@donhang.TenKhachHang</h6>

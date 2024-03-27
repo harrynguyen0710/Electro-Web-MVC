@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebDT.Data;
-using WebDT.Models;
+using DACS.Data;
+using DACS.Models;
 
 namespace WebDT.Areas.Admin.Controllers
 {
@@ -19,7 +19,7 @@ namespace WebDT.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var anh = await _context.HinhAnhQuangCao.ToListAsync();
+            var anh = await _context.HINHANHQUANGCAO.ToListAsync();
             return View(anh);
         }
         public async Task<IActionResult> Create()
@@ -32,20 +32,20 @@ namespace WebDT.Areas.Admin.Controllers
         {
             string uniqueFileName = GetProfilePhotoFileName(anh);
             anh.FileAnh = uniqueFileName;
-            await _context.HinhAnhQuangCao.AddAsync(anh);
+            await _context.HINHANHQUANGCAO.AddAsync(anh);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index","HinhAnhQuangCao");
         }
 
         public async Task<IActionResult> Delete(int maHinhAnh)
         {
-            var anh = await _context.HinhAnhQuangCao.Where(t => t.MaAnhQuangCao == maHinhAnh).FirstOrDefaultAsync();
+            var anh = await _context.HINHANHQUANGCAO.Where(t => t.MaAnhQuangCao == maHinhAnh).FirstOrDefaultAsync();
             return View(anh);
         }
         [HttpPost]
         public async Task<IActionResult> Delete(HinhAnhQuangCao anh)
         {
-            _context.HinhAnhQuangCao.Remove(anh);
+            _context.HINHANHQUANGCAO.Remove(anh);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "HinhAnhQuangCao");
         }

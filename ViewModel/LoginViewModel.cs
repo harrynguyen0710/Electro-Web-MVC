@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebDT.Models
+namespace DACS.Models
 {
     public class LoginViewModel
     {

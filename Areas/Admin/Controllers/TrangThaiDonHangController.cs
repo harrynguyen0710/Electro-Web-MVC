@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebDT.Data;
-using WebDT.Models;
+using DACS.Data;
+using DACS.Models;
 
 namespace WebDT.Areas.Admin.Controllers
 {
@@ -23,7 +23,7 @@ namespace WebDT.Areas.Admin.Controllers
         // GET: Ram
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TrangThaiDonHang.ToListAsync());
+            return View(await _context.TRANGTHAIDONHANG.ToListAsync());
         }
 
 
@@ -52,7 +52,7 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var trangThai = await _context.TrangThaiDonHang.FindAsync(id);
+            var trangThai = await _context.TRANGTHAIDONHANG.FindAsync(id);
             if (trangThai == null)
             {
                 return NotFound();
@@ -102,7 +102,7 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var trangThai = await _context.TrangThaiDonHang
+            var trangThai = await _context.TRANGTHAIDONHANG
                 .FirstOrDefaultAsync(m => m.MaTrangThaiDonHang == id);
             if (trangThai == null)
             {
@@ -117,10 +117,10 @@ namespace WebDT.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var trangThai = await _context.TrangThaiDonHang.FindAsync(id);
+            var trangThai = await _context.TRANGTHAIDONHANG.FindAsync(id);
             if (trangThai != null)
             {
-                _context.TrangThaiDonHang.Remove(trangThai);
+                _context.TRANGTHAIDONHANG.Remove(trangThai);
             }
 
             await _context.SaveChangesAsync();
@@ -129,7 +129,7 @@ namespace WebDT.Areas.Admin.Controllers
 
         private bool TrangThaiThanhToanExists(int id)
         {
-            return _context.TrangThaiDonHang.Any(e => e.MaTrangThaiDonHang == id);
+            return _context.TRANGTHAIDONHANG.Any(e => e.MaTrangThaiDonHang == id);
         }
     }
 }

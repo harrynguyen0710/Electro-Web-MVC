@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebDT.Data;
-using WebDT.Models;
-using WebDT.Repository;
-using WebDT.ViewModel;
+using DACS.Data;
+using DACS.Models;
+using DACS.Repository;
+using DACS.ViewModel;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using System.Collections.Generic;
 
@@ -54,7 +54,7 @@ namespace WebDT.Controllers
             cartVM.DonHang.NgayLapDonHang = DateTime.Now;
             DonHang donHang = cartVM.DonHang;
             
-            await _dataContext.DonHang.AddAsync(donHang);
+            await _dataContext.DONHANG.AddAsync(donHang);
             await _dataContext.SaveChangesAsync();
             
             foreach(var sanPham in cartItems)
@@ -65,7 +65,7 @@ namespace WebDT.Controllers
                     MaSanPham = sanPham.MaSanPham,
                     SoluongMua = sanPham.Soluong
                 };
-                await _dataContext.ChiTietDonHangSanPham.AddAsync(ctDonHang);
+                await _dataContext.CHITIETDONHANGSANPHAM.AddAsync(ctDonHang);
                 await _dataContext.SaveChangesAsync();
             }
 

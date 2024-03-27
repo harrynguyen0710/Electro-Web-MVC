@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace WebDT.ViewModel
+namespace DACS.ViewModel
 {
     public class SanPhamViewModel
     {
