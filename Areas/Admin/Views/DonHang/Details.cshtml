@@ -1,0 +1,129 @@
+﻿@model WebDT.ViewModel.DonHangViewModel
+@{
+    Layout = "_DashBoardAdmin";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-xl-6 mb-xl-0 mb-4">
+                    <div class="card bg-transparent shadow-xl">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mt-4">
+            <div class="card">
+                <div class="card-header pb-0 px-3">
+                    <h6 class="mb-0">Thông tin chi tiết đơn hàng</h6>
+                </div>
+                <div class="card-body pt-4 p-3">
+                    <ul class="list-group">
+                        @{
+                            decimal grandTotal = 0;
+                            foreach (var sanPhamDaBan in Model.SanPhamList)
+                            {
+                                foreach (var soLuongMua in Model.ChiTietDonHangSanPhamList)
+                                {
+                                    if (soLuongMua.MaSanPham == sanPhamDaBan.MaSanPham)
+                                    {
+                                        grandTotal += soLuongMua.SoluongMua * sanPhamDaBan.Gia;
+                                    }
+                                }
+                            }
+                            <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-3 text-sm">@Model.DonHang.TenKhachHang</h6>
+                                    <span class="mb-2 text-xs">Ngày lập hoá đơn: <span class="text-dark font-weight-bold ms-sm-2">@Model.DonHang.NgayLapDonHang</span></span>
+                                    <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.SoDienThoai</span></span>
+                                    <span class="mb-2 text-xs">Địa chỉ: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.DiaChi</span></span>
+                                    <span class="mb-2 text-xs">Yêu cầu khác: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.YeuCauKhac</span></span>
+                                    <span class="mb-2 text-xs">Trạng thái đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TrangThaiDonHang.TenTrangThaiDonHang</span></span>
+                                    <span class="mb-2 text-xs">Trạng thái thanh toán: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TrangThaiThanhToan.TenTrangThaiThanhToan</span></span>
+                                    <span class="mb-2 text-xs">Tổng tiền: <span class="text-dark ms-sm-2 font-weight-bold">@grandTotal.ToString()</span></span>
+
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                    <div>
+                        <div class="container mt-5">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Sản phẩm</th>
+                                        <th scope="col">Đơn giá</th>
+                                        <th scope="col">Số lượng mua</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var sanPhamDaBan in Model.SanPhamList)
+                                    {
+                                        <tr>
+                                            @foreach (var hinhAnh in Model.HinhAnhList)
+                                            {
+                                                if (hinhAnh.MaSanPham == sanPhamDaBan.MaSanPham)
+                                                {
+                                                    <th scope="row">
+                                                        <img src="~/Images/@hinhAnh.FileHinhAnh" style="height: 80px; width: 80px;" />
+                                                    </th>
+                                                    break;
+                                                }
+                                            }
+                                            <td>@sanPhamDaBan.TenSanPham</td>
+                                            <td>@sanPhamDaBan.Gia</td>
+                                            @foreach (var soLuongMua in Model.ChiTietDonHangSanPhamList)
+                                            {
+                                                if (soLuongMua.MaSanPham == sanPhamDaBan.MaSanPham)
+                                                {
+                                                    <td>@soLuongMua.SoluongMua</td>
+                                                }
+                                            }
+                                            <td>
+                                                @if (sanPhamDaBan is Iphone)
+                                                {
+                                                    <a class="btn btn-primary" asp-area="Admin" asp-controller="Iphone" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
+                                                        Chi tiết
+                                                    </a>
+
+                                                }
+                                                @if (sanPhamDaBan is Ipad)
+                                                {
+                                                    <a class="btn btn-primary" asp-area="Admin" asp-controller="Ipad" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
+                                                        Chi tiết
+                                                    </a>
+
+                                                }
+                                                @if (sanPhamDaBan is IMac)
+                                                {
+                                                    <a class="btn btn-primary" asp-area="Admin" asp-controller="iMac" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
+                                                        Chi tiết
+                                                    </a>
+
+                                                }
+                                                @if (sanPhamDaBan is Laptop)
+                                                {
+                                                    <a class="btn btn-primary" asp-area="Admin" asp-controller="Laptop" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
+                                                        Chi tiết
+                                                    </a>
+
+                                                }
+                                            </td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

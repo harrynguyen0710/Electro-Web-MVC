@@ -1,0 +1,27 @@
+﻿@model WebDT.Models.MauSac
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "_DashBoardAdmin";
+}
+
+<h1>Xóa</h1>
+<h3>Bạn có chắc chắn muốn xóa không?</h3>
+<div>
+    <h4>MauSac</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Tên màu 
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenMau)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="MaMauSac" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Trở về</a>
+    </form>
+</div>

@@ -1,0 +1,202 @@
+﻿@{
+    Layout = "_DashBoardAdmin";
+}
+@model WebDT.ViewModel.IphoneViewModel;
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Thông tin căn bản</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <form method="post" enctype="multipart/form-data">
+                            <table class="table align-items-center height-table">
+                                <!-- <table class="table align-items-center mb-12"> -->
+                                <div class="product-infor">
+                                    <div class="product-details-infor">
+                                        <div class="general-infor set-background">
+                                            <div class="infor-details-products">
+                                                <label asp-for="Phone.MaSanPham">Mã sản phẩm</label>
+                                                <input asp-for="Phone.MaSanPham" type="text" readonly>
+                                            </div>
+                                            <div class="infor-details-products">
+                                                <label asp-for="Phone.TenSanPham">Tên sản phẩm</label>
+                                                <input asp-for="Phone.TenSanPham" type="text">
+                                            </div>
+                                            <div class="infor-details-products">
+                                                <label asp-for="Phone.Mota">Mô tả</label>
+                                                <textarea asp-for="Phone.Mota"></textarea>
+                                            </div>
+                                            <div class="infor-details-products">
+                                                <label asp-for="Phone.Gia">Giá</label>
+                                                <input asp-for="Phone.Gia" type="number">
+                                            </div>
+                                        </div>
+                                        <!-- Option -->
+                                        <div class="option-infor">
+                                            <div>
+                                                <label asp-for="Phone.MaThuongHieu">Thương hiệu sản phẩm</label>
+                                                <select id="MaThuongHieu" name="MaThuongHieu">
+                                                    @if (ViewBag.ThuongHieu != null)
+                                                    {
+                                                        foreach (var thuongHieu in ViewBag.ThuongHieu)
+                                                        {
+                                                            <option value="@thuongHieu.Value">@thuongHieu.Text</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="">No data available</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label asp-for="Phone.MaLoaiSanPham">Loại sản phẩm</label>
+                                                <select id="MaLoaiSanPham" name="MaLoaiSanPham">
+                                                    @if (ViewBag.LoaiSanPham != null)
+                                                    {
+                                                        foreach (var loaiSanPham in ViewBag.LoaiSanPham)
+                                                        {
+                                                            <option value="@loaiSanPham.Value">@loaiSanPham.Text</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="">No data available</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label asp-for="MaRam">RAM</label>
+                                                <select id="MaRam" name="MaRam">
+                                                    @if (ViewBag.Ram != null)
+                                                    {
+                                                        foreach (var ram in ViewBag.Ram)
+                                                        {
+                                                            <option value="@ram.Value">@ram.Text</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="">No data available</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label asp-for="MaBoNho">Bộ nhớ sản phẩm</label>
+                                                <select id="MaBoNho" name="MaBoNho">
+                                                    @if (ViewBag.BoNho != null)
+                                                    {
+                                                        foreach (var boNho in ViewBag.BoNho)
+                                                        {
+                                                            <option value="@boNho.Value">@boNho.Text</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="">No data available</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label asp-for="MaMauSac">Màu sắc sản phẩm</label>
+                                                <select id="MaMauSac" name="MaMauSac">
+                                                    @if (ViewBag.MauSac != null)
+                                                    {
+                                                        foreach (var mauSac in ViewBag.MauSac)
+                                                        {
+                                                            <option value="@mauSac.Value">@mauSac.Text</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="">No data available</option>
+                                                    }
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        @*Upload Image*@
+@*                                        <div style="margin-left:150px;">
+                                            <div class="form-group col-4 p-0">
+                                                <label class="control-label"></label>
+                                                <img id="PreviewPhoto" src="~/Images/noimage.png" alt="Logo Image"
+                                                     style="width:260px; height:260px; border: 1px solid #333333; border-radius:5px;" />
+                                                <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+
+                                            </div>
+
+                                            <div class="col-1 p-0">
+                                            </div>
+
+                                            <div class="form-group col-7 p-0">
+                                                <div class="input-group custom-file-button mt-5 pt-5" style="width:260px; height:30px; transform:translateY(-65px);">
+                                                    <input asp-for="HinhAnhSanPham" multiple class="form-control custom-file-input" id="customFile">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group pt-0 mt-0">
+                                                <div ID="HiddenDiv" style="visibility: hidden;">
+                                                    <input asp-for="PhotoUrl" id="PhotoUrl" value="" />
+                                                </div>
+                                            </div>
+
+                                        </div>*@
+
+                                    </div>
+                                    <div class="infor-details set-background">
+                                        <div>
+                                            <h5>Thông số sản phẩm</h5>
+                                            <div class="details">
+                                                <div class="infor-details-products">
+                                                    <label asp-for="Phone.Chip">Chip</label>
+                                                    <input asp-for="Phone.Chip" type="text">
+                                                </div>
+                                                <div class="infor-details-products">
+                                                    <label asp-for="Phone.ManHinh">Màn hình</label>
+                                                    <input asp-for="Phone.ManHinh" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="details">
+                                                <div class="infor-details-products">
+                                                    <label asp-for="Phone.Rom">ROM</label>
+                                                    <input asp-for="Phone.Rom" type="text">
+                                                </div>
+                                                <div class="infor-details-products">
+                                                    <label asp-for="Phone.Pin">Pin</label>
+                                                    <input asp-for="Phone.Pin" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="details">
+                                                <div class="infor-details-products">
+                                                    <label asp-for="Phone.CameraTruoc">Camera trước</label>
+                                                    <input asp-for="Phone.CameraTruoc" type="text">
+                                                </div>
+                                                <div class="infor-details-products">
+                                                    <label asp-for="Phone.CameraSau">Camera sau</label>
+                                                    <input asp-for="Phone.CameraSau" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </table>
+                            <div>
+                               <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Sửa</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end here -->
