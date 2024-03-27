@@ -1,0 +1,83 @@
+﻿@model List<WebDT.Models.IMac>;
+@{
+    Layout = "_DashBoardAdmin";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Danh sách iMac</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tên Sản Phẩm </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mã Sản Phẩm</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Giá </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th>
+                                        <a asp-area="Admin" asp-controller="iMac" asp-action="Create">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Start here -->
+                                @foreach (var sanPham in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                @*                                                <div>
+                                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user2">
+                                                    </div>*@
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">@sanPham.TenSanPham</h6>
+                                                    @*                                                    <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
+                                                    *@
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">@sanPham.MaSanPham</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm bg-gradient-secondary">@sanPham.Gia</span>
+                                        </td>
+
+                                        <td class="align-middle">
+                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                Chi tiết
+                                            </a> |
+                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Edit" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                Sửa
+                                            </a> |
+                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Delete" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                Xoá
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+
+
+                                <!-- MESSENGER ICON -->
+                                @*                                <div class="messenger-icon">
+                                        <i class="fab fa-facebook-messenger" style="color: #007bff; font-size: 40px;"></i>
+                                    </div>*@
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

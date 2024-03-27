@@ -1,0 +1,27 @@
+﻿@model WebDT.Models.MauSac
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_DashBoardAdmin";
+}
+
+
+<h1>Chi tiết </h1>
+
+<div>
+    <h4>Màu sắc</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Tên màu
+<div>
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenMau)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MaMauSac">Chỉnh sửa</a> |
+    <a asp-action="Index">Trở về </a>
+</div>

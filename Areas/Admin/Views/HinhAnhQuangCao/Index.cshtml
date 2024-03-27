@@ -1,0 +1,44 @@
+﻿@model List<WebDT.Models.HinhAnhQuangCao>
+
+@{
+    ViewData["Title"] = "Hình ảnh quảng cáo";
+    Layout = "_DashBoardAdmin";
+
+}
+
+<div style="display:flex; flex-direction:row; justify-content:space-between;">
+    <h1 style="color:#ffffff;">Hình Ảnh Quảng Cáo</h1>
+    <h3>
+        <a asp-area="Admin" asp-controller="HinhAnhQuangCao" asp-action="Create">Thêm ảnh mới</a>
+    </h3>
+
+</div>
+<table class="table" style="background-color:#ffffff; height: 800px;">
+    <thead>
+        
+        <tr>
+            <th></th>
+            <th>Mã hình ảnh</th>
+            <th>Tên file</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.FileAnh))
+                    {
+                        <img src="~/slider/@item.FileAnh" alt="Profile Photo" style="max-width: 350px; max-height: 350px;" />
+                    }
+                    else
+                    {
+                        <span>No profile photo available</span>
+                    }
+                </td>
+                <td>@item.MaAnhQuangCao</td>
+                <td>@item.FileAnh</td>
+            </tr>
+        }
+    </tbody>
+</table>

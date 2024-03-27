@@ -1,0 +1,31 @@
+﻿@model WebDT.Models.BoNho
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_DashBoardAdmin";
+}
+
+<div style="background-color:#ffffff; transform:translate(30px,50px);  height:50%; width:80%; border-radius:9px; ">
+    <div style="transform:translateX(30px);">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+
+                    <label asp-for="DungLuongBoNho" class="control-label">Dung lượng bộ nhớ</label>
+
+                    <input asp-for="DungLuongBoNho" class="form-control" />
+                    <span asp-validation-for="DungLuongBoNho" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Thêm" class="btn btn-outline-success" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+
