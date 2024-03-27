@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations;
 namespace DACS.Models
+
 {
     public class LoginViewModel
     {
@@ -15,6 +15,5 @@ namespace DACS.Models
 
         [Display(Name = "Ghi nhớ?")]
         public bool RememberMe { get; set; }
-
     }
 }

@@ -1,0 +1,102 @@
+﻿@model WebDT.ViewModel.DonHangViewModel
+@{
+    Layout = "_DashBoardAdmin";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-xl-6 mb-xl-0 mb-4">
+                    <div class="card bg-transparent shadow-xl">
+                        <div class="overflow-hidden position-relative border-radius-xl" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/card-visa.jpg');">
+                            <span class="mask bg-gradient-dark"></span>
+                            <div class="card-body position-relative z-index-1 p-3">
+                                <i class="fas fa-wifi text-white p-2"></i>
+                                <h5 class="text-white mt-4 mb-5 pb-2">4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
+                                <div class="d-flex">
+                                    <div class="d-flex">
+                                        <div class="me-4">
+                                            <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
+                                            <h6 class="text-white mb-0">H2S Electro Device Shop</h6>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-sm opacity-8 mb-0">Expires</p>
+                                            <h6 class="text-white mb-0">1/5/2024</h6>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
+                                        <img class="w-60 mt-2" src="~/assets/images/mastercard.png" alt="logo">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header mx-4 p-3 text-center">
+                                    <div class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
+                                        <i class="fas fa-landmark opacity-10"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-0 p-3 text-center">
+                                    <h6 class="text-center mb-0">Doanh thu</h6>
+@*                                    <span class="text-xs">---------</span>
+*@                                    <hr class="horizontal dark my-3">
+                                    <h5 class="mb-0">$20.000</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mt-4">
+            <div class="card">
+                <div class="card-header pb-0 px-3">
+                    <h6 class="mb-0">Thông tin đơn hàng</h6>
+                </div>
+                <div class="card-body pt-4 p-3">
+                    <ul class="list-group">
+                    @{
+                           
+                        foreach(var donhang in Model.DonHangList){
+                            
+                            // Get name
+                        var tenTrangThaiThanhToan = Model._context.TrangThaiThanhToan.Where(x => x.MaTrangThaiThanhToan == donhang.MaTrangThaiThanhToan).Select(x => x.TenTrangThaiThanhToan).FirstOrDefault();
+                        var tenTrangThaiDonHang = Model._context.TrangThaiDonHang.Where(x => x.MaTrangThaiDonHang == donhang.MaTrangThaiDonHang).Select(x => x.TenTrangThaiDonHang).FirstOrDefault();
+                        <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                            <div class="d-flex flex-column">
+                                <h6 class="mb-3 text-sm">@donhang.TenKhachHang</h6>
+                                <span class="mb-2 text-xs">Ngày lập hoá đơn: <span class="text-dark font-weight-bold ms-sm-2">@donhang.NgayLapDonHang</span></span>
+                                <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.SoDienThoai</span></span>
+                                <span class="mb-2 text-xs">Địa chỉ: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.DiaChi</span></span>
+                                <span class="mb-2 text-xs">Yêu cầu khác: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
+                                <span class="mb-2 text-xs">Trạng thái đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiDonHang</span></span>
+                                <span class="mb-2 text-xs">Trạng thái thanh toán: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
+                               
+                            </div>
+
+                                <div class="ms-auto text-end">
+                                    <a asp-area="Admin" asp-controller="DonHang" asp-action="Edit" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
+                                        <i aria-hidden="true"></i>Chỉnh sửa
+                                    </a>
+                                    <a asp-area="Admin" asp-controller="DonHang" asp-action="Details" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
+                                        <i aria-hidden="true"></i>Chi tiết
+                                    </a>
+                                </div>
+
+                        </li>
+                        }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

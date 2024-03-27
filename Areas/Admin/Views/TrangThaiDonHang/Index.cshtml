@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebDT.Models.TrangThaiDonHang>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_DashBoardAdmin";
+}
+
+<h1>Danh sách trạng thái đơn hàng </h1>
+
+<p>
+    <a asp-action="Create">Thêm mới</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên trạng thái thái đơn hàng
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenTrangThaiDonHang)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaTrangThaiDonHang">Chỉnh sửa</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaTrangThaiDonHang">Xóa</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

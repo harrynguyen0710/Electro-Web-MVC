@@ -1,0 +1,72 @@
+﻿@model List<WebDT.Models.Iphone>;
+@{
+    Layout = "_DashBoardAdmin";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="container-fluid py-4">
+    <div style="display: flex; flex-direction: column; height: 650px; width:100%; background-color:#ffffff; border-radius:9px;">
+
+        <div class="container mt-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Hình ảnh</th>
+                        <th scope="col">Sản phẩm</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <img src="~/assets/images/iphone-14-pro-max-6-7inch-graphite-2tmobile.jpg" style="height: 80px; width: 80px;" />
+                        </th>
+                        <td>iPhone</td>
+                        <td>
+                            <a class="btn btn-primary" asp-area="Admin" asp-controller="Iphone" asp-action="Index">
+                                Chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <img src="~/assets/images/iPad_Pro_12_9-in_Cellular_Space_Gray_2-up_Screen__USEN-500x500.jpg" style="height: 80px; width: 80px;" />
+                        </th>
+                        <td>iPad</td>
+                        <td>
+                            <a class="btn btn-primary" asp-area="Admin" asp-controller="iPad" asp-action="Index">
+                                Chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <img src="~/assets/images/apple-macbook-pro-16-chip-m1-pro-10-core-cpu-16-core-gpu-16gb512gb-gray-mk183poa.jpg" style="height: 80px; width: 80px;" />
+                        </th>
+                        <td>Laptop</td>
+                        <td>
+                            <a class="btn btn-primary" asp-area="Admin" asp-controller="Laptop" asp-action="Index">
+                                Chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <img src="~/assets/images/imac-24-no-id-silver-cto-hero-202310.jpg" style="height: 80px; width: 80px;" />
+                        </th>
+                        <td>iMac</td>
+                        <td>
+                            <a class="btn btn-primary" asp-area="Admin" asp-controller="iMac" asp-action="Index">
+                                Chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+       
+
+    </div>    
+
+</div>
+

@@ -1,0 +1,27 @@
+﻿@model WebDT.Models.TrangThaiDonHang
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "_DashBoardAdmin";
+}
+
+<h1>Xóa </h1>
+<h3>bạn có chắc chắn muốn xóa không ?</h3>
+<div>
+    <h4>Tên trạng thái đơn hàng</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenTrangThaiDonHang)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenTrangThaiDonHang)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="MaTrangThaiDonHang" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Trở về</a>
+    </form>
+</div>

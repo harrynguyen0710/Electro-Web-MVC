@@ -1,0 +1,25 @@
+﻿@model WebDT.Models.Ram
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_DashBoardAdmin";
+}
+<h1>Chi tiết</h1>
+
+<div>
+    <h4>Ram</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenRam)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenRam)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MaRam">Edit</a> |
+    <a asp-action="Index">Trở về</a>
+
+</div>

@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "_DashBoardAdmin";
+}
+@model WebDT.ViewModel.IphoneViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Details</title>
+</head>
+<body>
+    <div style="background-color: #ffffff; display:flex; flex-direction:row;">
+        <div>
+            <h1>Thông tin sản phẩm</h1>
+            <p><strong>Tên sản phẩm:</strong> @Model.Phone.TenSanPham</p>
+            <p><strong>Sản phẩm: </strong> @Model.LoaiSanPhamDacBiet</p>
+            <p><strong>Dung lượng:</strong> @Model.DungLuongBoNho</p>
+            <p><strong>Màu sắc:</strong> @Model.TenMauSac</p>
+            <p><strong>RAM:</strong> @Model.TenRam</p>
+            <p><strong>Thương hiệu:</strong> @Model.TenThuongHieu</p>
+            <p><strong>Chip:</strong> @Model.Phone.Chip</p>
+            <p><strong>Rom:</strong> @Model.Phone.Rom</p>
+            <p><strong>Camera trước:</strong> @Model.Phone.CameraTruoc</p>
+            <p><strong>Camera sau:</strong> @Model.Phone.CameraSau</p>
+            <p><strong>Pin:</strong> @Model.Phone.Pin</p>
+
+            @*    <p><strong>Product Category:</strong> @Model.MaLoaiSanPham</p>
+            *@
+            <h2>Hình ảnh sản phẩm</h2>
+            @if (Model.TenHinhAnh != null && Model.TenHinhAnh.Any())
+            {
+                <div>
+                    @foreach (var image in Model.TenHinhAnh)
+                    {
+                        <img src="~/Images/@image" alt="Product Image" />
+                    }
+                </div>
+            }
+            else
+            {
+                <p>No images available for this product.</p>
+            }
+
+        </div>
+        <div>
+            <div style="width:180px;  height:40px; text-align:center; margin-top:30px;" class="btn btn-primary">
+                <a style="color: #ffffff;" asp-area="Admin" asp-controller="Iphone" asp-action="Index">Quay lại</a>
+            </div>
+            <div style="width:180px;  height:40px; text-align:center; margin-top:30px;" class="btn btn-behance">
+                <a style="color: #ffffff;" asp-area="Admin" asp-controller="Iphone" asp-action="Edit" asp-route-MaSanPham="@Model.Phone.MaSanPham">Chỉnh sửa</a>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
