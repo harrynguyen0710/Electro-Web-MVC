@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DACS.Models;
 namespace DACS.ViewModel
+
 {
     public class IphoneViewModel
     {

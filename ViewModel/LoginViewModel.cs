@@ -1,6 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
+namespace DACS.Models
+
 
 namespace DACS.Models
+
 {
     public class LoginViewModel
     {

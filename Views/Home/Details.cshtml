@@ -1,0 +1,263 @@
+﻿@model DACS.ViewModel.SanPhamChiTietViewModel;
+@using System.Linq
+@using System.Threading.Tasks
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techzone</title>
+    <link rel="stylesheet" href="~/assets/product-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <script src="./assets/script.js" defer></script>
+
+
+</head>
+<body>
+    <div class="container">
+        <main class="main">
+            <div class="product-details">
+                <div class="image-product-details">
+                    @foreach(var hinhAnh in Model.HinhAnhList)
+                    {
+                        <img class="image-product" src="~/Images/@hinhAnh.FileHinhAnh">
+                        break;
+
+                    }
+                </div>
+                <div class="product-detail-information">
+                    <div class="product-name-head">
+                        <h2>@Model.SanPham.TenSanPham</h2>
+                        <p>Thương hiệu: <span>@Model.SanPham.ThuongHieu.TenThuongHieu</span></p>
+                    </div>
+                    <div class="details">
+                        <div class="details-infor">
+                            <h3>@Model.SanPham.Gia ₫</h3>
+                            <p class="VAT-infor">(Đã bao gồm VAT)</p>
+                            <p class="insurance-infor">Bảo hành: 12 tháng. <span>(Quy định bảo hành)</span></p>
+                            <p class="custom-infor">Tuỳ chọn sản phẩm: <span>M2 8-Core, 10-core GPU</span></p>
+                            <p class="select-title">Chọn dung lượng</p>
+                            <div class="selection">
+                                @foreach (var sanPham in Model.SanPhamList)
+                               {
+                                    if (sanPham.MaMauSac == Model.SanPham.MaMauSac)
+                                    {
+                                    var boNho = Model.context.BONHO.Where(x => x.MaBoNho == sanPham.MaBoNho).FirstOrDefault();
+
+                                    <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
+                                        <div class="select-item">
+                                            <div class="content-item">@boNho.DungLuongBoNho</div>
+                                        </div>
+                                    </a>
+
+                                    }
+                               }
+                               <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@Model.SanPham.MaSanPham" style="text-decoration:none;">
+                                    <div style="margin-top:50px;">
+                                        <button class="btn-add-cart">THÊM VÀO GIỎ HÀNG</button>
+                                    </div>
+                               </a>
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="service-infor">
+                            <p class="service-title">Tư vấn & Mua hàng - Gọi 1900 0000</p>
+                            <div class="details-service-infor">
+                                <div class="style-for-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="content-service-infor">Freeship với đơn hàng trên 1.000.000đ</p>
+                                </div>
+                            </div>
+                            <div class="details-service-infor">
+                                <div class="style-for-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="content-service-infor">Giao hàng ngay (Nội thành TP.HCM)</p>
+                                </div>
+                            </div>
+                            <div class="details-service-infor">
+                                <div class="style-for-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="content-service-infor">Thu cũ đổi mới - Hỗ trợ tận nơi !</p>
+                                </div>
+                            </div>
+                            <div class="details-service-infor">
+                                <div class="style-for-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="content-service-infor">Chương trình tích lũy điểm sử dụng để trừ vào đơn hàng kế tiếp hoặc quy đổi quà</p>
+                                </div>
+                            </div>
+                            <div class="details-service-infor">
+                                <div class="style-for-check">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div>
+                                    <p class="content-service-infor">Giao trong vòng 2 đến 3 ngày làm việc (Toàn quốc) </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sub-infor">
+                <div class="product-description">
+                    <h3>Mô tả</h3>
+                    <p class="description-content">
+                        @Model.SanPham.Mota
+                    </p>
+                </div>
+                <div class="table-infor">
+                    <div class="title-table">THÔNG SỐ KỸ THUẬT</div>
+                    <hr class="custom-hr" />
+                    @if (Model.SanPham is Laptop)
+                    {
+                        <table class="table-style">
+                            <tr>
+                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Loại CPU</td>
+                                <td class="content-table">@Model.Laptop.CPU</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Số nhân / luồng</td>
+                                <td class="content-table">@Model.Laptop.SoNhanLuong</td>
+                            </tr>
+                        </table>
+                        <table class="table-style">
+                            <tr>
+                                <th class="content-table" colspan="2">Màn hình</th>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Kích thước màn hình</td>
+                                <td class="content-table">@Model.SanPham.ManHinh</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">VGA</td>
+                                <td class="content-table">@Model.Laptop.VGA</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Trọng lượng</td>
+                                <td class="content-table">
+                                    @Model.Laptop.TrongLuong
+                                </td>
+                            </tr>
+                        </table>
+
+                    }
+                    else if (Model.SanPham is Iphone)
+                    {
+                        <table class="table-style">
+                            <tr>
+                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Chip</td>
+                                <td class="content-table">@Model.Iphone.Chip</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">ROM</td>
+                                <td class="content-table">@Model.Iphone.Rom</td>
+                            </tr>
+                        </table>
+                        <table class="table-style">
+                            <tr>
+                                <th class="content-table" colspan="2">Camera</th>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Camera trước</td>
+                                <td class="content-table">@Model.Iphone.CameraTruoc</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Camera sau</td>
+                                <td class="content-table">@Model.Iphone.CameraSau</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Ping</td>
+                                <td class="content-table">
+                                    @Model.Iphone.Pin
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                    else if (Model.SanPham is IMac)
+                    {
+                        <table class="table-style">
+                            <tr>
+                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Công nghệ CPU</td>
+                                <td class="content-table">@Model.Imac.CongNgheCPU</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Tốc độ CPU</td>
+                                <td class="content-table">@Model.Imac.TocDoCPU</td>
+                            </tr>
+                        </table>
+                        <table class="table-style">
+                            <tr>
+                                <th class="content-table" colspan="2">Màn hình</th>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Màn hình</td>
+                                <td class="content-table">@Model.SanPham.ManHinh</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Turbo</td>
+                                <td class="content-table">@Model.Imac.Turbo</td>
+                            </tr>
+
+                        </table>
+                    }
+                    else if (Model.SanPham is Ipad)
+                    {
+                        <table class="table-style">
+                            <tr>
+                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Công nghệ màn hình</td>
+                                <td class="content-table">@Model.Ipad.CongNgheManHinh</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Độ phân giải</td>
+                                <td class="content-table">@Model.Ipad.DoPhanGiai</td>
+                            </tr>
+                        </table>
+                        <table class="table-style">
+                            <tr>
+                                <th class="content-table" colspan="2">Kích thước</th>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Kích thước vật lý</td>
+                                <td class="content-table">@Model.Ipad.KichThuocVatLy</td>
+                            </tr>
+                            <tr>
+                                <td class="content-table">Màn hình</td>
+                                <td class="content-table">@Model.SanPham.ManHinh</td>
+                            </tr>
+
+                        </table>
+                    }
+                </div>
+            </div>
+        </main>
+
+    </div>
+</body>
+</html>

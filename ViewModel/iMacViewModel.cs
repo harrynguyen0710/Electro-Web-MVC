@@ -1,6 +1,8 @@
-﻿using DACS.Models;
+
+using DACS.Models;
 
 namespace DACS.ViewModel
+
 {
     public class iMacViewModel
     {
