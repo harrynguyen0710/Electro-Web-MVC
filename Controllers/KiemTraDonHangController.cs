@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using WebDT.Data;
-using WebDT.Models;
-using WebDT.ViewModel;
+using DACS.Data;
+using DACS.Models;
+using DACS.ViewModel;
 
 namespace WebDT.Controllers
 {
@@ -30,7 +30,7 @@ namespace WebDT.Controllers
                 return View("Index");
             }
 
-            var donHang = _dataContext.DonHang.Where(d => d.SoDienThoai == phoneNumber).ToList();
+            var donHang = _dataContext.DONHANG.Where(d => d.SoDienThoai == phoneNumber).ToList();
 
             if (donHang.Any()) // Check if there are any orders found
             {
@@ -52,14 +52,14 @@ namespace WebDT.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int MaDonHang)
         {
-            var maTrangThaiDonHang = await _dataContext.DonHang.Where(x => x.MaDonHang == MaDonHang).Select(m => m.MaTrangThaiDonHang).FirstOrDefaultAsync();
-            var maTrangThaiThanhToan = await _dataContext.DonHang.Where(x => x.MaDonHang == MaDonHang).Select(m => m.MaTrangThaiThanhToan).FirstOrDefaultAsync();
+            var maTrangThaiDonHang = await _dataContext.DONHANG.Where(x => x.MaDonHang == MaDonHang).Select(m => m.MaTrangThaiDonHang).FirstOrDefaultAsync();
+            var maTrangThaiThanhToan = await _dataContext.DONHANG.Where(x => x.MaDonHang == MaDonHang).Select(m => m.MaTrangThaiThanhToan).FirstOrDefaultAsync();
 
 
-            var donHang = await _dataContext.DonHang.FirstOrDefaultAsync(x => x.MaDonHang == MaDonHang);
-            var chiTietDonHang = await _dataContext.ChiTietDonHangSanPham.Where(x => x.MaDonHang == MaDonHang).ToListAsync();
-            var trangThaiDonHang = await _dataContext.TrangThaiDonHang.FirstOrDefaultAsync(x => x.MaTrangThaiDonHang == maTrangThaiDonHang);
-            var trangThaiThanhToan = await _dataContext.TrangThaiThanhToan.FirstOrDefaultAsync(x => x.MaTrangThaiThanhToan == maTrangThaiThanhToan);
+            var donHang = await _dataContext.DONHANG.FirstOrDefaultAsync(x => x.MaDonHang == MaDonHang);
+            var chiTietDonHang = await _dataContext.CHITIETDONHANGSANPHAM.Where(x => x.MaDonHang == MaDonHang).ToListAsync();
+            var trangThaiDonHang = await _dataContext.TRANGTHAIDONHANG.FirstOrDefaultAsync(x => x.MaTrangThaiDonHang == maTrangThaiDonHang);
+            var trangThaiThanhToan = await _dataContext.TRANGTHAITHANHTOAN.FirstOrDefaultAsync(x => x.MaTrangThaiThanhToan == maTrangThaiThanhToan);
             var hinhAnh = await _dataContext.HINHANH.ToListAsync();
             if (donHang == null || chiTietDonHang == null || trangThaiDonHang == null || trangThaiThanhToan == null)
             {

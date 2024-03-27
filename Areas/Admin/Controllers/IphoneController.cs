@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebDT.Data;
-using WebDT.Models;
-using WebDT.ViewModel;
-using static WebDT.Models.SanPham;
+using DACS.Data;
+using DACS.Models;
+using DACS.ViewModel;
+using static DACS.Models.SanPham;
 
 namespace WebDT.Areas.Admin.Controllers
 {
@@ -40,7 +40,7 @@ namespace WebDT.Areas.Admin.Controllers
             ViewBag.Ram = new SelectList(_context.RAM, "MaRam", "TenRam");
             ViewBag.LoaiSanPham = new SelectList(_context.LOAISANPHAM, "MaLoaiSanPham", "TenLoaiSanPham");
             ViewBag.ThuongHieu = new SelectList(_context.THUONGHIEU, "MaThuongHieu", "TenThuongHieu");
-            ViewBag.SanPhamDacBiet = new SelectList(_context.SanPhamDacBiet, "MaSanPhamDacBiet", "LoaiSanPhamDacBiet");
+            ViewBag.SanPhamDacBiet = new SelectList(_context.SANPHAMDACBIET, "MaSanPhamDacBiet", "LoaiSanPhamDacBiet");
             IphoneViewModel iphone = new IphoneViewModel();
             return View(iphone);
         }
@@ -87,14 +87,14 @@ namespace WebDT.Areas.Admin.Controllers
                     };
                     await _context.HINHANH.AddAsync(hinhAnh);
                 }
-            int thoiGianBaoHanh = int.Parse(Request.Form["ThoiGianBaoHanh"]);
-            ViewBag.ThoiGianBaoHanh = Enum.GetValues(typeof(ThoiGianBaoHanhEnum))
-                                    .Cast<ThoiGianBaoHanhEnum>()
-                                    .Select(v => new SelectListItem
-                                    {
-                                        Text = v.ToString().Substring(1) + " tháng",
-                                        Value = ((int)v).ToString()
-                                    });
+            //int thoiGianBaoHanh = int.Parse(Request.Form["ThoiGianBaoHanh"]);
+            //ViewBag.ThoiGianBaoHanh = Enum.GetValues(typeof(ThoiGianBaoHanhEnum))
+            //                        .Cast<ThoiGianBaoHanhEnum>()
+            //                        .Select(v => new SelectListItem
+            //                        {
+            //                            Text = v.ToString().Substring(1) + " tháng",
+            //                            Value = ((int)v).ToString()
+            //                        });
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Iphone");
         }
@@ -179,7 +179,7 @@ namespace WebDT.Areas.Admin.Controllers
             var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();
             var loaiSanPham = await _context.LOAISANPHAM.Where(x => x.MaLoaiSanPham == phone.MaLoaiSanPham).Select(t => t.TenLoaiSanPham).FirstOrDefaultAsync();
             var thuongHieu = await _context.THUONGHIEU.Where(x => x.MaThuongHieu == phone.MaThuongHieu).Select(t => t.TenThuongHieu).FirstOrDefaultAsync();
-            var sanPhamDacBiet = await _context.SanPhamDacBiet.Where(x => x.MaSanPhamDacBiet == phone.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
+            var sanPhamDacBiet = await _context.SANPHAMDACBIET.Where(x => x.MaSanPhamDacBiet == phone.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
             IphoneViewModel iphone = new IphoneViewModel()
             {
                 Phone = phone,
