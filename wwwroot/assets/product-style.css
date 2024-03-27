@@ -1,0 +1,415 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif; /* Example font name */
+}
+
+/* .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} */
+
+
+
+:root {
+    /**
+     * colors
+     */
+
+    --spanish-gray: hsl(0, 0%, 60%);
+    --sonic-silver: hsl(0, 0%, 47%);
+    --eerie-black: hsl(0, 0%, 13%);
+    --salmon-pink: hsl(353, 100%, 78%);
+    --sandy-brown: hsl(29, 90%, 65%);
+    --bittersweet: hsl(0, 100%, 70%);
+    --ocean-green: hsl(152, 51%, 52%);
+    --davys-gray: hsl(0, 0%, 33%);
+    --cultured: hsl(0, 0%, 93%);
+    --white: hsl(0, 100%, 100%);
+    --onyx: hsl(0, 0%, 27%);
+    /**
+     * typography
+     */
+
+    --fs-1: 1.563rem;
+    --fs-2: 1.375rem;
+    --fs-3: 1.25rem;
+    --fs-4: 1.125rem;
+    --fs-5: 1rem;
+    --fs-6: 0.938rem;
+    --fs-7: 0.875rem;
+    --fs-8: 0.813rem;
+    --fs-9: 0.75rem;
+    --fs-10: 0.688rem;
+    --fs-11: 0.625rem;
+    --weight-300: 300;
+    --weight-400: 400;
+    --weight-500: 500;
+    --weight-600: 600;
+    --weight-700: 700;
+    /**
+     * border-radius
+     */
+
+    --border-radius-md: 10px;
+    --border-radius-sm: 5px;
+    /**
+     * transition 
+     */
+
+    --transition-timing: 0.2s ease;
+}
+
+
+.nav-bar {
+    width: 100%;
+    height: 100px;
+    background-color: #ffffff;
+    /* position: fixed; */
+}
+
+.nav-bar-1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    text-align: center;
+    align-items: center;
+}
+
+.nav-bar-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+
+    .nav-bar-2 div {
+        margin-top: -5px;
+        color: #575757;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+.pag {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333333;
+    margin-left: -45px;
+    cursor: pointer;
+}
+
+.searching-input-area {
+    border: 1px solid #ededed;
+    height: 40px;
+    width: 600px;
+    border-radius: 10px;
+    margin-right: -20px;
+}
+
+    .searching-input-area .searching-input {
+        position: relative;
+        border: none;
+        width: 550px;
+        height: 37px;
+        outline: none;
+    }
+
+.searching-btn {
+    position: absolute;
+    top: 1;
+    width: 50px;
+    height: 40px;
+    background-color: #18a0c6;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    transform: translateX(-30px);
+    cursor: pointer;
+}
+
+.btn-check {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 3px;
+    margin-right: -30px;
+}
+
+    .btn-check p {
+        margin-left: 10px;
+        width: 52px;
+        font-size: 12px;
+        color: #575757;
+    }
+
+/* Optional: Add focus styles for accessibility */
+input:focus {
+    border: 1px solid #007bff; /* Example focus style */
+}
+
+.main {
+    background-color: #f7f7f7;
+    height: 100%;
+    /* height: 1000px; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* background-color: red; */
+    justify-content: center;
+    align-items: center;
+}
+
+    .main .product-details {
+        margin-top: 47px;
+        height: 530px;
+        width: 85%;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: row;
+        border-radius: 4px;
+    }
+
+.product-details .image-product-details {
+    height: 500px;
+    width: 575px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+    .product-details .image-product-details .image-product {
+        height: 450px;
+        width: 450px;
+        cursor: pointer;
+    }
+
+.product-detail-information {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+    .product-detail-information .product-name-head {
+        /* border: 1px solid pink; */
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5px;
+    }
+
+        .product-detail-information .product-name-head h2 {
+            color: #2d2d2d;
+        }
+
+        .product-detail-information .product-name-head p {
+            margin-top: 8px;
+            color: #999999;
+            font-size: 15px;
+        }
+
+            .product-detail-information .product-name-head p span {
+                color: #323232;
+            }
+
+
+
+
+    .product-detail-information .details {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+.details .details-infor {
+    width: 150%;
+    /* border: 1px solid #e6e6e6; */
+}
+
+    .details .details-infor h3 {
+        color: #f44336;
+    }
+
+    .details .details-infor .VAT-infor {
+        color: #999999;
+        font-size: 13px;
+        font-style: italic;
+        margin-top: 4px;
+        /* font-size: ; */
+    }
+
+    .details .details-infor .insurance-infor {
+        color: #666666;
+        font-size: 15px;
+        margin-top: 20px;
+    }
+
+        .details .details-infor .insurance-infor span {
+            color: #18a0c6;
+            cursor: pointer;
+        }
+
+.details-infor .custom-infor {
+    color: #666666;
+    font-size: 15px;
+    margin-top: 20px;
+}
+
+    .details-infor .custom-infor span {
+        font-size: 14px;
+        color: #333333;
+        font-weight: 450;
+    }
+
+
+.details .details-infor .select-title {
+    color: #2f2f2f;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.details-infor .selection {
+    display: flex;
+    flex-direction: row;
+    /* background-color: blue; */
+    width: 50%;
+}
+
+.selection .select-item {
+    margin: 8px 12px 0 0;
+    width: 45px;
+    height: 22px;
+    cursor: pointer;
+    text-align: center;
+    background-color: #189dc3;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+    .selection .select-item .content-item {
+        transform: translateY(3px);
+    }
+
+.service-infor {
+    display: flex;
+    width: 680px;
+    height: 180px;
+    flex-direction: column;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    transform: translateX(-30px);
+    /* margin-right: 75px; */
+}
+
+    .service-infor .service-title {
+        margin: 10px 0 0 10px;
+        font-size: 14px;
+        font-weight: 470;
+        color: #333333;
+    }
+
+    .service-infor .details-service-infor {
+        display: flex;
+        flex-direction: row;
+        margin-top: 5px;
+    }
+
+        .service-infor .details-service-infor .content-service-infor {
+            font-size: 13px;
+            color: #666666;
+        }
+
+        .service-infor .details-service-infor .style-for-check {
+            margin-left: 10px;
+            border-radius: 100%;
+            height: 15px;
+            width: 15px;
+            margin-right: 5px;
+            background-color: #4cae50;
+        }
+
+        .service-infor .details-service-infor i {
+            color: #ffffff;
+            font-size: 9px;
+            margin: 3px 5px 0 0;
+            transform: translate(3px,-4px);
+        }
+
+.btn-add-cart {
+    margin-top: 70px;
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    width: 80%;
+    height: 42px;
+    font-weight: 540;
+    font-size: 14px;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+.main .sub-infor {
+    height: 400px;
+    width: 85%;
+    margin-top: 20px;
+    /* background-color: #ffffff; */
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.sub-infor .product-description {
+    /* border: 1px solid green; */
+    height: 60%;
+    width: 70%;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+    .sub-infor .product-description h3 {
+        margin: 15px 0 0 15px;
+        text-decoration: underline;
+    }
+
+    .sub-infor .product-description .description-content {
+        margin: 10px 15px 0 15px;
+        color: #333333;
+    }
+
+.sub-infor .table-infor {
+    height: 100%;
+    border-radius: 4px;
+    width: 25%;
+    background-color: #ffffff;
+}
+
+.sub-infor .table-style {
+    margin: 15px 0 0 18px;
+    border-collapse: collapse;
+    border: 1px solid red;
+    width: 90%;
+}
+
+    .sub-infor .table-style .content-table {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+.table-infor .title-table {
+    margin: 20px 15px;
+    color: #323232;
+    font-weight: 550;
+    font-size: 17px;
+}
