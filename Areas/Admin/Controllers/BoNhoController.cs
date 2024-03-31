@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
 
-namespace WebDT.Areas.Admin.Controllers
+namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class BoNhoController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,35 +23,12 @@ namespace WebDT.Areas.Admin.Controllers
         }
 
         // GET: BoNho
-        /* public async Task<IActionResult> Index()
-         {
-             return View(await _context.BONHO.ToListAsync());
-         }*/
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index()
         {
-            var boNho = from b in _context.BONHO
-                        select b;
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                boNho = boNho.Where(b => b.DungLuongBoNho.Contains(searchString));
-            }
-
-            return View(await boNho.ToListAsync());
+            return View(await _context.BONHO.ToListAsync());
         }
-        // GET: BoNho/Search
-        public async Task<IActionResult> Search(string searchString)
-        {
-            var boNho = from b in _context.BONHO
-                        select b;
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                boNho = boNho.Where(b => b.DungLuongBoNho.Contains(searchString));
-            }
-
-            return View("Index", await boNho.ToListAsync());
-        }
+       
 
         // GET: BoNho/Details/5
         public async Task<IActionResult> Details(int? id)

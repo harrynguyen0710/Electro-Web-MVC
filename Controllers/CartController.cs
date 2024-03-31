@@ -7,15 +7,20 @@ using DACS.Repository;
 using DACS.ViewModel;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using System.Collections.Generic;
+using DACS.Service;
 
 namespace WebDT.Controllers
 {
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _dataContext;
-        public CartController(ApplicationDbContext _context)
+        private readonly IEmailSender _emailSender;
+
+        public CartController(ApplicationDbContext _context, IEmailSender emailSender)
         {
             _dataContext = _context;
+            _emailSender = emailSender;
+
         }
 
         public IActionResult Index()
@@ -49,8 +54,8 @@ namespace WebDT.Controllers
             {
                 return NotFound();
             }
-            cartVM.DonHang.MaTrangThaiDonHang = 5;
-            cartVM.DonHang.MaTrangThaiThanhToan = 3;
+            cartVM.DonHang.MaTrangThaiDonHang = 1;
+            cartVM.DonHang.MaTrangThaiThanhToan = 2;
             cartVM.DonHang.NgayLapDonHang = DateTime.Now;
             DonHang donHang = cartVM.DonHang;
             
@@ -68,9 +73,24 @@ namespace WebDT.Controllers
                 await _dataContext.CHITIETDONHANGSANPHAM.AddAsync(ctDonHang);
                 await _dataContext.SaveChangesAsync();
             }
-
-
             HttpContext.Session.Remove("Cart");
+
+            MailContent content = new MailContent
+            {
+                To = "nnhoang0710@gmail.com",
+                Subject = "Đơn hàng mới",
+                Body = $@"
+                        <p><strong>Mã đơn hàng: {donHang.MaDonHang}</strong></p>
+                        <p>Khách hàng: {donHang.TenKhachHang}</p>
+                        <p>Ngày lập đơn hàng {donHang.NgayLapDonHang}<p/>
+                        <p>Số điện thoại: {donHang.SoDienThoai}</p>
+                        <p>Địa chỉ: {donHang.DiaChi}</p>
+                        <p>Yêu cấu khác: {donHang.YeuCauKhac}</p>
+                    "
+            };
+            await _emailSender.SendMail(content);
+
+
             return RedirectToAction("BuySuccessfully", "Cart");
         }
 

@@ -7,6 +7,8 @@ namespace DACS.Models
         [Key]
         public int MaDonHang { get; set; }
         public DateTime NgayLapDonHang { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal TongGiaTriDonHang { get; set; }
 
         [ForeignKey("TrangThaiThanhToan")]
         public int MaTrangThaiThanhToan { get; set; }

@@ -14,6 +14,13 @@ namespace DACS.Models
         public string ManHinh { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin mô tả")]
         public string Mota { get; set; }
+        
+        public int? SoLuongDanhGia { get; set; } 
+
+        public float? DiemDanhGia { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+
+        public decimal? GiaKhuyenMai { get; set; }
         public int MaThuongHieu { get; set; }
         [ForeignKey("LoaiSanPham")]
         public int MaLoaiSanPham { get; set; }
@@ -43,5 +50,6 @@ namespace DACS.Models
 
 
         public ICollection<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
+        public ICollection<BinhLuan> BinhLuan { get; set; }
     }
 }

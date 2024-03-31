@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
 using DACS.ViewModel;
 
-namespace WebDT.Areas.Admin.Controllers
+namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class iMacController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,17 +21,21 @@ namespace WebDT.Areas.Admin.Controllers
             _context = context;
             _webHost = webHost;
         }
-
-
         public async Task<IActionResult> Index(String SearchString)
         {
-            var imac = _context.IMAC.AsQueryable();
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                imac = imac.Where(x => x.TenSanPham.Contains(SearchString));
-            }
-            return View(imac);
+            var imacData = _context.IMAC.AsQueryable().ToList();
 
+            // List iphones to show to view default is empty
+            var iMacs = new List<IMac>();
+
+            if (imacData != null && imacData.Any())
+            {
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    iMacs = imacData.Where(x => x.TenSanPham.Contains(SearchString)).ToList();
+                }
+            }
+            return View(iMacs);
         }
         public IActionResult Create()
         {

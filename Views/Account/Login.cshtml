@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="center">
-        <h1>Login</h1>
+        <h1>Đăng nhập</h1>
         <form method="post">
             <div class="txt_field">
                 <input asp-for="UserName" type="text" required>
@@ -21,16 +21,17 @@
             <div class="txt_field">
                 <input asp-for="Password" type="password" required>
                 <span asp-validation-for="Password"></span>
-                <label asp-for="Password">Password</label>
+                <label asp-for="Password">Mật khẩu</label>
             </div>
             <div class="pass">
             </div>
             <input type="hidden" name="returnUrl" value="@ViewData["returnUrl"]" />
-
-            <button type="submit" value="Login">Login</button>
+            <a asp-controller="Account" asp-action="Register">Chưa có tài khoản?</a>
+            <button type="submit" value="Login">Đăng nhập</button>
             <div class="signup_link">
             </div>
         </form>
+       
     </div>
 
 </body>

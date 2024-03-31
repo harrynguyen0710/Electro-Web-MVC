@@ -120,10 +120,24 @@
                                               <img src="@Url.Content("/Images/no-images.jpg")">
                                           }
 
-                                          <div class="product-info">
-                                              <p>@item.TenSanPham</p>
-                                              <span style="color:black;">@item.Gia</span>
-                                          </div>
+                                      <div class="product-info">
+                                          @if (@item.GiaKhuyenMai != null)
+                                          {
+                                              <p>@(item?.TenSanPham)</p>
+                                              <div style="display: flex; flex-direction: column;">
+                                                  <span style="color: #333333; font-size:15px;">@(item?.GiaKhuyenMai)</span>
+                                                  <span style="color:gray; font-size:12px; text-decoration:line-through; ">@item.Gia</span>
+                                              </div>
+
+                                          }
+                                          else
+                                          {
+                                              <p>@(item?.TenSanPham)</p>
+                                              <div style="display: flex; flex-direction: column;">
+                                                  <span style="color: #333333; font-size:15px;">@(item?.Gia)</span>
+                                              </div>
+                                          }
+                                      </div>
                                       </div>
                                   </a>
 
@@ -189,10 +203,24 @@
                                     }
 
 
-                                    <div class="product-info">
-                                        <p>@item.TenSanPham</p>
-                                        <span style="color:black;">@item.Gia</span>
-                                    </div>
+                                     <div class="product-info">
+                                         @if (@item.GiaKhuyenMai != null)
+                                         {
+                                             <p>@(item?.TenSanPham)</p>
+                                             <div style="display: flex; flex-direction: column;">
+                                                 <span style="color: #333333; font-size:15px;">@(item?.GiaKhuyenMai)</span>
+                                                 <span style="color:gray; font-size:12px; text-decoration:line-through; ">@item.Gia</span>
+                                             </div>
+
+                                         }
+                                         else
+                                         {
+                                             <p>@(item?.TenSanPham)</p>
+                                             <div style="display: flex; flex-direction: column;">
+                                                 <span style="color: #333333; font-size:15px;">@(item?.Gia)</span>
+                                             </div>
+                                         }
+                                     </div>
                                     </div>
 
                                 </a>
@@ -258,10 +286,23 @@
                                         <img src="@Url.Content("/Images/no-images.jpg")">
                                     }
 
-                                    <div class="product-info">
-                                        <p>@item.TenSanPham</p>
-                                        <span style="color:black;">@item.Gia</span>
-                                    </div>
+                                <div class="product-info">
+                                    <p>@item.TenSanPham</p>
+                                    @if (@item.GiaKhuyenMai != null)
+                                    {
+                                        <div style="display: flex; flex-direction: column;">
+                                            <span style="color: #333333; font-size:15px;">@(item?.GiaKhuyenMai)</span>
+                                            <span style="color:gray; font-size:12px; text-decoration:line-through; ">@item.Gia</span>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <div style="display: flex; flex-direction: column;">
+                                            <span style="color: #333333; font-size:15px;">@(item?.Gia)</span>
+                                        </div>
+                                    }
+                                </div>
                                 </div>
                             </a>
                             counter++;
@@ -331,12 +372,24 @@
                             <img src="@Url.Content("/Images/no-images.jpg")">
                         }
 
-                        <div class="product-info">
+                    <div class="product-info">
+                        @if (@item.GiaKhuyenMai != null)
+                        {
                             <p>@(item?.TenSanPham)</p>
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="color: #333333; font-size:15px;">@(item?.GiaKhuyenMai)</span>
+                                <span style="color:gray; font-size:12px; text-decoration:line-through; ">@item.Gia</span>
+                            </div>
 
-                            <span style="color: #333333; font-size:15px;">@(item?.Gia)</span>
-
-                        </div>
+                        }
+                        else
+                        {
+                            <p>@(item?.TenSanPham)</p>
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="color: #333333; font-size:15px;">@(item?.Gia)</span>
+                            </div>
+                        }
+                    </div>
 
                     </div>
                        </a>

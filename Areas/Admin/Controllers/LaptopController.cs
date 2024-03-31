@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
@@ -8,6 +9,7 @@ using DACS.ViewModel;
 namespace WebDT.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class LaptopController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,13 +21,10 @@ namespace WebDT.Areas.Admin.Controllers
             _webHost = webHost;
 
         }
-
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String SearchString)
         {
-            var laptop = await _context.LAPTOP.ToListAsync();
-            return View(laptop);
-
+            var laptops = await _context.LAPTOP.ToListAsync();
+            return View(laptops);
         }
         public IActionResult Create()
         {
@@ -69,6 +68,11 @@ namespace WebDT.Areas.Admin.Controllers
 
 
             };
+            if (lap.Laptop.GiaKhuyenMai == null)
+            {
+                mayTinhBang.GiaKhuyenMai = lap.Laptop.GiaKhuyenMai;
+
+            }
             await _context.SANPHAM.AddAsync(mayTinhBang);
             await _context.SaveChangesAsync();
             foreach (var anh in lap.HinhAnhSanPham)
@@ -131,16 +135,6 @@ namespace WebDT.Areas.Admin.Controllers
             return View(laptop);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(int maSanPham)
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Delete(IphoneViewModel iphone)
-        {
-            return RedirectToAction("Index", "Laptop");
-        }
 
 
         private string UploadFile(IFormFile file)

@@ -8,10 +8,9 @@ using DACS.Models;
 using DACS.ViewModel;
 
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 
-namespace WebDT.Areas.Admin.Controllers
+namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]

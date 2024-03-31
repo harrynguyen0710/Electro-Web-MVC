@@ -1,0 +1,67 @@
+﻿@model DACS.ViewModel.RegisterViewModel;
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="~/css/login.css">
+</head>
+<body>
+    <div class="center">
+        <h1>Đăng ký</h1>
+        <form asp-action="Register" asp-controller="Account" method="post">
+            <div class="txt_field">
+                <input asp-for="@Model.Email" type="text" required>
+                <span asp-validation-for="@Model.Email"></span>
+                <label asp-for="@Model.Email">Email</label>
+            </div>
+            <div class="txt_field">
+                <input asp-for="@Model.UserName" type="text" required>
+                <span asp-validation-for="@Model.UserName"></span>
+                <label asp-for="@Model.UserName">User name</label>
+            </div>
+            <div class="txt_field">
+                <input asp-for="@Model.Name" type="text" required>
+                <span asp-validation-for="@Model.Name"></span>
+                <label asp-for="@Model.Name">Họ và tên</label>
+            </div>
+            <div class="txt_field">
+                <input asp-for="@Model.SoDienThoai" type="text" required>
+                <span asp-validation-for="@Model.SoDienThoai"></span>
+                <label asp-for="@Model.SoDienThoai">Số điện thoại</label>
+            </div>
+            <div class="txt_field">
+                <input asp-for="@Model.DiaChi" type="text" required>
+                <span asp-validation-for="@Model.DiaChi"></span>
+                <label asp-for="@Model.DiaChi">Địa chỉ</label>
+            </div>
+            <div class="txt_field">
+                <input asp-for="@Model.Password" type="password" required>
+                <span asp-validation-for="@Model.Password"></span>
+                <label asp-for="@Model.Password">Password</label>
+            </div>
+            <div class="pass">
+
+            </div>
+            <button type="submit" value="Register">Đăng ký</button>
+            <div class="signup_link">
+            </div>
+        </form>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="validation-summary-errors">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+</body>
+</html>

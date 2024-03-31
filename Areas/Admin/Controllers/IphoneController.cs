@@ -6,13 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
 using DACS.ViewModel;
-using static DACS.Models.SanPham;
 
-namespace WebDT.Areas.Admin.Controllers
+namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
-    public class IphoneController : Controller
+/*    [Authorize]
+*/    public class IphoneController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHost;
@@ -23,13 +22,9 @@ namespace WebDT.Areas.Admin.Controllers
             _webHost = webHost;
 
         }
-        public async Task<IActionResult> Index(String SearchString)
+        public async Task<IActionResult> Index()
         {
-            var iphone = _context.IPHONE.AsQueryable();
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                iphone = iphone.Where(x => x.TenSanPham.Contains(SearchString));
-            }
+            var iphone = await _context.IPHONE.ToListAsync();
             return View(iphone);
 
         }
@@ -59,7 +54,7 @@ namespace WebDT.Areas.Admin.Controllers
                 Mota = iphone.Phone.Mota,
                 Gia = iphone.Phone.Gia,
                 ManHinh = iphone.Phone.ManHinh,
-
+               
 
                 MaSanPhamDacBiet = iphone.MaSanPhamDacBiet,
                 MaThuongHieu = iphone.MaThuongHieu,
@@ -74,6 +69,11 @@ namespace WebDT.Areas.Admin.Controllers
                 CameraSau = iphone.Phone.CameraSau,
                 Pin = iphone.Phone.Pin
             };
+            if (iphone.Phone.GiaKhuyenMai == null) 
+            {
+                dienThoai.GiaKhuyenMai = iphone.Phone.GiaKhuyenMai;
+
+            }
 
             await _context.SANPHAM.AddAsync(dienThoai);
             await _context.SaveChangesAsync();
@@ -87,14 +87,6 @@ namespace WebDT.Areas.Admin.Controllers
                     };
                     await _context.HINHANH.AddAsync(hinhAnh);
                 }
-            //int thoiGianBaoHanh = int.Parse(Request.Form["ThoiGianBaoHanh"]);
-            //ViewBag.ThoiGianBaoHanh = Enum.GetValues(typeof(ThoiGianBaoHanhEnum))
-            //                        .Cast<ThoiGianBaoHanhEnum>()
-            //                        .Select(v => new SelectListItem
-            //                        {
-            //                            Text = v.ToString().Substring(1) + " tháng",
-            //                            Value = ((int)v).ToString()
-            //                        });
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Iphone");
         }

@@ -6,8 +6,8 @@ namespace DACS.ViewModel
     public class SanPhamChiTietViewModel
     {
 
-        public SanPham SanPham { get; set; }    
-        public Iphone Iphone { get; set; }  
+        public SanPham SanPham { get; set; }
+        public Iphone Iphone { get; set; }
         public Ipad Ipad { get; set; }
         public Laptop Laptop { get; set; }
         public IMac Imac { get; set; }
@@ -16,6 +16,14 @@ namespace DACS.ViewModel
         public Ram Ram { get; set; }
         public MauSac MauSac { get; set; }
         public BoNho BoNho { get; set; }
+
+        public BinhLuan BinhLuan { get; set; }
+
+
+/*        public List<AppUserModel> User { get; set; }
+*/
+        public AppUserModel User { get; set; }
+        public List<BinhLuan> BinhLuanList { get; set; }
 
 
         public List<Iphone> IphoneList { get; set; }  

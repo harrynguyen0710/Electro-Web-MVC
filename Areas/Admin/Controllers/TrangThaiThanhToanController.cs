@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebDT.Areas.Admin.Controllers
+namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class TrangThaiThanhToanController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,34 +22,50 @@ namespace WebDT.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Ram
+        // GET: Admin/TrangThaiThanhToan
         public async Task<IActionResult> Index()
         {
             return View(await _context.TRANGTHAITHANHTOAN.ToListAsync());
         }
 
-    
+        // GET: Admin/TrangThaiThanhToan/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        // GET: Ram/Create
+            var trangThaiThanhToan = await _context.TRANGTHAITHANHTOAN
+                .FirstOrDefaultAsync(m => m.MaTrangThaiThanhToan == id);
+            if (trangThaiThanhToan == null)
+            {
+                return NotFound();
+            }
+
+            return View(trangThaiThanhToan);
+        }
+
+        // GET: Admin/TrangThaiThanhToan/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ram/Create
+        // POST: Admin/TrangThaiThanhToan/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaTrangThaiDonHang, TenTrangThaiDonHang")] TrangThaiThanhToan trangThai)
+        public async Task<IActionResult> Create([Bind("MaTrangThaiThanhToan,TenTrangThaiThanhToan")] TrangThaiThanhToan trangThaiThanhToan)
         {
-            _context.Add(trangThai);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "TrangThaiThanhToan");
 
+                _context.Add(trangThaiThanhToan);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
         }
 
-        // GET: Ram/Edit/5
+        // GET: Admin/TrangThaiThanhToan/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -55,35 +73,34 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var trangThai = await _context.TRANGTHAITHANHTOAN.FindAsync(id);
-            if (trangThai == null)
+            var trangThaiThanhToan = await _context.TRANGTHAITHANHTOAN.FindAsync(id);
+            if (trangThaiThanhToan == null)
             {
                 return NotFound();
             }
-            return View(trangThai);
+            return View(trangThaiThanhToan);
         }
 
-        // POST: Ram/Edit/5
+        // POST: Admin/TrangThaiThanhToan/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaTrangThaiDonHang, TenTrangThaiDonHang")] TrangThaiThanhToan trangThai)
+        public async Task<IActionResult> Edit(int id, [Bind("MaTrangThaiThanhToan,TenTrangThaiThanhToan")] TrangThaiThanhToan trangThaiThanhToan)
         {
-            if (id != trangThai.MaTrangThaiThanhToan)
+            if (id != trangThaiThanhToan.MaTrangThaiThanhToan)
             {
                 return NotFound();
             }
 
-           
                 try
                 {
-                    _context.Update(trangThai);
+                    _context.Update(trangThaiThanhToan);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TrangThaiThanhToanExists(trangThai.MaTrangThaiThanhToan))
+                    if (!TrangThaiThanhToanExists(trangThaiThanhToan.MaTrangThaiThanhToan))
                     {
                         return NotFound();
                     }
@@ -93,11 +110,10 @@ namespace WebDT.Areas.Admin.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            
-            return View(trangThai);
+
         }
 
-        // GET: Ram/Delete/5
+        // GET: Admin/TrangThaiThanhToan/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -105,25 +121,25 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var trangThai = await _context.TRANGTHAITHANHTOAN
+            var trangThaiThanhToan = await _context.TRANGTHAITHANHTOAN
                 .FirstOrDefaultAsync(m => m.MaTrangThaiThanhToan == id);
-            if (trangThai == null)
+            if (trangThaiThanhToan == null)
             {
                 return NotFound();
             }
 
-            return View(trangThai);
+            return View(trangThaiThanhToan);
         }
 
-        // POST: Ram/Delete/5
+        // POST: Admin/TrangThaiThanhToan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var trangThai = await _context.TRANGTHAITHANHTOAN.FindAsync(id);
-            if (trangThai != null)
+            var trangThaiThanhToan = await _context.TRANGTHAITHANHTOAN.FindAsync(id);
+            if (trangThaiThanhToan != null)
             {
-                _context.TRANGTHAITHANHTOAN.Remove(trangThai);
+                _context.TRANGTHAITHANHTOAN.Remove(trangThaiThanhToan);
             }
 
             await _context.SaveChangesAsync();
