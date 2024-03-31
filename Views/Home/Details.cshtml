@@ -17,17 +17,58 @@
 
 
 </head>
+
+<style>
+    .image-slider {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .slides {
+        display: flex;
+        overflow-x: hidden;
+    }
+
+    .slide {
+        width: 100%;
+        display: none;
+    }
+
+    .prev, .next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 16px;
+        cursor: pointer;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        border: none;
+        z-index: 1;
+    }
+
+    .prev {
+        left: 0;
+    }
+
+    .next {
+        right: 0;
+    }
+</style>
 <body>
     <div class="container">
         <main class="main">
             <div class="product-details">
-                <div class="image-product-details">
-                    @foreach(var hinhAnh in Model.HinhAnhList)
-                    {
-                        <img class="image-product" src="~/Images/@hinhAnh.FileHinhAnh">
-                        break;
-
-                    }
+                <div class="image-slider">
+                    <div class="slides">
+                        @foreach (var hinhAnh in Model.HinhAnhList)
+                        {
+                            <img class="slide" src="~/Images/@hinhAnh.FileHinhAnh">
+                        }
+                    </div>
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 </div>
                 <div class="product-detail-information">
                     <div class="product-name-head">
@@ -43,27 +84,27 @@
                             <p class="select-title">Chọn dung lượng</p>
                             <div class="selection">
                                 @foreach (var sanPham in Model.SanPhamList)
-                               {
+                                {
                                     if (sanPham.MaMauSac == Model.SanPham.MaMauSac)
                                     {
-                                    var boNho = Model.context.BONHO.Where(x => x.MaBoNho == sanPham.MaBoNho).FirstOrDefault();
+                                        var boNho = Model.context.BONHO.Where(x => x.MaBoNho == sanPham.MaBoNho).FirstOrDefault();
 
-                                    <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
-                                        <div class="select-item">
-                                            <div class="content-item">@boNho.DungLuongBoNho</div>
-                                        </div>
-                                    </a>
+                                        <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
+                                            <div class="select-item">
+                                                <div class="content-item">@boNho.DungLuongBoNho</div>
+                                            </div>
+                                        </a>
 
                                     }
-                               }
-                               <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@Model.SanPham.MaSanPham" style="text-decoration:none;">
+                                }
+                                <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@Model.SanPham.MaSanPham" style="text-decoration:none;">
                                     <div style="margin-top:50px;">
                                         <button class="btn-add-cart">THÊM VÀO GIỎ HÀNG</button>
                                     </div>
-                               </a>
+                                </a>
                             </div>
-                            
-                            
+
+
                         </div>
                         <div class="service-infor">
                             <p class="service-title">Tư vấn & Mua hàng - Gọi 1900 0000</p>
@@ -115,11 +156,333 @@
 
             <div class="sub-infor">
                 <div class="product-description">
-                    <h3>Mô tả</h3>
-                    <p class="description-content">
-                        @Model.SanPham.Mota
-                    </p>
+                    <div class="description-details">
+                        <h3 style="color:#363636;">Mô tả</h3>
+                        <p class="description-content">
+                            @Model.SanPham.Mota
+                        </p>
+                    </div>
+                    @*YOUR COMMENTS*@
+                    @{
+                        bool daBinhLuan = false;
+                        if (Model.User != null)
+                        {
+                            foreach (var nguoiDungDanhGia in Model.BinhLuanList)
+                            {
+                                if (nguoiDungDanhGia.Id == Model.User.Id)
+                                {
+                                    daBinhLuan = true;
+                                    break;
+                                }
+                            }
+
+                        }
+
+                    }
+                    @if (User.Identity.IsAuthenticated && daBinhLuan == false)
+                    {
+                        <form asp-controller="Home" asp-action="AddComment" method="post">
+                            <div class="input-comment" style="border:1px solid #ffffff;">
+                                <p class="rating-text rating-header">Đánh giá sản phẩm</p>
+                                <div class="rating-area">
+                                    <label asp-for="@Model.BinhLuan.MaDanhGia" style="display:none;"></label>
+                                    <select asp-for="@Model.BinhLuan.MaDanhGia" style="padding: 10px 0; width: 100%; border-radius: 5px; border: 1px solid gray; font-size: 14px;">
+                                        @if (ViewBag.DanhSachDanhGia != null)
+                                        {
+                                            foreach (var item in ViewBag.DanhSachDanhGia)
+                                            {
+                                                <option value="@item.Value" style="padding: 10px 0; width: 100%; font-size:14px;">@item.Text</option>
+
+                                            }
+
+                                        }
+                                    </select>
+
+
+                                    <div class="rating-content">
+                                        <textarea placeholder="Viết đánh giá" asp-for="@Model.BinhLuan.NoiDungBinhLuan"></textarea>
+                                    </div>
+
+                                    <input type="hidden" name="BinhLuan.MaSanPham" value="@Model.SanPham.MaSanPham" />
+
+                                    <button type="submit" style=" cursor: pointer; font-weight: 450; font-size: 15px; text-align:center; margin-top: 8px; border:none;border-radius: 5px; padding: 11px 0; width:130px; background-color:#189cc2; color: #ffffff;">
+                                        Gửi đánh giá
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+
+
+                    }
+                    else if (User.Identity.IsAuthenticated && daBinhLuan == true)
+                    {
+
+                        var binhLuanNguoidung = Model.context.BINHLUAN.Where(x => x.MaSanPham == Model.SanPham.MaSanPham).FirstOrDefault(m => m.Id == Model.User.Id);
+                        int soSao = 0;
+                        if (binhLuanNguoidung != null)
+                        {
+                             soSao = Model.context.DANHGIA
+                                .Where(m => m.MaDanhGia == binhLuanNguoidung.MaDanhGia)
+                                .Select(x => x.DiemDanhGia)
+                                .FirstOrDefault();
+
+                        }
+
+
+                        <div class="input-comment" style="border:1px solid #ffffff;">
+                            <p class="rating-text rating-header">Đánh giá của bạn</p>
+                            <div class="rating-area">
+                                <div  style="padding: 10px 0; width: 100%; border-radius: 5px; font-size: 14px;">Đánh giá: @soSao sao</div>
+
+                                <div class="rating-content">
+                                    <textarea placeholder="Viết đánh giá" readonly>@binhLuanNguoidung.NoiDungBinhLuan</textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+
+                    @*COMMENTS*@
+                    @if (Model.SanPham.DiemDanhGia != null && Model.SanPham.SoLuongDanhGia != null)
+                    {
+                        // DIEM DANH GIA
+                        float SOLUONGSAO = 0;
+
+                        float? DIEMDANHGIA = Model.SanPham.DiemDanhGia / Model.SanPham.SoLuongDanhGia;
+                        float? roundedDIEMDANHGIA = (float?)Math.Round(DIEMDANHGIA.Value, 1);
+
+
+                        <div class="user-comment">
+                            <p class="rating-text">Đánh giá và nhận xét về @Model.SanPham.TenSanPham</p>
+                            <div class="rating-infor">
+                                <div class="rating-score">
+                                    <div class="score">@roundedDIEMDANHGIA / 5</div>
+                                    <div class="rating-star">
+                                        @if (Model.SanPham.DiemDanhGia == 5)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                        }
+                                        /*                                        else if (Model.SanPham.DiemDanhGia > 4 && Model.SanPham.DiemDanhGia < 5)*/
+                                        else if (Model.SanPham.DiemDanhGia == null)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star-half-stroke" style="color: #f19d27; margin-right: 6px;"></i>
+
+                                        }
+                                        else if (Model.SanPham.DiemDanhGia == 4)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                        }
+                                        else if (Model.SanPham.DiemDanhGia > 3 && Model.SanPham.DiemDanhGia < 4)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star-half-stroke" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                        }
+                                        else if (Model.SanPham.DiemDanhGia == 3)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                        }
+                                        else if (Model.SanPham.DiemDanhGia > 2 && Model.SanPham.DiemDanhGia < 3)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star-half-stroke" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                        }
+                                        else if (Model.SanPham.DiemDanhGia == 2)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                        }
+                                        else if (Model.SanPham.DiemDanhGia > 1 && Model.SanPham.DiemDanhGia < 2)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star-half-stroke" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                        }
+                                        else if (Model.SanPham.DiemDanhGia == 1)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                        }
+                                        else if (Model.SanPham.DiemDanhGia < 1)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
+                                        }
+                                    </div>
+                                    <div class="review-total">
+                                        <p>@Model.SanPham.SoLuongDanhGia đánh giá</p>
+                                    </div>
+                                </div>
+                                @*END STAR HERE*@
+                                @{
+                                    int soLuong5Sao = 0;
+                                    int soLuong4Sao = 0;
+                                    int soLuong3Sao = 0;
+                                    int soLuong2Sao = 0;
+                                    int soLuong1Sao = 0;
+                                    foreach (var binhLuan in Model.BinhLuanList)
+                                    {
+                                        if (binhLuan.MaDanhGia == 1)
+                                        {
+                                            soLuong5Sao += 1;
+                                        }
+                                        else if (binhLuan.MaDanhGia == 2)
+                                        {
+                                            soLuong4Sao += 1;
+                                        }
+                                        else if (binhLuan.MaDanhGia == 3)
+                                        {
+                                            soLuong3Sao += 1;
+                                        }
+                                        else if (binhLuan.MaDanhGia == 4)
+                                        {
+                                            soLuong2Sao += 1;
+                                        }
+                                        else
+                                        {
+                                            soLuong1Sao += 1;
+                                        }
+                                    }
+
+                                }
+                                <div class="count-for-each">
+                                    <div class="star-for-each">
+                                        <span style="color: #363636; font-weight: 480;">5</span>
+                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong5Sao đánh giá</span>
+                                    </div>
+                                    <div class="star-for-each">
+                                        <span style="color: #363636; font-weight: 480;">4</span>
+                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
+                                        @*DO NOT HARD CODE HERE*@
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong4Sao đánh giá</span>
+                                    </div>
+                                    <div class="star-for-each">
+                                        <span style="color: #363636; font-weight: 480;">3</span>
+                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
+                                        @*DO NOT HARD CODE HERE*@
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong3Sao đánh giá</span>
+                                    </div>
+                                    <div class="star-for-each">
+                                        <span style="color: #363636; font-weight: 480;">2</span>
+                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
+                                        @*DO NOT HARD CODE HERE*@
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong2Sao đánh giá</span>
+                                    </div>
+                                    <div class="star-for-each">
+                                        <span style="color: #363636; font-weight: 480;">1</span>
+                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
+                                        @*DO NOT HARD CODE HERE*@
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong1Sao đánh giá</span>
+                                    </div>
+                                </div>
+                            </div>
+                            @*COMMENT*@
+                            <div style="display:flex; flex-direction:column; margin-top:10px;">
+                                @foreach (var binhLuan in Model.BinhLuanList)
+                                {
+                                    string name = Model.context.Users.Where(x => x.Id == binhLuan.Id).Select(m => m.Name).FirstOrDefault();
+                                    <div style="margin: 0 0 15px 10px; border-bottom: 1px solid #ebf0f9; padding:10px;">
+                                        <div style="display:flex; flex-direction: row; justify-content:space-between; width: 28%;">
+                                            <h4 style="color:#333333;">@name</h4>
+                                            <p style="font-size:14px; color:#2ba832; transform:translateY(2px);">@binhLuan.ThoiGianBinhLuan.ToString("dd/MM/yyyy")</p>
+                                        </div>
+                                        @if (binhLuan.MaDanhGia == 1)
+                                        {
+                                            <div>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+
+                                            </div>
+                                        }
+                                        else if (binhLuan.MaDanhGia == 2)
+                                        {
+                                            <div>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                            </div>
+
+                                        }
+                                        else if (binhLuan.MaDanhGia == 3)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                        }
+                                        else if (binhLuan.MaDanhGia == 4)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                        }
+                                        else if (binhLuan.MaDanhGia == 5)
+                                        {
+                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                        }
+
+                                        <div style="margin-top:10px;">
+                                            <p style="font-size:13px;">@binhLuan.NoiDungBinhLuan</p>
+                                        </div>
+                                    </div>
+
+                                }
+
+
+                            </div>
+                        </div>
+
+                    }
+
                 </div>
+
+
                 <div class="table-infor">
                     <div class="title-table">THÔNG SỐ KỸ THUẬT</div>
                     <hr class="custom-hr" />
@@ -261,3 +624,25 @@
     </div>
 </body>
 </html>
+
+<script>
+    var slideIndex = 0;
+    showSlides();
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("slide");
+        if (slideIndex >= slides.length) { slideIndex = 0 }
+        if (slideIndex < 0) { slideIndex = slides.length - 1 }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex].style.display = "block";
+        slideIndex++;
+        setTimeout(showSlides, 5000); // Change slide every 5 seconds
+    }
+</script>

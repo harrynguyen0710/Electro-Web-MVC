@@ -26,6 +26,8 @@ namespace DACS.Data
         public DbSet<ChiTietDonHangSanPham> CHITIETDONHANGSANPHAM { get; set; }
         public DbSet<SanPhamDacBiet> SANPHAMDACBIET { get; set; }
         public DbSet<HinhAnhQuangCao> HINHANHQUANGCAO { get; set; }
+        public DbSet<DanhGia> DANHGIA { get; set; }
+        public DbSet<BinhLuan> BINHLUAN { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -78,6 +80,27 @@ namespace DACS.Data
                 .HasOne(sc => sc.DonHang)
                 .WithMany(s => s.ChiTietDonHangSanPham)
                 .HasForeignKey(sc => sc.MaDonHang);
+
+            modelBuilder.Entity<BinhLuan>()
+                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham});
+
+            modelBuilder.Entity<BinhLuan>()
+                .HasAlternateKey(bl => new { bl.Id, bl.MaSanPham });
+
+            modelBuilder.Entity<BinhLuan>()
+                .HasOne<DanhGia>(m => m.DanhGia)
+                .WithMany(s => s.BinhLuan)
+                .HasForeignKey(s => s.MaDanhGia);
+
+            modelBuilder.Entity<BinhLuan>()
+                .HasOne<AppUserModel>(m => m.Customer)
+                .WithMany(s => s.BinhLuan)
+                .HasForeignKey(s => s.Id);
+
+            modelBuilder.Entity<BinhLuan>()
+                .HasOne<SanPham>(m => m.SanPham)
+                .WithMany(s => s.BinhLuan)
+                .HasForeignKey(s => s.MaSanPham);
 
             modelBuilder.Entity<SanPham>()
            .ToTable("SanPham")

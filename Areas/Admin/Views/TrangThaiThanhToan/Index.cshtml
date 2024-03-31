@@ -3,17 +3,19 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "_DashBoardAdmin";
+
 }
 
-<h1>Danh sách trạng thái thanh toán </h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Thêm mới</a>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Tên trạng thái thái thanh toán
+                @Html.DisplayNameFor(model => model.TenTrangThaiThanhToan)
             </th>
             <th></th>
         </tr>
@@ -25,9 +27,9 @@
                 @Html.DisplayFor(modelItem => item.TenTrangThaiThanhToan)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.MaTrangThaiThanhToan">Chỉnh sửa</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaTrangThaiThanhToan">Xóa</a>
-
+                <a asp-action="Edit" asp-route-id="@item.MaTrangThaiThanhToan">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaTrangThaiThanhToan">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaTrangThaiThanhToan">Delete</a>
             </td>
         </tr>
 }

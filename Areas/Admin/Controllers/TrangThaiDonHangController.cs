@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
 
-namespace WebDT.Areas.Admin.Controllers
+namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class TrangThaiDonHangController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -91,7 +93,6 @@ namespace WebDT.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             
-            return View(trangThai);
         }
 
         // GET: Ram/Delete/5

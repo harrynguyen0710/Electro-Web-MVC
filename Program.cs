@@ -1,8 +1,9 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using Microsoft.AspNetCore.Identity;
 using DACS.Models;
 using Microsoft.Extensions.Options;
+using DACS.Service;
 /*using WebDT.Service;
 */
 
@@ -14,6 +15,9 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"))
 );
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
 {
@@ -42,12 +46,15 @@ builder.Services.AddSession(options =>
 });
 
 
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddScoped<UserManager<AppUserModel>>();
 builder.Services.AddScoped<SignInManager<AppUserModel>>();
 
-builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
+
+app.UseSession();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -65,14 +72,24 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManger = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Manager", "Staff", "User" };
 
+    foreach (var role in roles)
+    {
+        if (!await roleManger.RoleExistsAsync(role))
+            await roleManger.CreateAsync(new IdentityRole(role));
+    }
+}
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUserModel>>();

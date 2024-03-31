@@ -49,9 +49,18 @@
                     <i class="fa-regular fa-calendar" style="font-size: 26px; color:#575757;"></i>
                     <p>Kiểm tra bảo hành</p>
                 </div>
-                <div>
-                    <i class="fa-solid fa-user" style="color: #333333; font-size: 20px; cursor:pointer;"></i>
-                </div>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Account" asp-action="Login">
+                        <i class="fa-solid fa-user" style="color: #333333; font-size: 20px; cursor:pointer;"></i>
+                    </a>
+                }
+                else
+                {
+            <a asp-controller="Account" asp-action="Logout">
+                <i class="fa-solid fa-right-from-bracket" style="color: #333333; font-size: 20px; cursor:pointer;"></i>
+            </a>
+                }
                 <div style="transform: translateX(-40px);">
                     <a href="/Cart">
                         <i class="fa-solid fa-cart-shopping" style="color: #333333; font-size:20px; cursor:pointer;"></i>

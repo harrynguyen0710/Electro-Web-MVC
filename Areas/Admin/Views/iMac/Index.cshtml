@@ -29,47 +29,53 @@
                             </thead>
                             <tbody>
                                 <!-- Start here -->
-                                @foreach (var sanPham in Model)
+                                @using (Html.BeginForm("Index", "Imac", FormMethod.Post))
                                 {
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                @*                                                <div>
-                                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user2">
-                                                    </div>*@
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@sanPham.TenSanPham</h6>
-                                                    @*                                                    <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
-                                                    *@
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">@sanPham.MaSanPham</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-secondary">@sanPham.Gia</span>
-                                        </td>
+                                    <p>
+                                        Tìm Imac: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                                        <input type="submit" value="Tìm kiếm" />
+                                    </p>
 
-                                        <td class="align-middle">
-                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Chi tiết
-                                            </a> |
-                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Edit" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Sửa
-                                            </a> |
-                                            <a asp-area="Admin" asp-controller="iMac" asp-action="Delete" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Xoá
-                                            </a>
-                                        </td>
-                                    </tr>
                                 }
+                                @{
+                                    if (Model.Any())
+                                    {
+                                        @foreach (var sanPham in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex px-2 py-1">
 
+                                                        <div class="d-flex flex-column justify-content-center">
+                                                            <h6 class="mb-0 text-sm">@sanPham.TenSanPham</h6>
 
-                                <!-- MESSENGER ICON -->
-                                @*                                <div class="messenger-icon">
-                                        <i class="fab fa-facebook-messenger" style="color: #007bff; font-size: 40px;"></i>
-                                    </div>*@
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs font-weight-bold mb-0">@sanPham.MaSanPham</p>
+                                                </td>
+                                                <td class="align-middle text-center text-sm">
+                                                    <span class="badge badge-sm bg-gradient-secondary">@sanPham.Gia</span>
+                                                </td>
+
+                                                <td class="align-middle">
+                                                    <a asp-area="Admin" asp-controller="Imac" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                        Chi tiết
+                                                    </a> |
+                                                    <a asp-area="Admin" asp-controller="Imac" asp-action="Create" asp-route-MaSanPham="@sanPham.MaSanPham" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                        Tạo 
+                                                    </a> |
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div>No IMac  !!!</div>
+                                    }
+                                }
                             </tbody>
                         </table>
                     </div>

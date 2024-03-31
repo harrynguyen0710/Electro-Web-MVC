@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
 
-namespace WebDT.Areas.Admin.Controllers
+namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class HinhAnhQuangCaoController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -34,7 +36,7 @@ namespace WebDT.Areas.Admin.Controllers
             anh.FileAnh = uniqueFileName;
             await _context.HINHANHQUANGCAO.AddAsync(anh);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index","HinhAnhQuangCao");
+            return RedirectToAction("Index", "HinhAnhQuangCao");
         }
 
         public async Task<IActionResult> Delete(int maHinhAnh)

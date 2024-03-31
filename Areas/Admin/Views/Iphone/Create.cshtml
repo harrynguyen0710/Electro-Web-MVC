@@ -20,7 +20,7 @@
                                         <div class="general-infor set-background">
                                             <div class="infor-details-products">
                                                 <label asp-for="Phone.MaSanPham">Mã sản phẩm</label>
-                                                <input asp-for="Phone.MaSanPham" type="text"  readonly>
+                                                <input asp-for="Phone.MaSanPham" type="text" readonly>
                                             </div>
                                             <div class="infor-details-products">
                                                 <label asp-for="Phone.TenSanPham">Tên sản phẩm</label>
@@ -33,6 +33,10 @@
                                             <div class="infor-details-products">
                                                 <label asp-for="Phone.Gia">Giá</label>
                                                 <input asp-for="Phone.Gia" type="number">
+                                            </div>
+                                            <div class="infor-details-products">
+                                                <label asp-for="Phone.GiaKhuyenMai">Giá khuyến mãi</label>
+                                                <input asp-for="Phone.GiaKhuyenMai" type="number">
                                             </div>
                                         </div>
                                         <!-- Option -->
@@ -203,14 +207,6 @@
                                         </div>
 
                                     </div>
-                                    @* <div class="infor-details-products">
-                                        <label asp-for="Phone.ThoiGianBaoHanh">Thời gian bảo hành</label>
-                                        <select asp-for="Phone.ThoiGianBaoHanh" class="form-control">
-                                            <option value="6">6 Tháng</option>
-                                            <option value="12">12 Tháng</option>
-                                            <option value="24">24 Tháng</option>
-                                        </select>
-                                    </div> *@
                                 </div>
                             </table>
                             <div>

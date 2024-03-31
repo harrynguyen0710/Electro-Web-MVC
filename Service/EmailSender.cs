@@ -11,20 +11,21 @@ namespace DACS.Service
 {
     public class EmailSender : IEmailSender
     {
-        private readonly EmailSettings mailSettings;
+        private readonly MailSettings mailSettings;
 
         private readonly ILogger<EmailSender> logger;
 
 
         // mailSetting được Inject qua dịch vụ hệ thống
         // Có inject Logger để xuất log
-        public EmailSender(IOptions<EmailSettings> _mailSettings, ILogger<EmailSender> _logger)
+        public EmailSender(IOptions<MailSettings> _mailSettings, ILogger<EmailSender> _logger)
         {
             mailSettings = _mailSettings.Value;
             logger = _logger;
             logger.LogInformation("Create SendMailService");
         }
 
+        // Gửi email, theo nội dung trong mailContent
         public async Task SendMail(MailContent mailContent)
         {
             var email = new MimeMessage();

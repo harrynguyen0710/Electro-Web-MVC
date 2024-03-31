@@ -3,12 +3,14 @@
 @{
     ViewData["Title"] = "Delete";
     Layout = "_DashBoardAdmin";
+
 }
 
-<h1>Xóa </h1>
-<h3>bạn có chắc chắn muốn xóa không ?</h3>
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Tên trạng thái thanh toán</h4>
+    <h4>TrangThaiThanhToan</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -22,6 +24,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="MaTrangThaiThanhToan" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Trở về</a>
+        <a asp-action="Index">Back to List</a>
     </form>
 </div>
