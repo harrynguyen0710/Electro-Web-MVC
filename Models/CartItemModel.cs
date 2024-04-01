@@ -11,8 +11,19 @@ namespace DACS.Models
         public string HinhAnh { get; set; }
         public int Soluong { get; set; }
         public decimal Gia { get; set; }
-        public decimal TongTien { 
-            get { return Soluong*Gia; }
+        public decimal? GiaKhuyenMai { get; set; }  
+        public decimal TongTien {
+            get
+            {
+                if (GiaKhuyenMai == null)
+                {
+                    return Soluong * Gia;
+                }
+                else
+                {
+                    return (decimal)(Soluong * GiaKhuyenMai);
+                }
+            }
         }
         public decimal TongSoLuong
         {
@@ -32,6 +43,7 @@ namespace DACS.Models
             Gia = sanPham.Gia;
             Soluong = 1;
             HinhAnh = hinhAnh;
+            GiaKhuyenMai = sanPham.GiaKhuyenMai;
         }
     }
 }

@@ -1,0 +1,45 @@
+﻿@model DACS.Models.VeGiamGia
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_DashBoardAdmin";
+
+}
+
+<h1>Create</h1>
+
+<h4>VeGiamGia</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayThietLap" class="control-label"></label>
+                <input asp-for="NgayThietLap" class="form-control" />
+                <span asp-validation-for="NgayThietLap" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoLuongToiDaSuDung" class="control-label"></label>
+                <input asp-for="SoLuongToiDaSuDung" class="form-control" />
+                <span asp-validation-for="SoLuongToiDaSuDung" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaTyLeGiam" class="control-label"></label>
+                <select asp-for="MaTyLeGiam" class ="form-control" asp-items="ViewBag.MaTyLeGiam"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -4,6 +4,7 @@ using DACS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DACS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240401024602_Coupon_v2")]
+    partial class Coupon_v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,8 +149,8 @@ namespace DACS.Migrations
                     b.Property<int>("MaDonHang")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("DonGiaBan")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("DonGiaBan")
+                        .HasColumnType("int");
 
                     b.Property<int>("SoluongMua")
                         .HasColumnType("int");
@@ -792,7 +795,9 @@ namespace DACS.Migrations
 
                     b.HasOne("DACS.Models.VeGiamGia", "VeGiamGia")
                         .WithMany("DonHang")
-                        .HasForeignKey("MaVeGiamGia");
+                        .HasForeignKey("MaVeGiamGia")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TrangThaiDonHang");
 
