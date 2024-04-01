@@ -28,17 +28,14 @@
                 <div class="pag news-pag">TIN TỨC</div>
                 <div class="pag branch-pag">THƯƠNG HIỆU</div>
                 <div class="searching-input-area">
-                    <form id="searchForm" action="@Url.Action("Index","Home")" method="get" style="width:85%" class="d-none d-md-flex">
-
-                        <input class="searching-input" type="text" placeholder="Nhập từ khoá tìm kiếm" />
-
+                    <form id="searchForm" asp-controller="Home" asp-action="Index" method="get" class="d-none d-md-flex">
+                        <input name="searchString" id="searchString" type="search" class="searching-input" placeholder="Nhập từ khoá tìm kiếm" />
                         <button class="searching-btn">
                             <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-
                         </button>
                     </form>
-
                 </div>
+
                 <div class="btn-check">
                     <a asp-controller="KiemTraDonHang" asp-action="Index" style="text-decoration:none; display:flex; flex-direction:row;">
                         <i class="fa-solid fa-clipboard-list" style="font-size: 26px; color:#575757;"></i>
