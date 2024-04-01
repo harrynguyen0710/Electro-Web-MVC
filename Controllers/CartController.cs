@@ -8,6 +8,7 @@ using DACS.ViewModel;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using System.Collections.Generic;
 using DACS.Service;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebDT.Controllers
 {
@@ -15,36 +16,60 @@ namespace WebDT.Controllers
     {
         private readonly ApplicationDbContext _dataContext;
         private readonly IEmailSender _emailSender;
+        private readonly UserManager<AppUserModel> _userManager;
 
-        public CartController(ApplicationDbContext _context, IEmailSender emailSender)
+
+        public CartController(ApplicationDbContext _context, IEmailSender emailSender, UserManager<AppUserModel> userManager)
         {
             _dataContext = _context;
             _emailSender = emailSender;
+            _userManager = userManager;
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); // neu co du lieu thi hien thi con khong se tao moi 1 list 
+            List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+
+            // Lấy thông tin người dùng đang đăng nhập
+            var user = await _userManager.GetUserAsync(User);
+
             DonHang donHang = new DonHang();
+            AppUserModel khachHang = user; // Truyền thông tin người dùng vào biến khachHang
 
             CartItemViewModel cartVM = new CartItemViewModel
             {
                 CartItems = cartItems,
                 GrandTotal = cartItems.Sum(x => x.Soluong * x.Gia),
                 TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
-                DonHang = donHang
+                DonHang = donHang,
+                KhachHang = khachHang
             };
+
             return View(cartVM);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Index(CartItemViewModel cartVM) { 
             cartVM.CartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            if (User.Identity.IsAuthenticated)
+            {
+                // Lấy thông tin người dùng đăng nhập
+                var user = await _userManager.GetUserAsync(User);
+
+                // Sử dụng thông tin từ người dùng đăng nhập để cập nhật thông tin khách hàng
+                cartVM.DonHang.TenKhachHang = user.UserName;
+                cartVM.DonHang.SoDienThoai = user.PhoneNumber;
+                cartVM.DonHang.DiaChi = user.Address;
+            }
+
+            // Kiểm tra xem các thông tin bắt buộc đã được nhập hay chưa
             if (string.IsNullOrEmpty(cartVM.DonHang.TenKhachHang) || string.IsNullOrEmpty(cartVM.DonHang.SoDienThoai) || string.IsNullOrEmpty(cartVM.DonHang.DiaChi))
-        {
+            {
+                // Nếu thông tin không hợp lệ, trả về view để người dùng nhập lại
                 return View(cartVM);
-        }
+            }
             if (cartVM == null || cartVM.DonHang == null)
             {
                 return NotFound();
@@ -58,11 +83,11 @@ namespace WebDT.Controllers
             cartVM.DonHang.MaTrangThaiThanhToan = 2;
             cartVM.DonHang.NgayLapDonHang = DateTime.Now;
             DonHang donHang = cartVM.DonHang;
-            
-            await _dataContext.DONHANG.AddAsync(donHang);
+
+            await _dataContext.DONHANG.AddAsync(cartVM.DonHang);
             await _dataContext.SaveChangesAsync();
-            
-            foreach(var sanPham in cartItems)
+
+            foreach (var sanPham in cartItems)
             {
                 ChiTietDonHangSanPham ctDonHang = new ChiTietDonHangSanPham()
                 {
