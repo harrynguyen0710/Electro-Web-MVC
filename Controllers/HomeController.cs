@@ -23,9 +23,16 @@ namespace DACS.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchString)
         {
             var sanPhamList = await _dataContext.SANPHAM.ToListAsync();
+
+            // Filter based on searchString
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                sanPhamList = sanPhamList.Where(x => x.TenSanPham.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
             var hinhAnhList = await _dataContext.HINHANH.ToListAsync();
             var hinhAnhQuangCao = await _dataContext.HINHANHQUANGCAO.ToListAsync();
 
@@ -38,6 +45,7 @@ namespace DACS.Controllers
 
             return View(viewModel);
         }
+
         public async Task<IActionResult> Details(int maSanPham)
         {
             var sanPham = await _dataContext.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
@@ -274,7 +282,7 @@ namespace DACS.Controllers
             return RedirectToAction("Details", new { MaSanPham = binhLuan.MaSanPham });
 
         }
-
+       /* public async Task<IActionResult> Search(string search)*/
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
