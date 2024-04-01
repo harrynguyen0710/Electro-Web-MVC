@@ -9,5 +9,7 @@ namespace DACS.ViewModel
         public DonHang DonHang { get; set; } 
         public decimal GrandTotal { get; set; } //Tinh tong gia
         public int TongSoLuongHienThi { get; set; } 
+
+        public string MaGiamGia { get; set; }
     }
 }

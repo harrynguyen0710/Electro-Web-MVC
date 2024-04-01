@@ -4,6 +4,7 @@ using DACS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DACS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240401021314_Coupon")]
+    partial class Coupon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,8 +149,8 @@ namespace DACS.Migrations
                     b.Property<int>("MaDonHang")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("DonGiaBan")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("DonGiaBan")
+                        .HasColumnType("int");
 
                     b.Property<int>("SoluongMua")
                         .HasColumnType("int");
@@ -197,9 +200,6 @@ namespace DACS.Migrations
                     b.Property<int>("MaTrangThaiThanhToan")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaVeGiamGia")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("NgayLapDonHang")
                         .HasColumnType("datetime2");
 
@@ -222,8 +222,6 @@ namespace DACS.Migrations
                     b.HasIndex("MaTrangThaiDonHang");
 
                     b.HasIndex("MaTrangThaiThanhToan");
-
-                    b.HasIndex("MaVeGiamGia");
 
                     b.ToTable("DONHANG");
                 });
@@ -790,15 +788,9 @@ namespace DACS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DACS.Models.VeGiamGia", "VeGiamGia")
-                        .WithMany("DonHang")
-                        .HasForeignKey("MaVeGiamGia");
-
                     b.Navigation("TrangThaiDonHang");
 
                     b.Navigation("TrangThaiThanhToan");
-
-                    b.Navigation("VeGiamGia");
                 });
 
             modelBuilder.Entity("DACS.Models.HinhAnh", b =>
@@ -992,11 +984,6 @@ namespace DACS.Migrations
             modelBuilder.Entity("DACS.Models.TyLeGiam", b =>
                 {
                     b.Navigation("VeGiamGia");
-                });
-
-            modelBuilder.Entity("DACS.Models.VeGiamGia", b =>
-                {
-                    b.Navigation("DonHang");
                 });
 #pragma warning restore 612, 618
         }
