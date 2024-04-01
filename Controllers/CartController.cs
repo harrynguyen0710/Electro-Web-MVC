@@ -73,6 +73,7 @@ namespace WebDT.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(CartItemViewModel cartVM) { 
             cartVM.CartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            DonHang donHang = new DonHang();
             if (User.Identity.IsAuthenticated)
             {
                 // Lấy thông tin người dùng đăng nhập
@@ -117,10 +118,12 @@ namespace WebDT.Controllers
                 cartVM.DonHang.TongGiaTriDonHang = tinhTong -   (tinhTong * tyLeGiam.PhanTramGiam) / 100;
 
             }
+
+
             cartVM.DonHang.MaTrangThaiDonHang = 1;
             cartVM.DonHang.MaTrangThaiThanhToan = 2;
             cartVM.DonHang.NgayLapDonHang = DateTime.Now;
-            DonHang donHang = cartVM.DonHang;
+            donHang = cartVM.DonHang;
 
 
            
