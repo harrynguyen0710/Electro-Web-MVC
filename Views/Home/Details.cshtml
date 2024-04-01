@@ -77,7 +77,14 @@
                     </div>
                     <div class="details">
                         <div class="details-infor">
-                            <h3>@Model.SanPham.Gia ₫</h3>
+                            @if(Model.SanPham.GiaKhuyenMai != null){
+                            <h3>@Model.SanPham.GiaKhuyenMai ₫</h3>
+                                <h3><span style="color:black; text-decoration:line-through;">@Model.SanPham.Gia ₫</span> </h3>
+                            }
+                            else
+                            {
+                                <h3>@Model.SanPham.Gia ₫</h3>
+                            }
                             <p class="VAT-infor">(Đã bao gồm VAT)</p>
                             <p class="insurance-infor">Bảo hành: 12 tháng. <span>(Quy định bảo hành)</span></p>
                             <p class="custom-infor">Tuỳ chọn sản phẩm: <span>M2 8-Core, 10-core GPU</span></p>
