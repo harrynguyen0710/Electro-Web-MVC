@@ -10,5 +10,7 @@ namespace DACS.ViewModel
         public AppUserModel KhachHang { get; set; }
         public decimal GrandTotal { get; set; } //Tinh tong gia
         public int TongSoLuongHienThi { get; set; } 
+
+        public string MaGiamGia { get; set; }
     }
 }

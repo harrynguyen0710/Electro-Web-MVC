@@ -100,7 +100,7 @@ namespace DACS.Areas.Admin.Controllers
             await _dataContext.SaveChangesAsync();
 
             // Chuyển hướng về action Edit với MaDonHang tương ứng
-            return RedirectToAction("Edit", "DonHang", new { MaDonHang = donHang.MaDonHang });
+            return RedirectToAction("Index", "DonHang");
         }
 
 

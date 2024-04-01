@@ -35,12 +35,32 @@ namespace WebDT.Controllers
             var user = await _userManager.GetUserAsync(User);
 
             DonHang donHang = new DonHang();
+           
+           decimal tongDonHang = 0;
+
             AppUserModel khachHang = user; // Truyền thông tin người dùng vào biến khachHang
 
+
+            foreach (var item in cartItems)
+            {
+                if (item.GiaKhuyenMai != null)
+                {
+                    // If GiaKhuyenMai is not null for this item, calculate price using GiaKhuyenMai
+                    tongDonHang = (decimal)(tongDonHang + (item.Soluong * item.GiaKhuyenMai));
+                }
+                else
+                {
+                    // Otherwise, calculate price using Gia
+                    tongDonHang += item.Soluong * item.Gia;
+                }
+            }
             CartItemViewModel cartVM = new CartItemViewModel
             {
                 CartItems = cartItems,
-                GrandTotal = cartItems.Sum(x => x.Soluong * x.Gia),
+                
+/*                GrandTotal = cartItems.Sum(x => x.Soluong * x.Gia),
+*/
+                GrandTotal = tongDonHang,
                 TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
                 DonHang = donHang,
                 KhachHang = khachHang
@@ -67,7 +87,6 @@ namespace WebDT.Controllers
             // Kiểm tra xem các thông tin bắt buộc đã được nhập hay chưa
             if (string.IsNullOrEmpty(cartVM.DonHang.TenKhachHang) || string.IsNullOrEmpty(cartVM.DonHang.SoDienThoai) || string.IsNullOrEmpty(cartVM.DonHang.DiaChi))
             {
-                // Nếu thông tin không hợp lệ, trả về view để người dùng nhập lại
                 return View(cartVM);
             }
             if (cartVM == null || cartVM.DonHang == null)
@@ -79,12 +98,41 @@ namespace WebDT.Controllers
             {
                 return NotFound();
             }
+            TyLeGiam tyLeGiam = new TyLeGiam();
+
+            var maGiamGia = _dataContext.VEGIAMGIA.Where(x => x.Code == cartVM.MaGiamGia).FirstOrDefault();
+            if (maGiamGia != null)
+            {
+                tyLeGiam = _dataContext.TYLEGIAM.Where(x => x.MaTyLeGiam == maGiamGia.MaTyLeGiam).FirstOrDefault();
+            }
+
+            var tinhTong = cartItems.Sum(x => x.TongTien);
+            if (tyLeGiam == null)
+            {
+
+                cartVM.DonHang.TongGiaTriDonHang = tinhTong;
+            }
+            else
+            {
+                cartVM.DonHang.TongGiaTriDonHang = tinhTong -   (tinhTong * tyLeGiam.PhanTramGiam) / 100;
+
+            }
             cartVM.DonHang.MaTrangThaiDonHang = 1;
             cartVM.DonHang.MaTrangThaiThanhToan = 2;
             cartVM.DonHang.NgayLapDonHang = DateTime.Now;
             DonHang donHang = cartVM.DonHang;
 
-            await _dataContext.DONHANG.AddAsync(cartVM.DonHang);
+
+           
+            if (maGiamGia != null)
+            {
+                donHang.MaVeGiamGia = maGiamGia.MaVeGiamGia;
+            }
+
+
+            
+            await _dataContext.DONHANG.AddAsync(donHang);
+
             await _dataContext.SaveChangesAsync();
 
             foreach (var sanPham in cartItems)
@@ -93,8 +141,16 @@ namespace WebDT.Controllers
                 {
                     MaDonHang = donHang.MaDonHang,
                     MaSanPham = sanPham.MaSanPham,
-                    SoluongMua = sanPham.Soluong
+                    SoluongMua = sanPham.Soluong,
                 };
+                if (sanPham.GiaKhuyenMai != null)
+                {
+                    ctDonHang.DonGiaBan = (decimal)sanPham.GiaKhuyenMai;
+                }
+                else
+                {
+                    ctDonHang.DonGiaBan = sanPham.Gia;
+                }
                 await _dataContext.CHITIETDONHANGSANPHAM.AddAsync(ctDonHang);
                 await _dataContext.SaveChangesAsync();
             }
@@ -111,6 +167,7 @@ namespace WebDT.Controllers
                         <p>Số điện thoại: {donHang.SoDienThoai}</p>
                         <p>Địa chỉ: {donHang.DiaChi}</p>
                         <p>Yêu cấu khác: {donHang.YeuCauKhac}</p>
+                        <p>Tổng đơn hàng: {cartVM.DonHang.TongGiaTriDonHang}<p>
                     "
             };
             await _emailSender.SendMail(content);
@@ -220,7 +277,9 @@ namespace WebDT.Controllers
         {
             return View();
         }
-       
+
+
+
 
     }
 }
