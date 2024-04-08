@@ -34,9 +34,14 @@ namespace DACS.Areas.Admin.Controllers
                 {
                     iMacs = imacData.Where(x => x.TenSanPham.Contains(SearchString)).ToList();
                 }
+                else
+                {
+                    iMacs = imacData;
+                }
             }
             return View(iMacs);
         }
+        [HttpGet]
         public IActionResult Create()
         {
             ViewBag.BoNho = new SelectList(_context.BONHO, "MaBoNho", "DungLuongBoNho");
