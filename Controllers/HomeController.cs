@@ -286,22 +286,6 @@ namespace DACS.Controllers
         public async Task<IActionResult> ShopCategory(int id, string? category, float? minPrice, float? maxPrice)
         {
             var sanPhamQuery = _dataContext.SANPHAM.AsQueryable();
-
-            /*if (!string.IsNullOrEmpty(category))
-            {
-                sanPhamQuery = sanPhamQuery.Where(x => x.Category == category);
-            }
-
-            if (minPrice.HasValue)
-            {
-                sanPhamQuery = sanPhamQuery.Where(x => x.Price >= minPrice);
-            }
-
-            if (maxPrice.HasValue)
-            {
-                sanPhamQuery = sanPhamQuery.Where(x => x.Price <= maxPrice);
-            }*/
-
             var sanPhamList = await sanPhamQuery.ToListAsync();
             var hinhAnhList = await _dataContext.HINHANH.ToListAsync();
 

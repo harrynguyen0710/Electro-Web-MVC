@@ -16,7 +16,8 @@
             return factory(jQuery, document, window, navigator);
         });
     } else if (typeof exports === "object") {
-        factory(require("jquery"), document, window, navigator);
+        factory(require("jquery"
+        ), document, window, navigator);
     } else {
         factory(jQuery, document, window, navigator);
     }

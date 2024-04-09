@@ -1,22 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@model DACS.ViewModel.SanPhamChiTietViewModel
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title>Techzone</title>
-
-    <link rel="icon" href="~/favicon.png">
+    <link rel="icon" href="img/favicon.png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <!-- animate CSS -->
     <link rel="stylesheet" href="~/css/animate.css">
     <!-- owl carousel CSS -->
     <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <!-- nice select CSS -->
+    <link rel="stylesheet" href="~/css/nice-select.css">
     <!-- font awesome CSS -->
     <link rel="stylesheet" href="~/css/all.css">
     <!-- flaticon CSS -->
@@ -26,8 +25,12 @@
     <link rel="stylesheet" href="~/css/magnific-popup.css">
     <!-- swiper CSS -->
     <link rel="stylesheet" href="~/css/slick.css">
+    <link rel="stylesheet" href="~/css/price_rangs.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="~/css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" />
+
 </head>
 <body>
     <header class="main_menu home_menu">
@@ -38,7 +41,6 @@
                         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                             TECHZONE
                         </a>
-                        @*  <a class="navbar-brand" href="index.html">Techzone</a> *@
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -93,6 +95,8 @@
                                         <a class="dropdown-item" asp-controller="KiemTraDonHang" asp-action="Index">
                                             Kiểm tra đơn hàng
                                         </a>
+                                    </div>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                         <a class="dropdown-item" asp-controller="Home" asp-action="ShopCategory">
                                             Lọc sản phẩm
                                         </a>
@@ -129,15 +133,6 @@
                 </div>
             </div>
         </div>
-       @*  <div class="search_input" id="search_input_box">
-            <div class="container ">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Tìm kiếm tại đây">
-                    <button type="submit" class="btn"></button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
-                </form>
-            </div>
-        </div> *@
     </header>
     <!-- Header part end-->
     <!--================Home Banner Area =================-->
@@ -148,8 +143,8 @@
                 <div class="col-lg-8">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <h2>Shop Category</h2>
-                            <p>Home <span>-</span> Shop Category</p>
+                            <h2>Lọc sản phẩm </h2>
+                            <p>Trang chủ<span>-</span> Lọc sản phẩm </p>
                         </div>
                     </div>
                 </div>
@@ -165,36 +160,24 @@
                     <div class="left_sidebar_area">
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>Browse Categories</h3>
+                                <h3>Lọc theo sản phẩm</h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <li>
-                                        <a href="#">Frozen Fish</a>
+                                        <a href="#">iPhone</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="#">Dried Fish</a>
+                                        <a href="#">iPad</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="#">Fresh Fish</a>
+                                        <a href="#">iMac</a>
                                         <span>(250)</span>
                                     </li>
                                     <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat</a>
+                                        <a href="#">Laptop</a>
                                         <span>(250)</span>
                                     </li>
                                 </ul>
@@ -203,7 +186,7 @@
 
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>Product filters</h3>
+                                <h3>Lọc theo Thương hiệu</h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
@@ -214,30 +197,10 @@
                                         <a href="#">Asus</a>
                                     </li>
                                     <li class="active">
-                                        <a href="#">Gionee</a>
+                                        <a href="#">Lenovo</a>
                                     </li>
                                     <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
+                                        <a href="#">MSI</a>
                                     </li>
                                 </ul>
                             </div>
@@ -245,24 +208,27 @@
 
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>Color Filter</h3>
+                                <h3>Lọc theo màu sắc</h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <li>
-                                        <a href="#">Black</a>
+                                        <a href="#">Đen</a>
                                     </li>
                                     <li>
-                                        <a href="#">Black Leather</a>
+                                        <a href="#">Xám</a>
                                     </li>
                                     <li class="active">
-                                        <a href="#">Black with red</a>
+                                        <a href="#">Đỏ</a>
                                     </li>
                                     <li>
-                                        <a href="#">Gold</a>
+                                        <a href="#">Vàng</a>
                                     </li>
                                     <li>
-                                        <a href="#">Spacegrey</a>
+                                        <a href="#">Xanh dương</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Hồng</a>
                                     </li>
                                 </ul>
                             </div>
@@ -289,6 +255,7 @@
                                 </div>
                             </div>
                         </aside>
+
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -296,7 +263,7 @@
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu">
-                                    <p><span>10000 </span> Prodict Found</p>
+                                    <p><span>10000 </span> Sản phẩm tìm được </p>
                                 </div>
                                 <div class="single_product_menu d-flex">
                                     <h5>short by : </h5>
@@ -318,7 +285,7 @@
                                 </div>
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="search"
+                                        <input type="text" class="form-control" placeholder="Tìm kiếm"
                                                aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend">
@@ -331,179 +298,113 @@
                         </div>
                     </div>
 
-                    <div class="row align-items-center latest_product_inner">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_1.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_3.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_4.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_5.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_6.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_7.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_8.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row">
                         <div class="col-lg-12">
-                            <div class="pageination">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                                <i class="ti-angle-double-left"></i>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                                <i class="ti-angle-double-right"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                            <div class="row align-items-center justify-content-between">
+                                @{
+                                    var sanPhams = Model.SanPhamList;
+                                    var hinhAnhs = Model.HinhAnhList;
+                                    foreach (var sanPham in sanPhams)
+                                    {
+                                        var hinhAnh = hinhAnhs.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
+                                        var filePath = Url.Content($"~/Images/{hinhAnh.FileHinhAnh}");
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="single_product_item">
+                                                <img src=@filePath alt="">
+                                                <div class="single_product_text">
+                                                    <h4>@sanPham.TenSanPham</h4>
+                                                    <h3>@sanPham.Gia</h3>
+                                                    <a href="#" class="add_cart">Thêm vào giỏ hàng<i class="ti-heart"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="pageination">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <i class="ti-angle-double-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <i class="ti-angle-double-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
-   @*  <!--================End Category Product Area =================-->
+    @*  <!--================End Category Product Area =================-->
     <!-- product_list part start-->
     <section class="product_list best_seller">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-                        <h2>Best Sellers <span>shop</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-12">
-                    <div class="best_product_slider owl-carousel">
-                        <div class="single_product_item">
-                            <img src="img/product/product_1.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_2.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_3.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_4.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_5.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container">
+    <div class="row justify-content-center">
+    <div class="col-lg-12">
+    <div class="section_tittle text-center">
+    <h2>Best Sellers <span>shop</span></h2>
+    </div>
+    </div>
+    </div>
+    <div class="row align-items-center justify-content-between">
+    <div class="col-lg-12">
+    <div class="best_product_slider owl-carousel">
+    <div class="single_product_item">
+    <img src="img/product/product_1.png" alt="">
+    <div class="single_product_text">
+    <h4>Quartz Belt Watch</h4>
+    <h3>$150.00</h3>
+    </div>
+    </div>
+    <div class="single_product_item">
+    <img src="img/product/product_2.png" alt="">
+    <div class="single_product_text">
+    <h4>Quartz Belt Watch</h4>
+    <h3>$150.00</h3>
+    </div>
+    </div>
+    <div class="single_product_item">
+    <img src="img/product/product_3.png" alt="">
+    <div class="single_product_text">
+    <h4>Quartz Belt Watch</h4>
+    <h3>$150.00</h3>
+    </div>
+    </div>
+    <div class="single_product_item">
+    <img src="img/product/product_4.png" alt="">
+    <div class="single_product_text">
+    <h4>Quartz Belt Watch</h4>
+    <h3>$150.00</h3>
+    </div>
+    </div>
+    <div class="single_product_item">
+    <img src="img/product/product_5.png" alt="">
+    <div class="single_product_text">
+    <h4>Quartz Belt Watch</h4>
+    <h3>$150.00</h3>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
     </section> *@
     <!-- product_list part end-->
     <!--::footer_part start::-->
@@ -607,33 +508,38 @@
     </footer>
     <!--::footer_part end::-->
     <!-- jquery plugins here-->
-    <script src="js/jquery-1.12.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <!-- popper js -->
-    <script src="js/popper.min.js"></script>
+    @* <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script> *@
+
+    <script src="~/js/popper.min.js"></script>
     <!-- bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
     <!-- easing js -->
-    <script src="js/jquery.magnific-popup.js"></script>
+    <script src="~/js/jquery.magnific-popup.js"></script>
     <!-- swiper js -->
-    <script src="js/swiper.min.js"></script>
+    <script src="~/js/swiper.min.js"></script>
     <!-- swiper js -->
-    <script src="js/masonry.pkgd.js"></script>
+    <script src="~/js/masonry.pkgd.js"></script>
     <!-- particles js -->
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/jquery.nice-select.min.js"></script>
     <!-- slick js -->
-    <script src="js/slick.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/contact.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/jquery.form.js"></script>
-    <script src="js/jquery.validate.min.js"></script>
-    <script src="js/mail-script.js"></script>
-    <script src="js/stellar.js"></script>
-    <script src="js/price_rangs.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/jquery.counterup.min.js"></script>
+    <script src="~/js/waypoints.min.js"></script>
+    <script src="~/js/contact.js"></script>
+    <script src="~/js/jquery.ajaxchimp.min.js"></script>
+    <script src="~/js/jquery.form.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/mail-script.js"></script>
+    <script src="~/js/stellar.js"></script>
+    <script src="~/js/price_rangs.js"></script>
     <!-- custom js -->
-    <script src="js/custom.js"></script>
+    <script src="~/js/custom.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
 </body>
 
 </html>
