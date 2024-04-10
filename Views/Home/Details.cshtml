@@ -19,6 +19,52 @@
 </head>
 
 <style>
+    .notification {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 999;
+        width: 300px; /* Điều chỉnh chiều rộng của box thông báo */
+        background-color: #f0f0f0; /* Màu nền của box thông báo */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+    }
+
+    .notification-content {
+        color: black;
+        font-size: 16px;
+        margin-bottom: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column; /* Hiển thị các phần tử theo chiều dọc */
+        align-items: center; /* Căn giữa theo chiều ngang */
+    }
+
+        .notification-content img {
+            margin-bottom: 10px; /* Tạo khoảng cách giữa hình ảnh và dòng chữ */
+        }
+
+
+        .notification-content button {
+            display: block;
+            margin: 20px auto 0;
+            background-color: #28a745; /* Màu nền xanh lá cây cho nút "OK" */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .notification-content button:hover {
+                background-color: #218838; /* Màu nền xanh lá cây sáng hơn khi di chuột vào */
+            }
+
+
     .image-slider {
         position: relative;
         width: 100%;
@@ -101,15 +147,28 @@
                                                 <div class="content-item">@boNho.DungLuongBoNho</div>
                                             </div>
                                         </a>
-
                                     }
                                 }
-                                <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@Model.SanPham.MaSanPham" style="text-decoration:none;">
-                                    <div style="margin-top:50px;">
-                                        <button class="btn-add-cart">THÊM VÀO GIỎ HÀNG</button>
-                                    </div>
-                                </a>
+
+                                <div style="margin-top:50px;">
+                                    <button class="btn-add-cart" onclick="addToCart(@Model.SanPham.MaSanPham)">THÊM VÀO GIỎ HÀNG</button>
+                                </div>
                             </div>
+
+                           <div id="cart-notification" class="notification">
+    <div class="notification-content">
+        <img src="~/image-cart/correct.png" alt="Tick" class="banner-img">
+        <div>
+            <p>Đã thêm vào giỏ hàng thành công!</p>
+            <button onclick="closeNotification()">OK</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+                            
 
 
                         </div>
@@ -652,4 +711,26 @@
         slideIndex++;
         setTimeout(showSlides, 5000); // Change slide every 5 seconds
     }
+    function addToCart(productId) {
+        // Thực hiện yêu cầu AJAX để thêm sản phẩm vào giỏ hàng
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // Hiển thị thông báo khi thêm vào giỏ hàng thành công
+                var notification = document.getElementById("cart-notification");
+                notification.style.display = "flex"; // Hiển thị box thông báo
+            }
+        };
+        xhttp.open("GET", "/Cart/Add?maSanPham=" + productId, true);
+        // Thay đổi đường dẫn tùy thuộc vào cấu trúc URL của ứng dụng của bạn
+        xhttp.send();
+    }
+
+    function closeNotification() {
+        var notification = document.getElementById("cart-notification");
+        notification.style.display = "none"; // Ẩn box thông báo
+    }
+
+
+
 </script>

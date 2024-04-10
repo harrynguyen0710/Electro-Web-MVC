@@ -179,18 +179,17 @@ namespace WebDT.Controllers
             return RedirectToAction("BuySuccessfully", "Cart");
         }
 
-      
+
         public async Task<IActionResult> Add(int maSanPham)
         {
-            var sanPham = _dataContext.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefault();
+            var sanPham = await _dataContext.SANPHAM.FirstOrDefaultAsync(x => x.MaSanPham == maSanPham);
 
             if (sanPham != null)
             {
-                var hinhAnhList = await _dataContext.HINHANH
-                    .Where(x => x.MaSanPham == sanPham.MaSanPham)
-                    .ToListAsync();
-                var hinhAnh = hinhAnhList[0].FileHinhAnh;
-                var viewModel = new CartItemViewModel();
+                var hinhAnh = await _dataContext.HINHANH.Where(x => x.MaSanPham == sanPham.MaSanPham)
+                                                        .Select(x => x.FileHinhAnh)
+                                                        .FirstOrDefaultAsync();
+
                 List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
 
                 CartItemModel cartItem = cart.FirstOrDefault(c => c.MaSanPham == maSanPham);
@@ -206,9 +205,9 @@ namespace WebDT.Controllers
 
                 HttpContext.Session.SetJson("Cart", cart);
             }
+
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
 
 
 

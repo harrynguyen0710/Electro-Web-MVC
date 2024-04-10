@@ -1,4 +1,4 @@
-* {
+﻿* {
     margin: 0;
     box-sizing: border-box;
 }
@@ -502,3 +502,4 @@ textarea:focus {
     font-weight: 550;
     font-size: 17px;
 }
+
