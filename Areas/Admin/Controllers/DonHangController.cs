@@ -25,17 +25,21 @@ namespace DACS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var donHang = await _dataContext.DONHANG.ToListAsync();
-            var viewModel = new DonHangViewModel 
-            {
-                DonHangList = donHang,
-                _context = _dataContext
-            };
-            if (donHang == null)
-            {
-                return NotFound();
-            }
-            return View(viewModel);
+            /*            var donHang = await _dataContext.DONHANG.ToListAsync();
+            */
+            /*            var donHang = _dataContext.DONHANG.Include(d => d.TrangThaiDonHang).Include(d => d.TrangThaiThanhToan).Include(d => d.VeGiamGia);
+
+                        if (donHang == null)
+                        {
+                            return NotFound();
+                        }
+                        var viewModel = new DonHangViewModel 
+                        {
+                            DonHangList = donHang,
+                            _context = _dataContext
+                        };
+                        return View(viewModel);*/
+            return View();
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int MaDonHang)
