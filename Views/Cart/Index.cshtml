@@ -1,252 +1,344 @@
 ﻿@model DACS.ViewModel.CartItemViewModel
 <!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="zxx">
+
 <head>
-    <link rel="stylesheet" href="~/css/stylescart.css">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>aranaz</title>
+    <link rel="icon" href="img/favicon.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <!-- nice select CSS -->
+    <link rel="stylesheet" href="css/nice-select.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="css/all.css">
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <!-- swiper CSS -->
+    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="css/price_rangs.css">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <header class="main_menu home_menu">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                            TECHZONE
+                        </a>
+                        @*  <a class="navbar-brand" href="index.html">Techzone</a> *@
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    @* <a class="nav-link" href="index.cshtml">Trang chủ</a> *@
+                                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                        Trang chủ
+                                    </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
+                                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Danh mục
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
+                                        <a class="dropdown-item" asp-controller="Home" asp-action="XemThemSanPhamIphone">
+                                            Iphone
+                                        </a>
+                                        <a class="dropdown-item" asp-controller="Home" asp-action="XemThemSanPhamIMac">
+                                            IMac
+                                        </a>
+                                        <a class="dropdown-item" asp-controller="Home" asp-action="XemThemSanPhamIpad">
+                                            IPad
+                                        </a>
+                                        <a class="dropdown-item" asp-controller="Home" asp-action="XemThemSanPhamLaptop">
+                                            Laptop
+                                        </a>
+
+                                        @*  <a class="dropdown-item" href="category.html"> Iphone</a> *@
+                                        @*  <a class="dropdown-item" href="category.html"> Imac </a> *@
+                                        @* <a class="dropdown-item" href="category.html"> Ipad </a> *@
+                                        @* <a class="dropdown-item" href="category.html"> Laptop </a> *@
+                                        @* <a class="dropdown-item" asp-controller="Home" asp-action="Details">
+                                        Chi tiết sản phẩm
+                                        </a> *@
+                                        @*  <a class="dropdown-item" href="single-product.html">Chi tiết sản phẩm</a> *@
+
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
+                                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Trang
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                        @if (!User.Identity.IsAuthenticated)
+                                        {
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Login">
+                                                Đăng nhập
+                                            </a>
+                                        }
+                                        <a class="dropdown-item" asp-controller="Cart" asp-action="Index">
+                                            Giỏ hàng
+                                        </a>
+                                        <a class="dropdown-item" asp-controller="KiemTraDonHang" asp-action="Details">
+                                            Chi tiết đơn hàng
+                                        </a>
+                                        <a class="dropdown-item" asp-controller="KiemTraDonHang" asp-action="Index">
+                                            Kiểm tra đơn hàng
+                                        </a>
+                                        <a class="dropdown-item" href="checkout.html">Lọc sản phẩm</a>
+
+                                        @*  <a class="dropdown-item" href="tracking.html">Theo dõi </a> *@
+                                        @*  <a class="dropdown-item" href="cart.html">Giỏ hàng</a> *@
+                                        @*  <a class="dropdown-item" href="confirmation.html">confirmation</a>
+                                        <a class="dropdown-item" href="elements.html">elements</a> *@
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
+                                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        blog
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+                                        <a class="dropdown-item" href="blog.html"> blog</a>
+                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
+                                    </div>
+                                </li>
+
+                                <li class="nav-item">
+                                    @* <a class="nav-link" href="contact.html">Liên hệ</a> *@
+                                    <a class="nav-link" asp-controller="Home" asp-action="CSKH">
+                                        Liên hệ
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="hearer_icon d-flex">
+                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
+                            <a href=""><i class="ti-heart"></i></a>
+                            <div class="dropdown cart">
+                                <a href="/Cart">
+                                    <i class="fas fa-cart-plus "></i>
+                                </a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!--================Home Banner Area =================-->
+    <!-- breadcrumb start-->
+
+    <!-- breadcrumb start-->
+
 
     <form asp-action="Index" method="post" enctype="multipart/form-data">
-
-        <div class="container py-5">
-            <div class="row d-flex justify-content-center my-4">
-                <div class="col-md-8">
-                    <div class="card mb-4">
-                        <div class="card-header py-3">
-                            <h5 class="mb-0">Giỏ hàng</h5>
-                        </div>
-                        <!--SANPHAM-->
-                        <div class="card-body">
-                            <!-- Single item -->
-                            @if (Model.CartItems.Count > 0)
-                            { //neu gio hang >0 thi moi chay vao cart
-                                @foreach (var item in Model.CartItems)
-                                {
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                                            <!-- Image -->
-                                            <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                                                <img src="~/images/@item.HinhAnh"
-                                                     class="w-100" alt="@item.TenSanPham" />
-                                                <a href="#!">
-                                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
-                                                </a>
-                                            </div>
-                                            <!-- Image -->
-                                        </div>
-
-                                        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                                            <!-- Data -->
-                                            <p><strong>@item.TenSanPham</strong></p>
-                                            <a class="btn btn-danger btn-sm me-1 mb-2" asp-action="Delete" asp-route-MaSanPham="@item.MaSanPham"
-                                               title="Remove item">
-
-                                                <img src="~/image-cart/trash-bin.png" alt="Delete" class="banner-img">
-
-                                            </a>
-
-
-                                            <!-- Data -->
-                                        </div>
-
-                                        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                                            <!-- Quantity -->
-                                            <div class="d-flex mb-4" style="max-width: 300px">
-                                                <a class="btn btn-primary px-3 me-2 btn-sm" asp-action="Decrease" asp-route-MaSanPham="@item.MaSanPham"
-                                                   onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-
-                                                    <img src="~/image-cart/minus-button.png" alt="Decrease" class="banner-img">
-
-                                                </a>
-
-                                                <div class="form-outline">
-                                                    <input id="form1" min="0" name="quantity" value="@item.Soluong" type="number" class="form-control" readonly />
-                                                </div>
-
-
-                                                <a class="btn btn-primary px-3 ms-2 btn-sm" asp-action="Increase" asp-route-MaSanPham="@item.MaSanPham"
-                                                   onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-
-                                                    <img src="~/image-cart/plus.png" alt="Increase" class="banner-img">
-
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Single item -->
-
-                                    <hr class="my-4" />
-                                }
-                            }
-                            else
-                            {
+        <section class="cart_area padding_top">
+            <div class="container">
+                <div class="cart_inner">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td colspan="5"> <h4>Giỏ hàng của bạn đang trống </h4></td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="pt-5">
-                                                <h6 class="mb-0">
-                                                    <a href="@Url.Action("Index", "Home")" class="text-body" style="text-decoration: none;">
-                                                        <i class="fas fa-long-arrow-alt-left me-2"></i>Quay lại
-                                                    </a>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.CartItems.Count > 0)
+                                {
+                                    foreach (var item in Model.CartItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="media">
+                                                    <div class="d-flex">
+                                                        <img src="~/Images/@item.HinhAnh" alt="" />
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <p>@item.TenSanPham</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <h5>@(item.GiaKhuyenMai ?? item.Gia)</h5>
+                                            </td>
+                                            <td>
+                                                <div class="product_count d-flex align-items-center">
+                                                    <a class="btn btn-primary px-3 me-2 btn-sm" asp-action="Decrease" asp-route-MaSanPham="@item.MaSanPham"
+                                                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()" style="background: none; border: none;">
+                                                        <img src="~/image-cart/minus-sign.png" alt="Decrease" class="banner-img">
+                                                    </a>
+                                                    <div class="form-outline me-2">
+                                                        <input id="form1" min="0" name="quantity" value="@item.Soluong" type="number" class="form-control" readonly />
+                                                    </div>
+                                                    <a class="btn btn-primary px-3 btn-sm" asp-action="Increase" asp-route-MaSanPham="@item.MaSanPham"
+                                                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()" style="background: none; border: none;">
+                                                        <img src="~/image-cart/add.png" alt="Increase" class="banner-img">
+                                                    </a>
+                  
 
-                            }
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-danger btn-sm me-1 mb-2" asp-action="Delete" asp-route-MaSanPham="@item.MaSanPham"
+                                                   title="Remove item" style="background: none; border: none;">
+
+                                                    <img src="~/image-cart/trash-bin.png" alt="Delete" class="banner-img">
+
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr class="bottom_button">
+                                        <td>
+                                            <a class="btn_1" asp-action="Clear">Clear Cart</a>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div class="cupon_text float-right">
+                                                <a class="btn_1" href="#">Close Coupon</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <h5>Subtotal</h5>
+                                        </td>
+                                        <td>
+                                            <h5 id="grandTotal">đ</h5>
+                                        </td>
+                                    </tr>
+                                    <tr class="shipping_area">
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <h5>Information Customer</h5>
+                                        </td>
+                                        <td>
+                                            <div class="shipping_box">
+                                                @if (User.Identity.IsAuthenticated) // Kiểm tra người dùng đã đăng nhập hay chưa
+                                                {
+                                                    <!-- Hiển thị thông tin người dùng từ model nếu đã đăng nhập -->
+                                                    <div class="product-details-infor">
+                                                        <div class="general-infor set-background">
+                                                            <div class="infor-customer">
+                                                                <label asp-for="KhachHang.Name">Full Name <span class="text-danger">*</span></label>
+                                                                <input asp-for="KhachHang.Name" type="text" value="@Model.KhachHang.Name">
+                                                                <span asp-validation-for="KhachHang.Name" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="infor-customer">
+                                                                <label asp-for="KhachHang.Address">Address <span class="text-danger">*</span></label>
+                                                                <input asp-for="KhachHang.Address" type="text" value="@Model.KhachHang.Address">
+                                                                <span asp-validation-for="KhachHang.Address" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="infor-customer">
+                                                                <label asp-for="KhachHang.PhoneNumber">Phone Number <span class="text-danger">*</span></label>
+                                                                <input asp-for="KhachHang.PhoneNumber" type="text" value="@Model.KhachHang.PhoneNumber">
+                                                                <span asp-validation-for="KhachHang.PhoneNumber" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="infor-customer">
+                                                                <label asp-for="DonHang.YeuCauKhac">Other Reason</label>
+                                                                <input asp-for="DonHang.YeuCauKhac" type="text">
+                                                                <span asp-validation-for="DonHang.YeuCauKhac" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="infor-customer">
+                                                                <label asp-for="MaGiamGia">Discount code</label>
+                                                                <input asp-for="MaGiamGia" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <!-- Hiển thị form để lưu thông tin người dùng vào đơn hàng nếu chưa đăng nhập -->
+                                                    <div class="product-details-infor">
+                                                        <div class="general-infor set-background">
+                                                            <div class="infor-customer">
+                                                                <label asp-for="DonHang.TenKhachHang">Full Name <span class="text-danger">*</span></label>
+                                                                <input asp-for="DonHang.TenKhachHang" type="text">
+                                                                <span asp-validation-for="DonHang.TenKhachHang" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="infor-customer">
+                                                                <label asp-for="DonHang.DiaChi">Address <span class="text-danger">*</span></label>
+                                                                <input asp-for="DonHang.DiaChi" type="text">
+                                                                <span asp-validation-for="DonHang.DiaChi" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="infor-customer">
+                                                                <label asp-for="DonHang.SoDienThoai">Phone Number <span class="text-danger">*</span></label>
+                                                                <input asp-for="DonHang.SoDienThoai" type="text">
+                                                                <span asp-validation-for="DonHang.SoDienThoai" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="infor-customer">
+                                                                <label asp-for="DonHang.YeuCauKhac">Other Reason</label>
+                                                                <input asp-for="DonHang.YeuCauKhac" type="text">
+                                                                <span asp-validation-for="DonHang.YeuCauKhac" class="text-danger"></span>
+                                                            </div>
+                                                            <div class="infor-customer">
+                                                                <label asp-for="MaGiamGia">Discount code</label>
+                                                                <input asp-for="MaGiamGia" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <!-- Display a message if there are no products in the cart -->
+                                    <tr>
+                                        <td colspan="4">
+                                            <h2>Don't have any product in shopping cart</h2>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                        <div class="checkout_btn_inner float-right">
+                            <a href="@Url.Action("Index", "Home")" class="btn_1" style="border: none;">Continue Shopping</a>
+                            <button type="submit" class="btn_1 checkout_btn_1" style="border: none;">Proceed to checkout</button>
                         </div>
                     </div>
                 </div>
-                @if (Model.CartItems.Count > 0)
-                {
-
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <div class="card-header py-3">
-                                <h5 class="mb-0">Kiểm tra thông tin</h5>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12">
-
-                                        <ul class="list-group list-group-flush">
-                                            @foreach (var item in Model.CartItems)
-                                            {
-                                                <li class="list-group-item">
-                                                    <h5 class="mb-0">@item.TenSanPham (@item.Soluong)</h5>
-
-                                                </li>
-                                            }
-                                            <li class="list-group-item">
-                                                <h5 class="mb-0">Tổng số lượng: @Model.TongSoLuongHienThi.ToString()</h5>
-                                                <h5 class="mb-0">Tổng tiền: @Model.GrandTotal.ToString()</h5>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <a class="btn btn-danger btn-sm me-1 mb-2" data-mdb-toggle="tooltip" asp-action="Clear" title="Remove item">
-                                        Xóa tất cả
-                                    </a>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="pt-5">
-                                            <h6 class="mb-0">
-                                                <a href="@Url.Action("Index", "Home")" class="text-body" style="text-decoration: none;">
-                                                    <i class="fas fa-long-arrow-alt-left me-2"></i>Quay lại
-                                                </a>
-                                            </h6>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-6">
-                                        <div class="pt-5 text-end">
-                                                <button type="submit" class="btn btn-dark btn-lg" data-mdb-ripple-color="dark">
-                                                    Xác nhận
-                                                </button> 
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container-fluid py-4">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card mb-4">
-                                        <div class="card-header pb-0">
-                                            <h6>Thông tin khách hàng</h6>
-                                        </div>
-                                        <div class="card-body px-0 pt-0 pb-2">
-                                            <div class="table-responsive p-0">
-                                                <table class="table align-items-center height-table">
-                                                    <!-- <table class="table align-items-center mb-12"> -->
-                                                    <div class="product-infor">
-                                                        @if (User.Identity.IsAuthenticated) // Kiểm tra người dùng đã đăng nhập hay chưa
-                                                        {
-                                                            <!-- Hiển thị thông tin người dùng từ model nếu đã đăng nhập -->
-                                                            <div class="product-details-infor">
-                                                                <div class="general-infor set-background">
-                                                                    <div class="infor-customer">
-
-                                                                        <label asp-for="KhachHang.Name">Tên khách hàng <span class="text-danger">*</span></label>
-                                                                        <input asp-for="KhachHang.Name" type="text" value="@Model.KhachHang.Name">
-                                                                        <span asp-validation-for="KhachHang.Name" class="text-danger"></span>
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="KhachHang.Address">Địa chỉ <span class="text-danger">*</span></label>
-                                                                        <input asp-for="KhachHang.Address" type="text" value="@Model.KhachHang.Address">
-                                                                        <span asp-validation-for="KhachHang.Address" class="text-danger"></span>
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="KhachHang.PhoneNumber">Số điện thoại <span class="text-danger">*</span></label>
-                                                                        <input asp-for="KhachHang.PhoneNumber" type="text" value="@Model.KhachHang.PhoneNumber">
-                                                                        <span asp-validation-for="KhachHang.PhoneNumber" class="text-danger"></span>
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.YeuCauKhac">Yêu cầu khác</label>
-                                                                        <input asp-for="DonHang.YeuCauKhac" type="text">
-                                                                        <span asp-validation-for="DonHang.YeuCauKhac" class="text-danger"></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="infor-customer">
-                                                                    <label asp-for="MaGiamGia">Mã giảm giá (nếu có)</label>
-                                                                    <input asp-for="MaGiamGia" type="text">
-                                                                </div>
-                                                            </div>
-                                                        }
-                                                        else
-                                                        {
-                                                            <!-- Hiển thị form để lưu thông tin người dùng vào đơn hàng nếu chưa đăng nhập -->
-                                                            <div class="product-details-infor">
-                                                                <div class="general-infor set-background">
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.TenKhachHang">Tên khách hàng <span class="text-danger">*</span></label>
-                                                                        <input asp-for="DonHang.TenKhachHang" type="text">
-                                                                        <span asp-validation-for="DonHang.TenKhachHang" class="text-danger"></span>
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.DiaChi">Địa chỉ <span class="text-danger">*</span></label>
-                                                                        <input asp-for="DonHang.DiaChi" type="text">
-                                                                        <span asp-validation-for="DonHang.DiaChi" class="text-danger"></span>
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.SoDienThoai">Số điện thoại <span class="text-danger">*</span></label>
-                                                                        <input asp-for="DonHang.SoDienThoai" type="text">
-                                                                        <span asp-validation-for="DonHang.SoDienThoai" class="text-danger"></span>
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="DonHang.YeuCauKhac">Yêu cầu khác</label>
-                                                                        <input asp-for="DonHang.YeuCauKhac" type="text">
-                                                                        <span asp-validation-for="DonHang.YeuCauKhac" class="text-danger"></span>
-                                                                    </div>
-                                                                    <div class="infor-customer">
-                                                                        <label asp-for="MaGiamGia">Mã giảm giá (nếu có)</label>
-                                                                        <input asp-for="MaGiamGia" type="text">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        }
-                                                    </div>
-
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                }
-            </div>
-        </div>
+        </section>
     </form>
 </body>
 </html>
+<script>
+    // Định dạng số có dấu chấm để phân tách hàng nghìn
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+    }
+
+    // Sử dụng JavaScript để cập nhật giá trị tổng giá trị đơn hàng
+    var grandTotalElement = document.getElementById('grandTotal');
+    grandTotalElement.textContent = formatCurrency(@Model.GrandTotal);
+</script>

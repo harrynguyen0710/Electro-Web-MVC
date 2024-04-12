@@ -216,14 +216,16 @@ namespace WebDT.Controllers
         {
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");
             CartItemModel cartItem = cart.Where(c => c.MaSanPham == maSanPham).FirstOrDefault();
-            if(cartItem.Soluong >1){
+            if (cartItem.Soluong > 1)
+            {
                 --cartItem.Soluong;
             }
             else
             {
                 cart.RemoveAll(p => p.MaSanPham == maSanPham);
             }
-            if(cart.Count == 0) {
+            if (cart.Count == 0)
+            {
                 HttpContext.Session.Remove("Cart");
             }
             else
@@ -254,6 +256,10 @@ namespace WebDT.Controllers
             }
             return RedirectToAction("Index");
         }
+
+
+
+
         public IActionResult Delete(int maSanPham)
         {
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");

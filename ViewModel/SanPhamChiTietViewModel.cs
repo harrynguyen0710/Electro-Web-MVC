@@ -33,7 +33,8 @@ namespace DACS.ViewModel
         public List<SanPham> SanPhamList { get; set; }
         public List<HinhAnh> HinhAnhList { get; set; }
         public List<HinhAnhQuangCao> HinhAnhQuangCao { get; set; }  
-
+        public List<ThuongHieu> ThuongHieuList { get; set; }
+        public List<MauSac> MauSacList { get; set; }
         /*Context*/
         public ApplicationDbContext context { get; set; }
     }

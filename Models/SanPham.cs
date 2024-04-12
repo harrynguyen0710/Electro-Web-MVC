@@ -47,8 +47,6 @@ namespace DACS.Models
         public ThuongHieu ThuongHieu { get; set; }
         public LoaiSanPham LoaiSanPham { get; set; }
         public ICollection<HinhAnh> HinhAnh { get; set; }
-
-
         public ICollection<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
         public ICollection<BinhLuan> BinhLuan { get; set; }
     }
