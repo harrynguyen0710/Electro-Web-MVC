@@ -188,7 +188,132 @@ namespace DACS.Controllers
 
             return View(viewModel);
         }
+        public IActionResult XemThemAppleProduct(int maThuongHieu)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaThuongHieu == maThuongHieu).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
 
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+            // Truy?n ViewModel vào View
+            return View("XemThemAppleProduct", viewModel);
+        }
+        public IActionResult XemThemAsusProduct(int maThuongHieu)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaThuongHieu == maThuongHieu).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+            // Truy?n ViewModel vào View
+            return View("XemThemAsusProduct", viewModel);
+        }
+        public IActionResult XemThemLenovoProduct(int maThuongHieu)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaThuongHieu == maThuongHieu).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+            // Truy?n ViewModel vào View
+            return View("XemThemLenovoProduct", viewModel);
+        }
+        public IActionResult XemThemMSIProduct(int maThuongHieu)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaThuongHieu == maThuongHieu).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+            // Truy?n ViewModel vào View
+            return View("XemThemMSIProduct", viewModel);
+        }
+        public IActionResult XemThemBlackProduct(int maMauSac)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaMauSac == maMauSac).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+            // Truy?n ViewModel vào View
+            return View("XemThemBlackProduct", viewModel);
+        }
+        public IActionResult XemThemWhiteProduct(int maMauSac)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaMauSac == maMauSac).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+
+            // Truy?n ViewModel vào View
+            return View("XemThemWhiteProduct", viewModel);
+        }
+        public IActionResult XemThemGreyProduct(int maMauSac)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaMauSac == maMauSac).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+            // Truy?n ViewModel vào View
+            return View("XemThemGreyProduct", viewModel);
+        }
+        public IActionResult XemThemBlueProduct(int maMauSac)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaMauSac == maMauSac).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+            // Truy?n ViewModel vào View
+            return View("XemThemBlueProduct", viewModel);
+        }
+        public IActionResult XemThemPinkProduct(int maMauSac)
+        {
+            var sanPhamList = _dataContext.SANPHAM.Where(x => x.MaMauSac == maMauSac).ToList();
+            var hinhAnhList = _dataContext.HINHANH.ToList();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                SanPhamList = sanPhamList,
+                HinhAnhList = hinhAnhList
+            };
+
+            // Truy?n ViewModel vào View
+            return View("XemThemPinkProduct", viewModel);
+        }
         public async Task<IActionResult> XemThemSanPhamIpad()
         {
 
