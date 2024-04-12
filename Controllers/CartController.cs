@@ -36,7 +36,7 @@ namespace WebDT.Controllers
 
             DonHang donHang = new DonHang();
            
-           decimal tongDonHang = 0;
+            decimal tongDonHang = 0;
 
             AppUserModel khachHang = user; // Truyền thông tin người dùng vào biến khachHang
 
@@ -179,18 +179,17 @@ namespace WebDT.Controllers
             return RedirectToAction("BuySuccessfully", "Cart");
         }
 
-      
+
         public async Task<IActionResult> Add(int maSanPham)
         {
-            var sanPham = _dataContext.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefault();
+            var sanPham = await _dataContext.SANPHAM.FirstOrDefaultAsync(x => x.MaSanPham == maSanPham);
 
             if (sanPham != null)
             {
-                var hinhAnhList = await _dataContext.HINHANH
-                    .Where(x => x.MaSanPham == sanPham.MaSanPham)
-                    .ToListAsync();
-                var hinhAnh = hinhAnhList[0].FileHinhAnh;
-                var viewModel = new CartItemViewModel();
+                var hinhAnh = await _dataContext.HINHANH.Where(x => x.MaSanPham == sanPham.MaSanPham)
+                                                        .Select(x => x.FileHinhAnh)
+                                                        .FirstOrDefaultAsync();
+
                 List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
 
                 CartItemModel cartItem = cart.FirstOrDefault(c => c.MaSanPham == maSanPham);
@@ -206,9 +205,9 @@ namespace WebDT.Controllers
 
                 HttpContext.Session.SetJson("Cart", cart);
             }
+
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
 
 
 
@@ -217,14 +216,16 @@ namespace WebDT.Controllers
         {
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");
             CartItemModel cartItem = cart.Where(c => c.MaSanPham == maSanPham).FirstOrDefault();
-            if(cartItem.Soluong >1){
+            if (cartItem.Soluong > 1)
+            {
                 --cartItem.Soluong;
             }
             else
             {
                 cart.RemoveAll(p => p.MaSanPham == maSanPham);
             }
-            if(cart.Count == 0) {
+            if (cart.Count == 0)
+            {
                 HttpContext.Session.Remove("Cart");
             }
             else
@@ -255,6 +256,10 @@ namespace WebDT.Controllers
             }
             return RedirectToAction("Index");
         }
+
+
+
+
         public IActionResult Delete(int maSanPham)
         {
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");

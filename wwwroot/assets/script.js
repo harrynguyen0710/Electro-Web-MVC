@@ -1,4 +1,4 @@
-// document.addEventListener("DOMContentLoaded", function() {
+﻿// document.addEventListener("DOMContentLoaded", function() {
 //     const sliderContainer = document.querySelector('.slider-container');
 //     const sliderItems = document.querySelectorAll('.slider-item');
 //     const sliderWidth = sliderContainer.offsetWidth; // Get the width of the slider container
