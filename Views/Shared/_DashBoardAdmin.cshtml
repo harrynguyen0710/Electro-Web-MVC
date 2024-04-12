@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="~/assets/images/apple-icon.png">
     <link rel="icon" type="image/png" href="~/assets/images/favicon.png">
     <title>
-        Trang chủ quản lý
+        Home Admin
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -40,31 +40,31 @@
                 <li class="nav-item">
                     <a class="nav-link active" asp-area="Admin" asp-controller="Home" asp-action="Index">
                         <i class="fa-solid fa-newspaper" style="color: #e49307;"></i>
-                        <span class="nav-link-text ms-1">Trang chủ</span>
+                        <span class="nav-link-text ms-1">Home </span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="ProductsView">
                         <i class="fa-solid fa-display" style="color: #1f64db;"></i>
-                        <span class="nav-link-text ms-1">Sản phẩm</span>
+                        <span class="nav-link-text ms-1">Product</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " asp-area="Admin" asp-controller="DonHang" asp-action="Index">
                         <i class="fa-solid fa-file-invoice-dollar" style="color: #0ec10b;"></i>
-                        <span class="nav-link-text ms-1">Đơn hàng</span>
+                        <span class="nav-link-text ms-1">Order</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " asp-area="Admin" asp-controller="Home" asp-action="DeviceView">
                         <i class="fa-solid fa-screwdriver-wrench" style="color: #1596b7;"></i>
-                        <span class="nav-link-text ms-1">Thiết bị</span>
+                        <span class="nav-link-text ms-1">Devices</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " asp-area="Admin" asp-controller="VeGiamGia" asp-action="Index">
                         <i class="fa-solid fa-screwdriver-wrench" style="color: #1596b7;"></i>
-                        <span class="nav-link-text ms-1">Vé giảm giá</span>
+                        <span class="nav-link-text ms-1">Discount voucher</span>
                     </a>
                 </li>
                 <li class="nav-item mt-3">
@@ -73,7 +73,7 @@
                 <li class="nav-item">
                     <a class="nav-link " href="./pages/profile.html">
                         <i class="fa-solid fa-user"></i>
-                        <span class="nav-link-text ms-1">Tài khoản</span>
+                        <span class="nav-link-text ms-1">Account</span>
                     </a>
                 </li>
             </ul>
@@ -92,7 +92,7 @@
             <div class="card-header pb-0 pt-3 ">
                 <div class="float-start">
                     <h5 class="mt-3 mb-0">Cài đặt</h5>
-                    <p>Lựa chọn.</p>
+                    <p>Choices.</p>
                 </div>
                 <div class="float-end mt-4">
                     <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
@@ -105,7 +105,7 @@
             <div class="card-body pt-sm-3 pt-0 overflow-auto">
                 <!-- Sidebar Backgrounds -->
                 <div>
-                    <h6 class="mb-0">Bảng màu</h6>
+                    <h6 class="mb-0">Color table</h6>
                 </div>
                 <a href="javascript:void(0)" class="switch-trigger background-color">
                     <div class="badge-colors my-2 text-start">
@@ -119,24 +119,24 @@
                 </a>
                 <!-- Sidenav Type -->
                 <div class="mt-3">
-                    <h6 class="mb-0">Thiết lập chế độ</h6>
-                    <p class="text-sm">2 chế độ.</p>
+                    <h6 class="mb-0">Set mode</h6>
+                    <p class="text-sm">2 mode.</p>
                 </div>
                 <div class="d-flex">
-                    <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">Sáng</button>
-                    <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Tối</button>
+                    <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">Light</button>
+                    <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
                 </div>
                 <!-- <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p> -->
                 <!-- Navbar Fixed -->
                 <div class="d-flex my-3">
-                    <h6 class="mb-0">Cố định thanh điều hướng</h6>
+                    <h6 class="mb-0">Fixed navigation bar</h6>
                     <div class="form-check form-switch ps-0 ms-auto my-auto">
                         <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
                     </div>
                 </div>
                 <hr class="horizontal dark my-sm-4">
                 <div class="mt-2 mb-5 d-flex">
-                    <h6 class="mb-0">Sáng / Tối</h6>
+                    <h6 class="mb-0">Light / Dark</h6>
                     <div class="form-check form-switch ps-0 ms-auto my-auto">
                         <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
                     </div>

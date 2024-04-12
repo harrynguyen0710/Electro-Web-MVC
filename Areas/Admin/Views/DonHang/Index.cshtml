@@ -22,7 +22,7 @@
                                         </div>
                                         <div>
                                             <p class="text-white text-sm opacity-8 mb-0">Expires</p>
-                                            <h6 class="text-white mb-0">1/5/2024</h6>
+                                            <h6 class="text-white mb-0">17/4/2024</h6>
                                         </div>
                                     </div>
                                     <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body pt-0 p-3 text-center">
-                                    <h6 class="text-center mb-0">Doanh thu</h6>
+                                    <h6 class="text-center mb-0">Revenue</h6>
 @*                                    <span class="text-xs">---------</span>
 *@                                    <hr class="horizontal dark my-3">
                                     <h5 class="mb-0">$20.000</h5>
@@ -59,7 +59,7 @@
         <div class="col-md-12 mt-4">
             <div class="card">
                 <div class="card-header pb-0 px-3">
-                    <h6 class="mb-0">Thông tin đơn hàng</h6>
+                    <h6 class="mb-0">Information Order</h6>
                 </div>
                 <div class="card-body pt-4 p-3">
                     <ul class="list-group">
@@ -73,21 +73,21 @@
                         <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                             <div class="d-flex flex-column">
                                 <h6 class="mb-3 text-sm">@donhang.TenKhachHang</h6>
-                                <span class="mb-2 text-xs">Ngày lập hoá đơn: <span class="text-dark font-weight-bold ms-sm-2">@donhang.NgayLapDonHang</span></span>
-                                <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.SoDienThoai</span></span>
-                                <span class="mb-2 text-xs">Địa chỉ: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.DiaChi</span></span>
-                                <span class="mb-2 text-xs">Yêu cầu khác: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
-                                <span class="mb-2 text-xs">Trạng thái đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiDonHang</span></span>
-                                <span class="mb-2 text-xs">Trạng thái thanh toán: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
+                                <span class="mb-2 text-xs">Invoice date: <span class="text-dark font-weight-bold ms-sm-2">@donhang.NgayLapDonHang</span></span>
+                                <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.SoDienThoai</span></span>
+                                <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.DiaChi</span></span>
+                                <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
+                                <span class="mb-2 text-xs">Order status: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiDonHang</span></span>
+                                <span class="mb-2 text-xs">Payment status: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
                                
                             </div>
 
                                 <div class="ms-auto text-end">
                                     <a asp-area="Admin" asp-controller="DonHang" asp-action="Edit" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
-                                        <i aria-hidden="true"></i>Chỉnh sửa
+                                        <i aria-hidden="true"></i>Edit
                                     </a>
                                     <a asp-area="Admin" asp-controller="DonHang" asp-action="Details" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
-                                        <i aria-hidden="true"></i>Chi tiết
+                                        <i aria-hidden="true"></i>Details
                                     </a>
                                 </div>
 

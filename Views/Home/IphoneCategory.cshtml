@@ -77,13 +77,13 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                       Pages
+                                        Pages 
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                         @if (!User.Identity.IsAuthenticated)
                                         {
                                             <a class="dropdown-item" asp-controller="Account" asp-action="Login">
-                                                Log in
+                                                Log in 
                                             </a>
                                         }
                                         <a class="dropdown-item" asp-controller="Cart" asp-action="Index">
@@ -93,12 +93,12 @@
                                             Cart Details
                                         </a>
                                         <a class="dropdown-item" asp-controller="KiemTraDonHang" asp-action="Index">
-                                            Cart Checkout 
+                                            Cart Checkout
                                         </a>
                                     </div>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                         <a class="dropdown-item" asp-controller="Home" asp-action="ShopCategory">
-                                            Product Filter
+                                            Lọc sản phẩm
                                         </a>
                                     </div>
                                 </li>
@@ -143,8 +143,8 @@
                 <div class="col-lg-8">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <h2>Product Filter</h2>
-                            <p>Home<span>-</span> Product Filter</p>
+                            <h2>Products Filter</h2>
+                            <p>Home<span>-</span>Products Filter</p>
                         </div>
                     </div>
                 </div>
@@ -166,7 +166,6 @@
                                 <ul class="list">
                                     <li>
                                         <a class="dropdown-item" asp-controller="Home" asp-action="IphoneCategory">Iphone</a>
-
                                         <span>(250)</span>
                                     <li>
                                         <a class="dropdown-item" asp-controller="Home" asp-action="IpadCategory">iPad</a>
@@ -208,12 +207,13 @@
 
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>Color Filter</h3>
+                                <h3>Colors Filter </h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <li>
                                         <a href="#">Đen</a>
+
                                     </li>
                                     <li>
                                         <a href="#">Xám</a>
@@ -263,7 +263,7 @@
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu">
-                                    <p><span>10000 </span>Product Found</p>
+                                    <p><span>10000 </span> Product Found</p>
                                 </div>
                                 <div class="single_product_menu d-flex">
                                     <h5>short by : </h5>
@@ -285,7 +285,7 @@
                                 </div>
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Tìm kiếm"
+                                        <input type="text" class="form-control" placeholder="Search"
                                                aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend">
@@ -301,25 +301,60 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="row align-items-center justify-content-between">
-                                @{
-                                    var sanPhams = Model.SanPhamList;
-                                    var hinhAnhs = Model.HinhAnhList;
-                                    foreach (var sanPham in sanPhams)
+                                     @if (Model != null && Model.IphoneList != null)
+     {
+        <div class="" style="transform:translate(20px,35px);  background-color:#ffffff; width:98%;">
+          <div class="new-product">
+               @{
+                      int counter = 0;
+                      foreach (var item in Model.IphoneList)
+                      {
+                          <a asp-controller="Home" asp-action="IphoneCategory" style="text-decoration:none;">
+                             <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
+                                 @if (item.HinhAnh != null && item.HinhAnh.Any())
+                                 {
+                                    @foreach (var image in item.HinhAnh)
                                     {
-                                        var hinhAnh = hinhAnhs.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
-                                        var filePath = Url.Content($"~/Images/{hinhAnh.FileHinhAnh}");
-                                        <div class="col-lg-3 col-sm-6">
-                                            <div class="single_product_item">
-                                                <img src=@filePath alt="">
-                                                <div class="single_product_text">
-                                                    <h4>@sanPham.TenSanPham</h4>
-                                                    <h3>@sanPham.Gia</h3>
-                                                    <a href="#" class="add_cart">Add to cart<i class="ti-heart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <img src="~/Images/@image.FileHinhAnh"/>
+                                        break;
                                     }
-                                }
+                                 }
+                                 else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
+                                 {
+                                     // Display a default image from HinhAnhList
+                                    <img src="~/Images/@Url.Content(Model.HinhAnhList.First().FileHinhAnh)"/>
+                                 }
+                                 else
+                                 {
+                                     // Display a default image
+                                    <img src="@Url.Content("/Images/no-images.jpg")">
+                                 }
+
+                                <div class="product-info">
+                                    <p>@item.TenSanPham</p>
+                                    <span style="color:black;">@item.Gia</span>
+                                </div>
+                                </div>
+
+                          </a>
+                          counter++;
+
+                          if (counter % 6 == 0)
+                          {
+                                    @:</div><div class="new-product">
+                          }
+                      }
+                  }
+          </div>
+        </div>
+}
+else
+            {
+                <p>Null</p>
+            }
+          </div>
+        </div>
+}
                             </div>
                         </div>
                     </div>
@@ -352,7 +387,7 @@
         </div>
         </div>
     </section>
-    
+
     <!-- product_list part end-->
     <!--::footer_part start::-->
     <footer class="footer_part">

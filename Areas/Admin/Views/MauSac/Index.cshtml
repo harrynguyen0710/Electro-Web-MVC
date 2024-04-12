@@ -10,11 +10,11 @@
     <div style="display: flex; flex-direction: row;justify-content:space-between;  height: 800px; width:100%; background-color:#ffffff; border-radius:9px;">
 
         <div class="container mt-5">
-            <h1>Danh sách màu sắc</h1>
+            <h1>Color List</h1>
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Màu sắc</th>
+                        <th scope="col">Color</th>
                         <th></th>
 
                     </tr>
@@ -26,15 +26,14 @@
                             <td>@item.TenMau</td>
                             <td>
                                 <a class="btn btn-primary" asp-route-id="@item.MaMauSac" asp-action="Edit">
-                                    Chỉnh sửa
+                                    Edit
                                 </a>
                                 <a class="btn btn-danger" asp-route-id="@item.MaMauSac" asp-action="Delete">
-                                    Xoá
+                                    Delete
                                 </a>
                             </td>
 
                         </tr>
-
                     }
                 </tbody>
             </table>

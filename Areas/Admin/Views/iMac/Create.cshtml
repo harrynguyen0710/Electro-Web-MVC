@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Thông tin căn bản</h6>
+                    <h6>Basic Information</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -19,26 +19,30 @@
                                     <div class="product-details-infor">
                                         <div class="general-infor set-background">
                                             <div class="infor-details-products">
-                                                <label asp-for="IMac.MaSanPham">Mã sản phẩm</label>
+                                                <label asp-for="IMac.MaSanPham">Product code</label>
                                                 <input asp-for="IMac.MaSanPham" type="text" readonly>
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="IMac.TenSanPham">Tên sản phẩm</label>
+                                                <label asp-for="IMac.TenSanPham">Product name</label>
                                                 <input asp-for="IMac.TenSanPham" type="text">
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="IMac.Mota">Mô tả</label>
+                                                <label asp-for="IMac.Mota">Description</label>
                                                 <textarea asp-for="IMac.Mota"></textarea>
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="IMac.Gia">Giá</label>
+                                                <label asp-for="IMac.Gia">Price</label>
                                                 <input asp-for="IMac.Gia" type="number">
+                                            </div>
+                                            <div class="infor-details-products">
+                                                <label asp-for="IMac.GiaKhuyenMai">Promotional price</label>
+                                                <input asp-for="IMac.GiaKhuyenMai" type="number">
                                             </div>
                                         </div>
                                         <!-- Option -->
                                         <div class="option-infor">
                                             <div>
-                                                <label asp-for="MaThuongHieu">Thương hiệu sản phẩm</label>
+                                                <label asp-for="MaThuongHieu">Product brand</label>
                                                 <select id="MaThuongHieu" name="MaThuongHieu">
                                                     @if (ViewBag.ThuongHieu != null)
                                                     {
@@ -54,7 +58,7 @@
                                                 </select>
                                             </div>
                                             <div>
-                                                <label asp-for="MaLoaiSanPham">Loại sản phẩm</label>
+                                                <label asp-for="MaLoaiSanPham">Product category</label>
                                                 <select id="MaLoaiSanPham" name="MaLoaiSanPham">
                                                     @if (ViewBag.LoaiSanPham != null)
                                                     {
@@ -88,7 +92,7 @@
                                             </div>
 
                                             <div>
-                                                <label asp-for="MaBoNho">Bộ nhớ sản phẩm</label>
+                                                <label asp-for="MaBoNho">Product Memory</label>
                                                 <select id="MaBoNho" name="MaBoNho">
                                                     @if (ViewBag.BoNho != null)
                                                     {
@@ -105,7 +109,7 @@
                                             </div>
 
                                             <div>
-                                                <label asp-for="MaMauSac">Màu sắc sản phẩm</label>
+                                                <label asp-for="MaMauSac">Product color</label>
                                                 <select id="MaMauSac" name="MaMauSac">
                                                     @if (ViewBag.MauSac != null)
                                                     {
@@ -121,7 +125,7 @@
                                                 </select>
                                             </div>
                                             <div>
-                                                <label asp-for="MaSanPhamDacBiet">Sản phẩm đặc biệt</label>
+                                                <label asp-for="MaSanPhamDacBiet">Special product</label>
                                                 <select id="MaSanPhamDacBiet" name="MaSanPhamDacBiet">
                                                     @if (ViewBag.SanPhamDacBiet != null)
                                                     {
@@ -169,20 +173,20 @@
                                     </div>
                                     <div class="infor-details set-background">
                                         <div>
-                                            <h5>Thông số sản phẩm</h5>
+                                            <h5>Product parameters</h5>
                                             <div class="details">
                                                 <div class="infor-details-products">
-                                                    <label asp-for="IMac.CongNgheCPU">Công nghệ CPU</label>
+                                                    <label asp-for="IMac.CongNgheCPU">CPU</label>
                                                     <input asp-for="IMac.CongNgheCPU" type="text">
                                                 </div>
                                                 <div class="infor-details-products">
-                                                    <label asp-for="IMac.ManHinh">Màn hình</label>
+                                                    <label asp-for="IMac.ManHinh">Monitor</label>
                                                     <input asp-for="IMac.ManHinh" type="text">
                                                 </div>
                                             </div>
                                             <div class="details">
                                                 <div class="infor-details-products">
-                                                    <label asp-for="IMac.TocDoCPU">Tốc độ CPU</label>
+                                                    <label asp-for="IMac.TocDoCPU">Rate CPU</label>
                                                     <input asp-for="IMac.TocDoCPU" type="text">
                                                 </div>
                                                 <div class="infor-details-products">
@@ -197,7 +201,7 @@
                                 </div>
                             </table>
                             <div>
-                                <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Thêm</button>
+                                <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Add</button>
                             </div>
                         </form>
                     </div>

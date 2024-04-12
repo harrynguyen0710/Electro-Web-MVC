@@ -8,14 +8,14 @@
 
 <h1>Create</h1>
 
-<h4>TrangThaiThanhToan</h4>
+<h4>Payment status</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TenTrangThaiThanhToan" class="control-label"></label>
+                <label asp-for="TenTrangThaiThanhToan" class="control-label">Payment status name</label>
                 <input asp-for="TenTrangThaiThanhToan" class="form-control" />
                 <span asp-validation-for="TenTrangThaiThanhToan" class="text-danger"></span>
             </div>

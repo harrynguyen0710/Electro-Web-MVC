@@ -89,7 +89,7 @@
                 <div class="product-detail-information">
                     <div class="product-name-head">
                         <h2>@Model.SanPham.TenSanPham</h2>
-                        <p>Thương hiệu: <span>@Model.SanPham.ThuongHieu.TenThuongHieu</span></p>
+                        <p>Brand: <span>@Model.SanPham.ThuongHieu.TenThuongHieu</span></p>
                     </div>
                     <div class="details">
                         <div class="details-infor">
@@ -101,10 +101,10 @@
                             {
                                 <h3>@Model.SanPham.Gia ₫</h3>
                             }
-                            <p class="VAT-infor">(Đã bao gồm VAT)</p>
-                            <p class="insurance-infor">Bảo hành: 12 tháng. <span>(Quy định bảo hành)</span></p>
-                            <p class="custom-infor">Tuỳ chọn sản phẩm: <span>M2 8-Core, 10-core GPU</span></p>
-                            <p class="select-title">Chọn dung lượng</p>
+                            <p class="VAT-infor">(VAT included)</p>
+                            <p class="insurance-infor">Warranty: 12 months. <span>(Warranty regulations)</span></p>
+                            <p class="custom-infor">Product options: <span>M2 8-Core, 10-core GPU</span></p>
+                            <p class="select-title">Select capacity</p>
                             <div class="selection">
                                 @foreach (var sanPham in Model.SanPhamList)
                                 {
@@ -122,7 +122,7 @@
                                 }
                                 <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@Model.SanPham.MaSanPham" style="text-decoration:none;">
                                     <div style="margin-top:50px;">
-                                        <button class="btn-add-cart">THÊM VÀO GIỎ HÀNG</button>
+                                        <button class="btn-add-cart">ADD TO CART</button>
                                     </div>
                                 </a>
                             </div>
@@ -130,13 +130,13 @@
 
                         </div>
                         <div class="service-infor">
-                            <p class="service-title">Tư vấn & Mua hàng - Gọi 1900 0000</p>
+                            <p class="service-title">Consulting & purchasing-call 1900 0000</p>
                             <div class="details-service-infor">
                                 <div class="style-for-check">
                                     <i class="fa-solid fa-check"></i>
                                 </div>
                                 <div>
-                                    <p class="content-service-infor">Freeship với đơn hàng trên 1.000.000đ</p>
+                                    <p class="content-service-infor">Freeship with orders over 1,000,000 đ</p>
                                 </div>
                             </div>
                             <div class="details-service-infor">
@@ -144,7 +144,7 @@
                                     <i class="fa-solid fa-check"></i>
                                 </div>
                                 <div>
-                                    <p class="content-service-infor">Giao hàng ngay (Nội thành TP.HCM)</p>
+                                    <p class="content-service-infor">Immediate delivery (inner city city.HCMC)</p>
                                 </div>
                             </div>
                             <div class="details-service-infor">
@@ -152,7 +152,7 @@
                                     <i class="fa-solid fa-check"></i>
                                 </div>
                                 <div>
-                                    <p class="content-service-infor">Thu cũ đổi mới - Hỗ trợ tận nơi !</p>
+                                    <p class="content-service-infor">Collecting old renovations - support to take place!</p>
                                 </div>
                             </div>
                             <div class="details-service-infor">
@@ -160,7 +160,7 @@
                                     <i class="fa-solid fa-check"></i>
                                 </div>
                                 <div>
-                                    <p class="content-service-infor">Chương trình tích lũy điểm sử dụng để trừ vào đơn hàng kế tiếp hoặc quy đổi quà</p>
+                                    <p class="content-service-infor">The program accumulates points used to subtract from the next order or redeem the gift</p>
                                 </div>
                             </div>
                             <div class="details-service-infor">
@@ -168,7 +168,7 @@
                                     <i class="fa-solid fa-check"></i>
                                 </div>
                                 <div>
-                                    <p class="content-service-infor">Giao trong vòng 2 đến 3 ngày làm việc (Toàn quốc) </p>
+                                    <p class="content-service-infor">Delivery within 2 to 3 working days (nationwide) </p>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +206,7 @@
                     {
                         <form asp-controller="Home" asp-action="AddComment" method="post">
                             <div class="input-comment" style="border:1px solid #ffffff;">
-                                <p class="rating-text rating-header">Đánh giá sản phẩm</p>
+                                <p class="rating-text rating-header">Product reviews</p>
                                 <div class="rating-area">
                                     <label asp-for="@Model.BinhLuan.MaDanhGia" style="display:none;"></label>
                                     <select asp-for="@Model.BinhLuan.MaDanhGia" style="padding: 10px 0; width: 100%; border-radius: 5px; border: 1px solid gray; font-size: 14px;">
@@ -223,13 +223,13 @@
 
 
                                     <div class="rating-content">
-                                        <textarea placeholder="Viết đánh giá" asp-for="@Model.BinhLuan.NoiDungBinhLuan"></textarea>
+                                        <textarea placeholder="Write a review" asp-for="@Model.BinhLuan.NoiDungBinhLuan"></textarea>
                                     </div>
 
                                     <input type="hidden" name="BinhLuan.MaSanPham" value="@Model.SanPham.MaSanPham" />
 
                                     <button type="submit" style=" cursor: pointer; font-weight: 450; font-size: 15px; text-align:center; margin-top: 8px; border:none;border-radius: 5px; padding: 11px 0; width:130px; background-color:#189cc2; color: #ffffff;">
-                                        Gửi đánh giá
+                                        Send reviews
                                     </button>
                                 </div>
                             </div>
@@ -254,12 +254,12 @@
 
 
                         <div class="input-comment" style="border:1px solid #ffffff;">
-                            <p class="rating-text rating-header">Đánh giá của bạn</p>
+                            <p class="rating-text rating-header">Your review</p>
                             <div class="rating-area">
-                                <div  style="padding: 10px 0; width: 100%; border-radius: 5px; font-size: 14px;">Đánh giá: @soSao sao</div>
+                                <div  style="padding: 10px 0; width: 100%; border-radius: 5px; font-size: 14px;">Review: @soSao sao</div>
 
                                 <div class="rating-content">
-                                    <textarea placeholder="Viết đánh giá" readonly>@binhLuanNguoidung.NoiDungBinhLuan</textarea>
+                                    <textarea placeholder="Write a review" readonly>@binhLuanNguoidung.NoiDungBinhLuan</textarea>
                                 </div>
 
                             </div>
@@ -277,7 +277,7 @@
 
 
                         <div class="user-comment">
-                            <p class="rating-text">Đánh giá và nhận xét về @Model.SanPham.TenSanPham</p>
+                            <p class="rating-text">Reviews and reviews about @Model.SanPham.TenSanPham</p>
                             <div class="rating-infor">
                                 <div class="rating-score">
                                     <div class="score">@roundedDIEMDANHGIA / 5</div>
@@ -366,7 +366,7 @@
                                         }
                                     </div>
                                     <div class="review-total">
-                                        <p>@Model.SanPham.SoLuongDanhGia đánh giá</p>
+                                        <p>@Model.SanPham.SoLuongDanhGia Review</p>
                                     </div>
                                 </div>
                                 @*END STAR HERE*@
@@ -405,31 +405,31 @@
                                     <div class="star-for-each">
                                         <span style="color: #363636; font-weight: 480;">5</span>
                                         <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong5Sao đánh giá</span>
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong5Sao Review</span>
                                     </div>
                                     <div class="star-for-each">
                                         <span style="color: #363636; font-weight: 480;">4</span>
                                         <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
                                         @*DO NOT HARD CODE HERE*@
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong4Sao đánh giá</span>
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong4Sao Review</span>
                                     </div>
                                     <div class="star-for-each">
                                         <span style="color: #363636; font-weight: 480;">3</span>
                                         <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
                                         @*DO NOT HARD CODE HERE*@
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong3Sao đánh giá</span>
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong3Sao Review</span>
                                     </div>
                                     <div class="star-for-each">
                                         <span style="color: #363636; font-weight: 480;">2</span>
                                         <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
                                         @*DO NOT HARD CODE HERE*@
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong2Sao đánh giá</span>
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong2Sao Review</span>
                                     </div>
                                     <div class="star-for-each">
                                         <span style="color: #363636; font-weight: 480;">1</span>
                                         <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
                                         @*DO NOT HARD CODE HERE*@
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong1Sao đánh giá</span>
+                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong1Sao Review</span>
                                     </div>
                                 </div>
                             </div>
@@ -507,29 +507,29 @@
 
 
                 <div class="table-infor">
-                    <div class="title-table">THÔNG SỐ KỸ THUẬT</div>
+                    <div class="title-table">SPECIFICATIONS</div>
                     <hr class="custom-hr" />
                     @if (Model.SanPham is Laptop)
                     {
                         <table class="table-style">
                             <tr>
-                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
+                                <th class="content-table" colspan="2">Microprocessor</th>
                             </tr>
                             <tr>
-                                <td class="content-table">Loại CPU</td>
+                                <td class="content-table">CPU</td>
                                 <td class="content-table">@Model.Laptop.CPU</td>
                             </tr>
                             <tr>
-                                <td class="content-table">Số nhân / luồng</td>
+                                <td class="content-table">Multiplier / thread</td>
                                 <td class="content-table">@Model.Laptop.SoNhanLuong</td>
                             </tr>
                         </table>
                         <table class="table-style">
                             <tr>
-                                <th class="content-table" colspan="2">Màn hình</th>
+                                <th class="content-table" colspan="2">Monitor</th>
                             </tr>
                             <tr>
-                                <td class="content-table">Kích thước màn hình</td>
+                                <td class="content-table">Screen size</td>
                                 <td class="content-table">@Model.SanPham.ManHinh</td>
                             </tr>
                             <tr>
@@ -537,7 +537,7 @@
                                 <td class="content-table">@Model.Laptop.VGA</td>
                             </tr>
                             <tr>
-                                <td class="content-table">Trọng lượng</td>
+                                <td class="content-table">Weight</td>
                                 <td class="content-table">
                                     @Model.Laptop.TrongLuong
                                 </td>
@@ -549,7 +549,7 @@
                     {
                         <table class="table-style">
                             <tr>
-                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
+                                <th class="content-table" colspan="2">Microprocessor</th>
                             </tr>
                             <tr>
                                 <td class="content-table">Chip</td>
@@ -565,11 +565,11 @@
                                 <th class="content-table" colspan="2">Camera</th>
                             </tr>
                             <tr>
-                                <td class="content-table">Camera trước</td>
+                                <td class="content-table">Front Camera</td>
                                 <td class="content-table">@Model.Iphone.CameraTruoc</td>
                             </tr>
                             <tr>
-                                <td class="content-table">Camera sau</td>
+                                <td class="content-table">Back Camera</td>
                                 <td class="content-table">@Model.Iphone.CameraSau</td>
                             </tr>
                             <tr>
@@ -584,23 +584,23 @@
                     {
                         <table class="table-style">
                             <tr>
-                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
+                                <th class="content-table" colspan="2">Microprocessor</th>
                             </tr>
                             <tr>
-                                <td class="content-table">Công nghệ CPU</td>
+                                <td class="content-table">CPU</td>
                                 <td class="content-table">@Model.Imac.CongNgheCPU</td>
                             </tr>
                             <tr>
-                                <td class="content-table">Tốc độ CPU</td>
+                                <td class="content-table">CPU rate</td>
                                 <td class="content-table">@Model.Imac.TocDoCPU</td>
                             </tr>
                         </table>
                         <table class="table-style">
                             <tr>
-                                <th class="content-table" colspan="2">Màn hình</th>
+                                <th class="content-table" colspan="2">Monitor</th>
                             </tr>
                             <tr>
-                                <td class="content-table">Màn hình</td>
+                                <td class="content-table">Monitor</td>
                                 <td class="content-table">@Model.SanPham.ManHinh</td>
                             </tr>
                             <tr>
@@ -614,27 +614,27 @@
                     {
                         <table class="table-style">
                             <tr>
-                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
+                                <th class="content-table" colspan="2">Microprocessor</th>
                             </tr>
                             <tr>
-                                <td class="content-table">Công nghệ màn hình</td>
+                                <td class="content-table">Screen technology</td>
                                 <td class="content-table">@Model.Ipad.CongNgheManHinh</td>
                             </tr>
                             <tr>
-                                <td class="content-table">Độ phân giải</td>
+                                <td class="content-table">Resolution</td>
                                 <td class="content-table">@Model.Ipad.DoPhanGiai</td>
                             </tr>
                         </table>
                         <table class="table-style">
                             <tr>
-                                <th class="content-table" colspan="2">Kích thước</th>
+                                <th class="content-table" colspan="2">Size</th>
                             </tr>
                             <tr>
-                                <td class="content-table">Kích thước vật lý</td>
+                                <td class="content-table">Physical size</td>
                                 <td class="content-table">@Model.Ipad.KichThuocVatLy</td>
                             </tr>
                             <tr>
-                                <td class="content-table">Màn hình</td>
+                                <td class="content-table">Monitor</td>
                                 <td class="content-table">@Model.SanPham.ManHinh</td>
                             </tr>
 

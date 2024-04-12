@@ -5,18 +5,15 @@
     Layout = "_DashBoardAdmin";
 }
 
-
-
-
 <div class="container-fluid py-4">
     <div style="display: flex; flex-direction: row;justify-content:space-between;  height: 650px; width:100%; background-color:#ffffff; border-radius:9px;">
 
         <div class="container mt-5">
-            <h1>Danh sách bộ nhớ</h1>
+            <h1>Memory List</h1>
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Dung lượng</th>
+                        <th scope="col">Capacity</th>
                         <th></th>
 
                     </tr>
@@ -28,15 +25,13 @@
                             <td>@item.DungLuongBoNho</td>
                             <td>
                                 <a class="btn btn-primary" asp-route-id="@item.MaBoNho"  asp-action="Edit">
-                                    Chỉnh sửa
+                                    Edit
                                 </a>
                                 <a class="btn btn-danger" asp-route-id="@item.MaBoNho"  asp-action="Delete">
-                                    Xoá
+                                    Delete
                                 </a>
                             </td>
-
                         </tr>
-
                     }
                 </tbody>
             </table>
