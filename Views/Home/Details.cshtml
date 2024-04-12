@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="~/css/slick.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <style>
@@ -119,39 +120,51 @@
     }
 </style>
 <body>
-    <div class="container">
-        <main class="main">
-            <div class="product-details">
-                <div class="image-slider">
-                    <div class="slides">
-                        @foreach (var hinhAnh in Model.HinhAnhList)
-                        {
-                            <img class="slide" src="~/Images/@hinhAnh.FileHinhAnh">
-                        }
+    <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb_iner">
+                        <div class="breadcrumb_iner_item">
+                            <h2>Shop Single</h2>
+                            <p>Home <span>-</span> Shop Single</p>
+                        </div>
                     </div>
-                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 </div>
-                <div class="product-detail-information">
-                    <div class="product-name-head">
-                        <h2>@Model.SanPham.TenSanPham</h2>
-                        <p>Thương hiệu: <span>@Model.SanPham.ThuongHieu.TenThuongHieu</span></p>
-                    </div>
-                    <div class="details">
-                        <div class="details-infor">
-                            @if(Model.SanPham.GiaKhuyenMai != null){
-                            <h3>@Model.SanPham.GiaKhuyenMai ₫</h3>
-                                <h3><span style="color:black; text-decoration:line-through;">@Model.SanPham.Gia ₫</span> </h3>
-                            }
-                            else
+            </div>
+        </div>
+    </section>
+
+    <div class="product_image_area section_padding">
+        <div class="container">
+            <div class="row s_product_inner justify-content-between">
+                <div class="col-lg-7 col-xl-7">
+                    <div class="image-slider" style="transform:translateY(-50px);">
+                        <div class="slides">
+                            @foreach (var hinhAnh in Model.HinhAnhList)
                             {
-                                <h3>@Model.SanPham.Gia ₫</h3>
+                                <img class="slide" src="~/Images/@hinhAnh.FileHinhAnh">
                             }
-                            <p class="VAT-infor">(Đã bao gồm VAT)</p>
-                            <p class="insurance-infor">Bảo hành: 12 tháng. <span>(Quy định bảo hành)</span></p>
-                            <p class="custom-infor">Tuỳ chọn sản phẩm: <span>M2 8-Core, 10-core GPU</span></p>
-                            <p class="select-title">Chọn dung lượng</p>
-                            <div class="selection">
+                        </div>
+                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-xl-4">
+                    <div class="s_product_text">
+                        <h3>@Model.SanPham.TenSanPham</h3>
+
+                        <h2>@Model.SanPham.Gia ₫</h2>
+                        <ul class="list">
+                            <li>
+                                <a class="active" href="#">
+                                    <span>Brand</span> : @Model.SanPham.ThuongHieu.TenThuongHieu
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#"> <span>Availibility</span> : In Stock</a>
+                            </li>
+                            <div style="display: flex; flex-direction: row;">
                                 @foreach (var sanPham in Model.SanPhamList)
                                 {
                                     if (sanPham.MaMauSac == Model.SanPham.MaMauSac)
@@ -159,92 +172,235 @@
                                         var boNho = Model.context.BONHO.Where(x => x.MaBoNho == sanPham.MaBoNho).FirstOrDefault();
 
                                         <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
-                                            <div class="select-item">
+                                            <div class="select-item" style="margin-right: 12px;">
                                                 <div class="content-item">@boNho.DungLuongBoNho</div>
                                             </div>
                                         </a>
                                     }
                                 }
-
-                                <div style="margin-top:50px;">
-                                    <button class="btn-add-cart" onclick="addToCart(@Model.SanPham.MaSanPham)">THÊM VÀO GIỎ HÀNG</button>
-                                </div>
                             </div>
-
-                           <div id="cart-notification" class="notification">
-    <div class="notification-content">
-        <img src="~/image-cart/correct.png" alt="Tick" class="banner-img">
-        <div>
-            <p>Đã thêm vào giỏ hàng thành công!</p>
-            <button onclick="closeNotification()">OK</button>
-        </div>
-    </div>
-</div>
-
-
-
-
-                            
-
-
-                        </div>
-                        <div class="service-infor">
-                            <p class="service-title">Tư vấn & Mua hàng - Gọi 1900 0000</p>
-                            <div class="details-service-infor">
-                                <div class="style-for-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </div>
-                                <div>
-                                    <p class="content-service-infor">Freeship với đơn hàng trên 1.000.000đ</p>
-                                </div>
-                            </div>
-                            <div class="details-service-infor">
-                                <div class="style-for-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </div>
-                                <div>
-                                    <p class="content-service-infor">Giao hàng ngay (Nội thành TP.HCM)</p>
-                                </div>
-                            </div>
-                            <div class="details-service-infor">
-                                <div class="style-for-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </div>
-                                <div>
-                                    <p class="content-service-infor">Thu cũ đổi mới - Hỗ trợ tận nơi !</p>
-                                </div>
-                            </div>
-                            <div class="details-service-infor">
-                                <div class="style-for-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </div>
-                                <div>
-                                    <p class="content-service-infor">Chương trình tích lũy điểm sử dụng để trừ vào đơn hàng kế tiếp hoặc quy đổi quà</p>
-                                </div>
-                            </div>
-                            <div class="details-service-infor">
-                                <div class="style-for-check">
-                                    <i class="fa-solid fa-check"></i>
-                                </div>
-                                <div>
-                                    <p class="content-service-infor">Giao trong vòng 2 đến 3 ngày làm việc (Toàn quốc) </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="sub-infor">
-                <div class="product-description">
-                    <div class="description-details">
-                        <h3 style="color:#363636;">Mô tả</h3>
-                        <p class="description-content">
+                        </ul>
+                        <p>
                             @Model.SanPham.Mota
                         </p>
+                        <div class="card_area d-flex justify-content-between align-items-center">
+                            <button class="btn-add-cart" onclick="addToCart(@Model.SanPham.MaSanPham)" style="text-decoration:none;" class="btn_3">add to cart</button>
+                        </div>
+                        <div id="cart-notification" class="notification">
+                              <div class="notification-content">
+                                <img src="~/image-cart/correct.png" alt="Tick" class="banner-img">
+                              <div>
+                              <p>Add to cart successfully!</p>
+                              <button onclick="closeNotification()">OK</button>
+                        </div>
                     </div>
-                    @*YOUR COMMENTS*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="product_description_area">
+        <div class="container">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                       aria-selected="true">Description</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                       aria-selected="false">Specification</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+                       aria-selected="false">Reviews</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <p>
+                        @Model.SanPham.Mota
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="table-responsive">
+                        @if (Model.SanPham is Laptop)
+                        {
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h5>Loại CPU</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Laptop.CPU</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Số nhân / luồng</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Laptop.SoNhanLuong</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Kích thước màn hình</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@@Model.SanPham.ManHinh</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Trọng lượng</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Laptop.TrongLuong</h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        }
+                        else if (Model.SanPham is Iphone)
+                        {
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h5>Chip</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Iphone.Chip</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>ROM</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Iphone.Rom</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>RAM</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Iphone.Ram</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Camera sau</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Iphone.CameraSau</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Camera trước</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Iphone.CameraTruoc</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Pin</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Iphone.Pin</h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                        else if (Model.SanPham is IMac)
+                        {
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h5>Công nghệ CPU</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Imac.CongNgheCPU</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Tốc độ CPU</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Imac.TocDoCPU</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Màn hình</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.SanPham.ManHinh</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Turbo</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Imac.Turbo</h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                        else if (Model.SanPham is Ipad)
+                        {
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h5>Công nghệ màn hình</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Ipad.CongNgheManHinh</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Độ phân giải</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Ipad.DoPhanGiai</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Kích thước vật lý</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.Ipad.KichThuocVatLy</h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h5>Màn hình</h5>
+                                        </td>
+                                        <td>
+                                            <h5>@Model.SanPham.ManHinh</h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+
+
+                    </div>
+                </div>
+                <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
                     @{
                         bool daBinhLuan = false;
                         if (Model.User != null)
@@ -257,453 +413,325 @@
                                     break;
                                 }
                             }
-
                         }
-
                     }
-                    @if (User.Identity.IsAuthenticated && daBinhLuan == false)
-                    {
-                        <form asp-controller="Home" asp-action="AddComment" method="post">
-                            <div class="input-comment" style="border:1px solid #ffffff;">
-                                <p class="rating-text rating-header">Đánh giá sản phẩm</p>
-                                <div class="rating-area">
-                                    <label asp-for="@Model.BinhLuan.MaDanhGia" style="display:none;"></label>
-                                    <select asp-for="@Model.BinhLuan.MaDanhGia" style="padding: 10px 0; width: 100%; border-radius: 5px; border: 1px solid gray; font-size: 14px;">
-                                        @if (ViewBag.DanhSachDanhGia != null)
-                                        {
-                                            foreach (var item in ViewBag.DanhSachDanhGia)
-                                            {
-                                                <option value="@item.Value" style="padding: 10px 0; width: 100%; font-size:14px;">@item.Text</option>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @if (Model.SanPham.DiemDanhGia != null && Model.SanPham.SoLuongDanhGia != null)
+                            {
+                                float SOLUONGSAO = 0;
 
-                                            }
+                                float? DIEMDANHGIA = Model.SanPham.DiemDanhGia / Model.SanPham.SoLuongDanhGia;
+                                float? roundedDIEMDANHGIA = (float?)Math.Round(DIEMDANHGIA.Value, 1);
 
-                                        }
-                                    </select>
-
-
-                                    <div class="rating-content">
-                                        <textarea placeholder="Viết đánh giá" asp-for="@Model.BinhLuan.NoiDungBinhLuan"></textarea>
-                                    </div>
-
-                                    <input type="hidden" name="BinhLuan.MaSanPham" value="@Model.SanPham.MaSanPham" />
-
-                                    <button type="submit" style=" cursor: pointer; font-weight: 450; font-size: 15px; text-align:center; margin-top: 8px; border:none;border-radius: 5px; padding: 11px 0; width:130px; background-color:#189cc2; color: #ffffff;">
-                                        Gửi đánh giá
-                                    </button>
-                                </div>
-                            </div>
-
-                        </form>
-
-
-                    }
-                    else if (User.Identity.IsAuthenticated && daBinhLuan == true)
-                    {
-
-                        var binhLuanNguoidung = Model.context.BINHLUAN.Where(x => x.MaSanPham == Model.SanPham.MaSanPham).FirstOrDefault(m => m.Id == Model.User.Id);
-                        int soSao = 0;
-                        if (binhLuanNguoidung != null)
-                        {
-                             soSao = Model.context.DANHGIA
-                                .Where(m => m.MaDanhGia == binhLuanNguoidung.MaDanhGia)
-                                .Select(x => x.DiemDanhGia)
-                                .FirstOrDefault();
-
-                        }
-
-
-                        <div class="input-comment" style="border:1px solid #ffffff;">
-                            <p class="rating-text rating-header">Đánh giá của bạn</p>
-                            <div class="rating-area">
-                                <div  style="padding: 10px 0; width: 100%; border-radius: 5px; font-size: 14px;">Đánh giá: @soSao sao</div>
-
-                                <div class="rating-content">
-                                    <textarea placeholder="Viết đánh giá" readonly>@binhLuanNguoidung.NoiDungBinhLuan</textarea>
-                                </div>
-
-                            </div>
-                        </div>
-                    }
-
-                    @*COMMENTS*@
-                    @if (Model.SanPham.DiemDanhGia != null && Model.SanPham.SoLuongDanhGia != null)
-                    {
-                        // DIEM DANH GIA
-                        float SOLUONGSAO = 0;
-
-                        float? DIEMDANHGIA = Model.SanPham.DiemDanhGia / Model.SanPham.SoLuongDanhGia;
-                        float? roundedDIEMDANHGIA = (float?)Math.Round(DIEMDANHGIA.Value, 1);
-
-
-                        <div class="user-comment">
-                            <p class="rating-text">Đánh giá và nhận xét về @Model.SanPham.TenSanPham</p>
-                            <div class="rating-infor">
-                                <div class="rating-score">
-                                    <div class="score">@roundedDIEMDANHGIA / 5</div>
-                                    <div class="rating-star">
-                                        @if (Model.SanPham.DiemDanhGia == 5)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                        }
-                                        /*                                        else if (Model.SanPham.DiemDanhGia > 4 && Model.SanPham.DiemDanhGia < 5)*/
-                                        else if (Model.SanPham.DiemDanhGia == null)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star-half-stroke" style="color: #f19d27; margin-right: 6px;"></i>
-
-                                        }
-                                        else if (Model.SanPham.DiemDanhGia == 4)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                        }
-                                        else if (Model.SanPham.DiemDanhGia > 3 && Model.SanPham.DiemDanhGia < 4)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star-half-stroke" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                        }
-                                        else if (Model.SanPham.DiemDanhGia == 3)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                        }
-                                        else if (Model.SanPham.DiemDanhGia > 2 && Model.SanPham.DiemDanhGia < 3)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star-half-stroke" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                        }
-                                        else if (Model.SanPham.DiemDanhGia == 2)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                        }
-                                        else if (Model.SanPham.DiemDanhGia > 1 && Model.SanPham.DiemDanhGia < 2)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star-half-stroke" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                        }
-                                        else if (Model.SanPham.DiemDanhGia == 1)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                        }
-                                        else if (Model.SanPham.DiemDanhGia < 1)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px;"></i>
-                                        }
-                                    </div>
-                                    <div class="review-total">
-                                        <p>@Model.SanPham.SoLuongDanhGia đánh giá</p>
-                                    </div>
-                                </div>
-                                @*END STAR HERE*@
-                                @{
-                                    int soLuong5Sao = 0;
-                                    int soLuong4Sao = 0;
-                                    int soLuong3Sao = 0;
-                                    int soLuong2Sao = 0;
-                                    int soLuong1Sao = 0;
-                                    foreach (var binhLuan in Model.BinhLuanList)
-                                    {
-                                        if (binhLuan.MaDanhGia == 1)
-                                        {
-                                            soLuong5Sao += 1;
-                                        }
-                                        else if (binhLuan.MaDanhGia == 2)
-                                        {
-                                            soLuong4Sao += 1;
-                                        }
-                                        else if (binhLuan.MaDanhGia == 3)
-                                        {
-                                            soLuong3Sao += 1;
-                                        }
-                                        else if (binhLuan.MaDanhGia == 4)
-                                        {
-                                            soLuong2Sao += 1;
-                                        }
-                                        else
-                                        {
-                                            soLuong1Sao += 1;
-                                        }
-                                    }
-
-                                }
-                                <div class="count-for-each">
-                                    <div class="star-for-each">
-                                        <span style="color: #363636; font-weight: 480;">5</span>
-                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong5Sao đánh giá</span>
-                                    </div>
-                                    <div class="star-for-each">
-                                        <span style="color: #363636; font-weight: 480;">4</span>
-                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
-                                        @*DO NOT HARD CODE HERE*@
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong4Sao đánh giá</span>
-                                    </div>
-                                    <div class="star-for-each">
-                                        <span style="color: #363636; font-weight: 480;">3</span>
-                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
-                                        @*DO NOT HARD CODE HERE*@
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong3Sao đánh giá</span>
-                                    </div>
-                                    <div class="star-for-each">
-                                        <span style="color: #363636; font-weight: 480;">2</span>
-                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
-                                        @*DO NOT HARD CODE HERE*@
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong2Sao đánh giá</span>
-                                    </div>
-                                    <div class="star-for-each">
-                                        <span style="color: #363636; font-weight: 480;">1</span>
-                                        <i class="fa-solid fa-star" style="color: #f19d27; font-size:16px;"></i>
-                                        @*DO NOT HARD CODE HERE*@
-                                        <span style="margin-left:20px; color:#444b52; font-size:16px;">@soLuong1Sao đánh giá</span>
-                                    </div>
-                                </div>
-                            </div>
-                            @*COMMENT*@
-                            <div style="display:flex; flex-direction:column; margin-top:10px;">
-                                @foreach (var binhLuan in Model.BinhLuanList)
+                                int soLuong5Sao = 0;
+                                int soLuong4Sao = 0;
+                                int soLuong3Sao = 0;
+                                int soLuong2Sao = 0;
+                                int soLuong1Sao = 0;
+                                foreach (var binhLuan in Model.BinhLuanList)
                                 {
-                                    string name = Model.context.Users.Where(x => x.Id == binhLuan.Id).Select(m => m.Name).FirstOrDefault();
-                                    <div style="margin: 0 0 15px 10px; border-bottom: 1px solid #ebf0f9; padding:10px;">
-                                        <div style="display:flex; flex-direction: row; justify-content:space-between; width: 28%;">
-                                            <h4 style="color:#333333;">@name</h4>
-                                            <p style="font-size:14px; color:#2ba832; transform:translateY(2px);">@binhLuan.ThoiGianBinhLuan.ToString("dd/MM/yyyy")</p>
-                                        </div>
-                                        @if (binhLuan.MaDanhGia == 1)
-                                        {
-                                            <div>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-
-                                            </div>
-                                        }
-                                        else if (binhLuan.MaDanhGia == 2)
-                                        {
-                                            <div>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                            </div>
-
-                                        }
-                                        else if (binhLuan.MaDanhGia == 3)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                        }
-                                        else if (binhLuan.MaDanhGia == 4)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                        }
-                                        else if (binhLuan.MaDanhGia == 5)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                        }
-
-                                        <div style="margin-top:10px;">
-                                            <p style="font-size:13px;">@binhLuan.NoiDungBinhLuan</p>
+                                    if (binhLuan.MaDanhGia == 1)
+                                    {
+                                        soLuong5Sao += 1;
+                                    }
+                                    else if (binhLuan.MaDanhGia == 2)
+                                    {
+                                        soLuong4Sao += 1;
+                                    }
+                                    else if (binhLuan.MaDanhGia == 3)
+                                    {
+                                        soLuong3Sao += 1;
+                                    }
+                                    else if (binhLuan.MaDanhGia == 4)
+                                    {
+                                        soLuong2Sao += 1;
+                                    }
+                                    else
+                                    {
+                                        soLuong1Sao += 1;
+                                    }
+                                }
+                                <div class="row total_rate">
+                                    <div class="col-6">
+                                        <div class="box_total">
+                                            <h5>Overall</h5>
+                                            <h4>@roundedDIEMDANHGIA / 5</h4>
+                                            <h6>(@Model.SanPham.SoLuongDanhGia Reviews)</h6>
                                         </div>
                                     </div>
+                                    <div class="col-6">
+                                        <div class="rating_list">
+                                            <h3>Based on @Model.SanPham.SoLuongDanhGia Reviews</h3>
+                                            <ul class="list">
+                                                <li>
+                                                    <a>
+                                                        5 Star
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i> @soLuong5Sao
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        4 Star
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i> @soLuong4Sao
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        3 Star
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i> @soLuong3Sao
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        2 Star
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i> @soLuong2Sao
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        1 Star
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i> @soLuong1Sao
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            @if (Model.SanPham.DiemDanhGia != null && Model.SanPham.SoLuongDanhGia != null)
+
+                            {
+                                var binhLuanNguoidung = Model.context.BINHLUAN.Where(x => x.MaSanPham == Model.SanPham.MaSanPham).FirstOrDefault(m => m.Id == Model.User.Id);
+                                int soSao = 0;
+                                if (binhLuanNguoidung != null)
+                                {
+                                    soSao = Model.context.DANHGIA
+                                       .Where(m => m.MaDanhGia == binhLuanNguoidung.MaDanhGia)
+                                       .Select(x => x.DiemDanhGia)
+                                       .FirstOrDefault();
 
                                 }
+                                <div class="review_list">
+                                    @foreach (var binhLuan in Model.BinhLuanList)
+                                    {
+                                        string name = Model.context.Users.Where(x => x.Id == binhLuan.Id).Select(m => m.Name).FirstOrDefault();
+                                        <div class="review_item">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img src="img/product/single-product/review-3.png" alt="" />
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>@name</h4>
+                                                    @if (binhLuan.MaDanhGia == 1)
+                                                    {
+                                                        <div>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
 
+                                                        </div>
+                                                    }
+                                                    else if (binhLuan.MaDanhGia == 2)
+                                                    {
+                                                        <div>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                        </div>
 
-                            </div>
+                                                    }
+                                                    else if (binhLuan.MaDanhGia == 3)
+                                                    {
+                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                    }
+                                                    else if (binhLuan.MaDanhGia == 4)
+                                                    {
+                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                    }
+                                                    else if (binhLuan.MaDanhGia == 5)
+                                                    {
+                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <p>
+                                                @binhLuan.NoiDungBinhLuan
+                                            </p>
+                                        </div>
+                                    }
+                                </div>
+
+                            }
                         </div>
+                        @if (User.Identity.IsAuthenticated && daBinhLuan == false)
+                        {
+                            <form asp-controller="Home" asp-action="AddComment" method="post" class="col-lg-6">
+                                <div class="review_box">
+                                    <h4>Add a Review</h4>
+                                    <p>Your Rating:</p>
+                                    <label asp-for="@Model.BinhLuan.MaDanhGia" style="display:none;"></label>
+                                    <div class="default-select" id="default-select_2">
+                                        <select asp-for="@Model.BinhLuan.MaDanhGia">
+                                            @if (ViewBag.DanhSachDanhGia != null)
+                                            {
+                                                foreach (var item in ViewBag.DanhSachDanhGia)
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
 
-                    }
+                                                }
+                                            }
+                                        </select>
 
-                </div>
+                                    </div>
+                                    <div class="row contact_form" action="contact_process.php" method="post" novalidate="novalidate">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea asp-for="@Model.BinhLuan.NoiDungBinhLuan" style="height:100px; width:550px;" class="form-control"  rows="1" placeholder="Review"></textarea>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="BinhLuan.MaSanPham" value="@Model.SanPham.MaSanPham" />
 
+                                        <div class="col-md-12 text-right">
+                                            <button type="submit" class="btn_3">
+                                                Submit Now
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        }
+                        else if (User.Identity.IsAuthenticated && daBinhLuan == true)
+                        {
+                            var binhLuanNguoidung = Model.context.BINHLUAN.Where(x => x.MaSanPham == Model.SanPham.MaSanPham).FirstOrDefault(m => m.Id == Model.User.Id);
+                            int soSao = 0;
+                            if (binhLuanNguoidung != null)
+                            {
+                                soSao = Model.context.DANHGIA
+                                   .Where(m => m.MaDanhGia == binhLuanNguoidung.MaDanhGia)
+                                   .Select(x => x.DiemDanhGia)
+                                   .FirstOrDefault();
 
-                <div class="table-infor">
-                    <div class="title-table">THÔNG SỐ KỸ THUẬT</div>
-                    <hr class="custom-hr" />
-                    @if (Model.SanPham is Laptop)
-                    {
-                        <table class="table-style">
-                            <tr>
-                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Loại CPU</td>
-                                <td class="content-table">@Model.Laptop.CPU</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Số nhân / luồng</td>
-                                <td class="content-table">@Model.Laptop.SoNhanLuong</td>
-                            </tr>
-                        </table>
-                        <table class="table-style">
-                            <tr>
-                                <th class="content-table" colspan="2">Màn hình</th>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Kích thước màn hình</td>
-                                <td class="content-table">@Model.SanPham.ManHinh</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">VGA</td>
-                                <td class="content-table">@Model.Laptop.VGA</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Trọng lượng</td>
-                                <td class="content-table">
-                                    @Model.Laptop.TrongLuong
-                                </td>
-                            </tr>
-                        </table>
+                            }
+                            <div class="row contact_form" action="contact_process.php" method="post" novalidate="novalidate">
+                                <div class="col-md-12">
+                                    <div style="padding: 10px 0; width: 100%; border-radius: 5px; font-size: 14px;">Đánh giá: @soSao sao</div>
+                                    <div class="form-group">
+                                        <textarea readonly style="height:100px; width:550px;" class="form-control" name="message" rows="1" placeholder="Review">@binhLuanNguoidung.NoiDungBinhLuan</textarea>
+                                    </div>
+                                </div>
 
-                    }
-                    else if (Model.SanPham is Iphone)
-                    {
-                        <table class="table-style">
-                            <tr>
-                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Chip</td>
-                                <td class="content-table">@Model.Iphone.Chip</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">ROM</td>
-                                <td class="content-table">@Model.Iphone.Rom</td>
-                            </tr>
-                        </table>
-                        <table class="table-style">
-                            <tr>
-                                <th class="content-table" colspan="2">Camera</th>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Camera trước</td>
-                                <td class="content-table">@Model.Iphone.CameraTruoc</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Camera sau</td>
-                                <td class="content-table">@Model.Iphone.CameraSau</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Ping</td>
-                                <td class="content-table">
-                                    @Model.Iphone.Pin
-                                </td>
-                            </tr>
-                        </table>
-                    }
-                    else if (Model.SanPham is IMac)
-                    {
-                        <table class="table-style">
-                            <tr>
-                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Công nghệ CPU</td>
-                                <td class="content-table">@Model.Imac.CongNgheCPU</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Tốc độ CPU</td>
-                                <td class="content-table">@Model.Imac.TocDoCPU</td>
-                            </tr>
-                        </table>
-                        <table class="table-style">
-                            <tr>
-                                <th class="content-table" colspan="2">Màn hình</th>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Màn hình</td>
-                                <td class="content-table">@Model.SanPham.ManHinh</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Turbo</td>
-                                <td class="content-table">@Model.Imac.Turbo</td>
-                            </tr>
-
-                        </table>
-                    }
-                    else if (Model.SanPham is Ipad)
-                    {
-                        <table class="table-style">
-                            <tr>
-                                <th class="content-table" colspan="2">Bộ vi xử lý</th>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Công nghệ màn hình</td>
-                                <td class="content-table">@Model.Ipad.CongNgheManHinh</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Độ phân giải</td>
-                                <td class="content-table">@Model.Ipad.DoPhanGiai</td>
-                            </tr>
-                        </table>
-                        <table class="table-style">
-                            <tr>
-                                <th class="content-table" colspan="2">Kích thước</th>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Kích thước vật lý</td>
-                                <td class="content-table">@Model.Ipad.KichThuocVatLy</td>
-                            </tr>
-                            <tr>
-                                <td class="content-table">Màn hình</td>
-                                <td class="content-table">@Model.SanPham.ManHinh</td>
-                            </tr>
-
-                        </table>
-                    }
+                 
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </section>
 
-    </div>
+    <section class="product_list best_seller">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="section_tittle text-center">
+                        <h2>Best Sellers <span>shop</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-between">
+                <div class="col-lg-12">
+                    <div class="best_product_slider owl-carousel">
+                        <div class="single_product_item">
+                            <img src="img/product/product_1.png" alt="">
+                            <div class="single_product_text">
+                                <h4>Quartz Belt Watch</h4>
+                                <h3>$150.00</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="img/product/product_2.png" alt="">
+                            <div class="single_product_text">
+                                <h4>Quartz Belt Watch</h4>
+                                <h3>$150.00</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="img/product/product_3.png" alt="">
+                            <div class="single_product_text">
+                                <h4>Quartz Belt Watch</h4>
+                                <h3>$150.00</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="img/product/product_4.png" alt="">
+                            <div class="single_product_text">
+                                <h4>Quartz Belt Watch</h4>
+                                <h3>$150.00</h3>
+                            </div>
+                        </div>
+                        <div class="single_product_item">
+                            <img src="img/product/product_5.png" alt="">
+                            <div class="single_product_text">
+                                <h4>Quartz Belt Watch</h4>
+                                <h3>$150.00</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.magnific-popup.js"></script>
+    <script src="js/jquery-1.12.1.min.js"></script>
+
+    <script src="js/custom.js"></script>
 </body>
 </html>
 
