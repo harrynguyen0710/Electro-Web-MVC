@@ -124,7 +124,7 @@ namespace DACS.Controllers
                 return NotFound();
             }
 
-            ViewBag.DanhSachDanhGia = new SelectList(_dataContext.DANHGIA, "MaDanhGia", "DiemDanhGia");
+            ViewBag.DanhSachDanhGia = new SelectList(_dataContext.DANHGIA, "MaDanhGia", "MoTaDanhGia");
 
             /*RANG BUOC KHACH HANG CHI DANH GIA DC 1 LAN*/
             var khachHang = await _userManager.GetUserAsync(User);
@@ -248,10 +248,10 @@ namespace DACS.Controllers
         [HttpPost]
         public async Task<IActionResult> AddComment(BinhLuan binhLuan)
         {
-/*            if (binhLuan == null)
+            if (binhLuan == null)
             {
-             return NotFound();
-            }*/
+                return NotFound();
+            }
             var khachHangDanhGia = await _userManager.GetUserAsync(User);
             binhLuan.ThoiGianBinhLuan = DateTime.Now;
             binhLuan.Id = khachHangDanhGia.Id;
