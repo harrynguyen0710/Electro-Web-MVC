@@ -422,7 +422,58 @@ namespace DACS.Controllers
 
             return View("ShopCategory", viewModel);
         }
+        public async Task<IActionResult> IphoneCategory()
+        {
+            var iphone = await _dataContext.IPHONE.ToListAsync();
+            var hinhAnhList = await _dataContext.HINHANH.ToListAsync();
 
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                IphoneList = iphone,
+                HinhAnhList = hinhAnhList
+            };
+
+            return View(viewModel);
+        }
+        public async Task<IActionResult> IpadCategory()
+        {
+            var ipad = await _dataContext.IPAD.ToListAsync();
+            var hinhAnhList = await _dataContext.HINHANH.ToListAsync();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                IpadList = ipad,
+                HinhAnhList = hinhAnhList
+            };
+
+            return View(viewModel);
+        }
+        public async Task<IActionResult> IMacCategory()
+        {
+            var imac = await _dataContext.IMAC.ToListAsync();
+            var hinhAnhList = await _dataContext.HINHANH.ToListAsync();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                IMacList = imac,
+                HinhAnhList = hinhAnhList
+            };
+
+            return View(viewModel);
+        }
+        public async Task<IActionResult> LaptopCategory()
+        {
+            var laptop = await _dataContext.LAPTOP.ToListAsync();
+            var hinhAnhList = await _dataContext.HINHANH.ToListAsync();
+
+            var viewModel = new SanPhamChiTietViewModel
+            {
+                LaptopList = laptop,
+                HinhAnhList = hinhAnhList
+            };
+
+            return View(viewModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

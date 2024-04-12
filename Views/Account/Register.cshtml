@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="center">
-        <h1>Đăng ký</h1>
+        <h1>Register</h1>
         <form asp-action="Register" asp-controller="Account" method="post">
             <div class="txt_field">
                 <input asp-for="@Model.Email" type="text" required>
@@ -26,17 +26,17 @@
             <div class="txt_field">
                 <input asp-for="@Model.Name" type="text" required>
                 <span asp-validation-for="@Model.Name"></span>
-                <label asp-for="@Model.Name">Họ và tên</label>
+                <label asp-for="@Model.Name">Full Name</label>
             </div>
             <div class="txt_field">
                 <input asp-for="@Model.SoDienThoai" type="text" required>
                 <span asp-validation-for="@Model.SoDienThoai"></span>
-                <label asp-for="@Model.SoDienThoai">Số điện thoại</label>
+                <label asp-for="@Model.SoDienThoai">Phone number</label>
             </div>
             <div class="txt_field">
                 <input asp-for="@Model.DiaChi" type="text" required>
                 <span asp-validation-for="@Model.DiaChi"></span>
-                <label asp-for="@Model.DiaChi">Địa chỉ</label>
+                <label asp-for="@Model.DiaChi">Address</label>
             </div>
             <div class="txt_field">
                 <input asp-for="@Model.Password" type="password" required>
@@ -46,7 +46,7 @@
             <div class="pass">
 
             </div>
-            <button type="submit" value="Register">Đăng ký</button>
+            <button type="submit" value="Register">Sign Up</button>
             <div class="signup_link">
             </div>
         </form>

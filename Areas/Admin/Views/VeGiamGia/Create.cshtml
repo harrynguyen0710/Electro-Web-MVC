@@ -8,7 +8,7 @@
 
 <h1>Create</h1>
 
-<h4>VeGiamGia</h4>
+<h4>Discount voucher</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,17 +20,17 @@
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NgayThietLap" class="control-label"></label>
+                <label asp-for="NgayThietLap" class="control-label">Date founded</label>
                 <input asp-for="NgayThietLap" class="form-control" />
                 <span asp-validation-for="NgayThietLap" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SoLuongToiDaSuDung" class="control-label"></label>
+                <label asp-for="SoLuongToiDaSuDung" class="control-label">Max quantity use</label>
                 <input asp-for="SoLuongToiDaSuDung" class="form-control" />
                 <span asp-validation-for="SoLuongToiDaSuDung" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MaTyLeGiam" class="control-label"></label>
+                <label asp-for="MaTyLeGiam" class="control-label">Reduction rate code </label>
                 <select asp-for="MaTyLeGiam" class ="form-control" asp-items="ViewBag.MaTyLeGiam"></select>
             </div>
             <div class="form-group">

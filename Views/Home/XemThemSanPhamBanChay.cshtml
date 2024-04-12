@@ -16,16 +16,12 @@
    
     @if (Model != null && Model.SanPhamList != null)
     {
-           
-
         <div class="" style="transform:translate(20px,35px);  background-color:#ffffff; width:98%;">
             <div class="new-product">
-              
                   @{
                      int counter = 0;
                     foreach (var item in Model.SanPhamList.Where(x => x.MaSanPhamDacBiet == 3))
                     {
-                       
                             if(item.MaSanPhamDacBiet == 3)
                             {
                               <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@item.MaSanPham" style="text-decoration:none;">
@@ -55,11 +51,8 @@
                                     <span style="color:black;">@item.Gia</span>
                                 </div>
                                 </div>
-
                               </a>
-
                                 counter++;
-                     
                                 if (counter % 6 == 0)
                                 {
                                     @:</div><div class="new-product">
@@ -68,15 +61,7 @@
                         }
                     }
                     </div>
-
-               
-
             </div>
-                  
     }
-     
-
-    
 </body>
-
 </html>

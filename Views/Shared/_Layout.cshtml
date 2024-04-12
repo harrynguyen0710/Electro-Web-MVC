@@ -57,13 +57,13 @@
                             <ul class="navbar-nav">
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Home" asp-action="Index">
-                                        Trang chủ 
+                                        Home 
                                     </a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Danh mục 
+                                        Category
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                         <a class="dropdown-item" asp-controller="Home" asp-action="XemThemSanPhamIphone">
@@ -83,26 +83,26 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Trang 
+                                        Pages
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                         @if (!User.Identity.IsAuthenticated)
                                         {
                                             <a class="dropdown-item"  asp-controller="Account" asp-action="Login">
-                                                 Đăng nhập
+                                                 Log in 
                                             </a>
                                         }
                                         <a class="dropdown-item" asp-controller="Cart" asp-action="Index">
-                                            Giỏ hàng
+                                            Shopping Cart
                                         </a>
                                         <a class="dropdown-item" asp-controller="KiemTraDonHang" asp-action="Details">
-                                            Chi tiết đơn hàng 
+                                            Cart Details
                                         </a>
                                         <a class="dropdown-item" asp-controller="KiemTraDonHang" asp-action="Index">
-                                            Kiểm tra đơn hàng 
+                                            Cart Checkout
                                         </a>
                                         <a class="dropdown-item" asp-controller="Home" asp-action="ShopCategory">
-                                            Lọc sản phẩm
+                                            Product Filter
                                         </a>
                                     </div>
                                 </li>
@@ -119,7 +119,7 @@
 
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Home" asp-action="CSKH">
-                                        Liên hệ 
+                                        Contact
                                     </a>
                                 </li>
                             </ul>
@@ -140,7 +140,7 @@
         <div class="search_input" id="search_input_box">
             <div class="container ">
                 <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Tìm kiếm tại đây">
+                    <input type="text" class="form-control" id="search_input" placeholder="Search here">
                     <button type="submit" class="btn"></button>
                     <span class="ti-close" id="close_search" title="Close Search"></span>
                 </form>
