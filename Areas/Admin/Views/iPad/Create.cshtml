@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_DashBoardAdmin";
 }
-@model DACS.ViewModel.iPadViewModel;
+@model DACS.Models.Ipad;
 
 <div class="container-fluid py-4">
     <div class="row">
@@ -14,36 +14,34 @@
                     <div class="table-responsive p-0">
                         <form method="post" enctype="multipart/form-data">
                             <table class="table align-items-center height-table">
-                                <!-- <table class="table align-items-center mb-12"> -->
                                 <div class="product-infor">
                                     <div class="product-details-infor">
                                         <div class="general-infor set-background">
                                             <div class="infor-details-products">
-                                                <label asp-for="Ipad.MaSanPham">Product code</label>
-                                                <input asp-for="Ipad.MaSanPham" type="text" readonly>
+                                                <label asp-for="@Model.MaSanPham">Product code</label>
+                                                <input asp-for="@Model.MaSanPham" type="text" readonly>
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="Ipad.TenSanPham">Product name</label>
-                                                <input asp-for="Ipad.TenSanPham" type="text">
+                                                <label asp-for="@Model.TenSanPham">Product name</label>
+                                                <input asp-for="@Model.TenSanPham" type="text">
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="Ipad.Mota">Description</label>
-                                                <textarea asp-for="Ipad.Mota"></textarea>
+                                                <label asp-for="@Model.Mota">Description</label>
+                                                <textarea asp-for="@Model.Mota"></textarea>
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="Ipad.Gia">Price</label>
-                                                <input asp-for="Ipad.Gia" type="number">
+                                                <label asp-for="@Model.Gia">Price</label>
+                                                <input asp-for="@Model.Gia" type="number">
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="Ipad.GiaKhuyenMai">Promotional price</label>
-                                                <input asp-for="Ipad.GiaKhuyenMai" type="number">
+                                                <label asp-for="@Model.GiaKhuyenMai">Promotional price</label>
+                                                <input asp-for="@Model.GiaKhuyenMai" type="number">
                                             </div>
                                         </div>
-                                        <!-- Option -->
                                         <div class="option-infor">
                                             <div>
-                                                <label asp-for="MaThuongHieu">Product brand</label>
-                                                <select id="MaThuongHieu" name="MaThuongHieu">
+                                                <label asp-for="@Model.MaThuongHieu">Product brand</label>
+                                                <select asp-for="@Model.MaThuongHieu" id="MaThuongHieu" name="MaThuongHieu">
                                                     @if (ViewBag.ThuongHieu != null)
                                                     {
                                                         foreach (var thuongHieu in ViewBag.ThuongHieu)
@@ -58,8 +56,8 @@
                                                 </select>
                                             </div>
                                             <div>
-                                                <label asp-for="MaLoaiSanPham">Product category</label>
-                                                <select id="MaLoaiSanPham" name="MaLoaiSanPham">
+                                                <label asp-for="@Model.MaLoaiSanPham">Product category</label>
+                                                <select asp-for="@Model.MaLoaiSanPham" id="MaLoaiSanPham" name="MaLoaiSanPham">
                                                     @if (ViewBag.LoaiSanPham != null)
                                                     {
                                                         foreach (var loaiSanPham in ViewBag.LoaiSanPham)
@@ -75,8 +73,8 @@
                                             </div>
 
                                             <div>
-                                                <label asp-for="MaRam">RAM</label>
-                                                <select id="MaRam" name="MaRam">
+                                                <label asp-for="@Model.MaRam">RAM</label>
+                                                <select asp-for="@Model.MaRam" id="MaRam" name="MaRam">
                                                     @if (ViewBag.Ram != null)
                                                     {
                                                         foreach (var ram in ViewBag.Ram)
@@ -92,8 +90,8 @@
                                             </div>
 
                                             <div>
-                                                <label asp-for="MaBoNho">Product memory</label>
-                                                <select id="MaBoNho" name="MaBoNho">
+                                                <label asp-for="@Model.MaBoNho">Product memory</label>
+                                                <select asp-for="@Model.MaBoNho" id="MaBoNho" name="MaBoNho">
                                                     @if (ViewBag.BoNho != null)
                                                     {
                                                         foreach (var boNho in ViewBag.BoNho)
@@ -109,8 +107,8 @@
                                             </div>
 
                                             <div>
-                                                <label asp-for="MaMauSac">Product color</label>
-                                                <select id="MaMauSac" name="MaMauSac">
+                                                <label asp-for="@Model.MaMauSac">Product color</label>
+                                                <select asp-for="@Model.MaMauSac" id="MaMauSac" name="MaMauSac">
                                                     @if (ViewBag.MauSac != null)
                                                     {
                                                         foreach (var mauSac in ViewBag.MauSac)
@@ -125,13 +123,13 @@
                                                 </select>
                                             </div>
                                             <div>
-                                                <label asp-for="MaSanPhamDacBiet">Special product</label>
-                                                <select id="MaSanPhamDacBiet" name="MaSanPhamDacBiet">
+                                                <label asp-for="@Model.MaSanPhamDacBiet">Special product</label>
+                                                <select asp-for="@Model.MaSanPhamDacBiet" id="MaSanPhamDacBiet" name="MaSanPhamDacBiet">
                                                     @if (ViewBag.SanPhamDacBiet != null)
                                                     {
-                                                        foreach (var mauSac in ViewBag.SanPhamDacBiet)
+                                                        foreach (var sanPhamDacBiet in ViewBag.SanPhamDacBiet)
                                                         {
-                                                            <option value="@mauSac.Value">@mauSac.Text</option>
+                                                            <option value="@sanPhamDacBiet.Value">@sanPhamDacBiet.Text</option>
                                                         }
                                                     }
                                                     else
@@ -148,8 +146,6 @@
                                                 <label class="control-label"></label>
                                                 <img id="PreviewPhoto" src="~/Images/noimage.png" alt="Logo Image"
                                                      style="width:260px; height:260px; border: 1px solid #333333; border-radius:5px;" />
-                                                <span asp-validation-for="PhotoUrl" class="text-danger"></span>
-
                                             </div>
 
                                             <div class="col-1 p-0">
@@ -157,15 +153,9 @@
 
                                             <div class="form-group col-7 p-0">
                                                 <div class="input-group custom-file-button mt-5 pt-5" style="width:260px; height:30px; transform:translateY(-65px);">
-                                                    <input asp-for="HinhAnhSanPham" multiple class="form-control custom-file-input" id="customFile">
+                                                    <input asp-for="@Model.FormFiles" multiple class="form-control custom-file-input" type="file" id="customFile">
                                                 </div>
 
-                                            </div>
-
-                                            <div class="form-group pt-0 mt-0">
-                                                <div ID="HiddenDiv" style="visibility: hidden;">
-                                                    <input asp-for="PhotoUrl" id="PhotoUrl" value="" />
-                                                </div>
                                             </div>
 
                                         </div>
@@ -176,22 +166,22 @@
                                             <h5>Product parameters</h5>
                                             <div class="details">
                                                 <div class="infor-details-products">
-                                                    <label asp-for="Ipad.DoPhanGiai">Resolution</label>
-                                                    <input asp-for="Ipad.DoPhanGiai" type="text">
+                                                    <label asp-for="@Model.DoPhanGiai">Resolution</label>
+                                                    <input asp-for="@Model.DoPhanGiai" type="text">
                                                 </div>
                                                 <div class="infor-details-products">
-                                                    <label asp-for="Ipad.ManHinh">Monitor</label>
-                                                    <input asp-for="Ipad.ManHinh" type="text">
+                                                    <label asp-for="@Model.ManHinh">Monitor</label>
+                                                    <input asp-for="@Model.ManHinh" type="text">
                                                 </div>
                                             </div>
                                             <div class="details">
                                                 <div class="infor-details-products">
-                                                    <label asp-for="Ipad.CongNgheManHinh">Screen technology</label>
-                                                    <input asp-for="Ipad.CongNgheManHinh" type="text">
+                                                    <label asp-for="@Model.CongNgheManHinh">Screen technology</label>
+                                                    <input asp-for="@Model.CongNgheManHinh" type="text">
                                                 </div>
                                                 <div class="infor-details-products">
-                                                    <label asp-for="Ipad.KichThuocVatLy">Physical size</label>
-                                                    <input asp-for="Ipad.KichThuocVatLy" type="text">
+                                                    <label asp-for="@Model.KichThuocVatLy">Physical size</label>
+                                                    <input asp-for="@Model.KichThuocVatLy" type="text">
                                                 </div>
                                             </div>
                                         </div>

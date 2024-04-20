@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "_DashBoardAdmin";
 }
-@model DACS.ViewModel.iMacViewModel
+@model DACS.Models.IMac
 
 <!DOCTYPE html>
 <html>
@@ -12,25 +12,25 @@
     <div style="background-color: #ffffff; display:flex; flex-direction:row;">
         <div>
             <h1>Product Information</h1>
-            <p><strong>Product name:</strong> @Model.IMac.TenSanPham</p>
-            <p><strong>Product: </strong> @Model.LoaiSanPhamDacBiet</p>
-            <p><strong>Capacity:</strong> @Model.DungLuongBoNho</p>
-            <p><strong>Color:</strong> @Model.TenMauSac</p>
-            <p><strong>RAM:</strong> @Model.TenRam</p>
-            <p><strong>Brand:</strong> @Model.TenThuongHieu</p>
-            <p><strong>CPU:</strong> @Model.IMac.CongNgheCPU</p>
-            <p><strong>Rate CPU:</strong> @Model.IMac.TocDoCPU</p>
-            <p><strong>Turbo:</strong> @Model.IMac.Turbo</p>
+            <p><strong>Product name:</strong> @Model.TenSanPham</p>
+            <p><strong>Capacity:</strong> @Model.BoNho.DungLuongBoNho</p>
+            <p><strong>Product: </strong> @Model.LoaiSanPham.TenLoaiSanPham</p>
+            <p><strong>Color:</strong> @Model.MauSac.TenMau</p>
+            <p><strong>RAM:</strong> @Model.Ram.TenRam</p>
+            <p><strong>Brand:</strong> @Model.ThuongHieu.TenThuongHieu</p>
+            <p><strong>CPU:</strong> @Model.CongNgheCPU</p>
+            <p><strong>Rate CPU:</strong> @Model.TocDoCPU</p>
+            <p><strong>Turbo:</strong> @Model.Turbo</p>
 
             @*    <p><strong>Product Category:</strong> @Model.MaLoaiSanPham</p>
             *@
             <h2>Product image</h2>
-            @if (Model.TenHinhAnh != null && Model.TenHinhAnh.Any())
+            @if (Model.HinhAnh != null)
             {
                 <div>
-                    @foreach (var image in Model.TenHinhAnh)
+                    @foreach (var image in Model.HinhAnh)
                     {
-                        <img src="~/Images/@image" alt="Product Image" />
+                        <img src="~/Images/@image.FileHinhAnh" alt="Product Image" />
                     }
                 </div>
             }
@@ -38,14 +38,10 @@
             {
                 <p>No images available for this product.</p>
             }
-
         </div>
         <div>
             <div style="width:180px;  height:40px; text-align:center; margin-top:30px;" class="btn btn-primary">
                 <a style="color: #ffffff;" asp-area="Admin" asp-controller="iMac" asp-action="Index">Back</a>
-            </div>
-            <div style="width:180px;  height:40px; text-align:center; margin-top:30px;" class="btn btn-behance">
-                <a style="color: #ffffff;" asp-area="Admin" asp-controller="iMac" asp-action="Edit" asp-route-MaSanPham="@Model.IMac.MaSanPham">Edit</a>
             </div>
         </div>
     </div>

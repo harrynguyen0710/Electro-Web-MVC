@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
-using DACS.ViewModel;
+using DACS.IRepository;
 
 namespace WebDT.Areas.Admin.Controllers
 {
@@ -12,21 +11,28 @@ namespace WebDT.Areas.Admin.Controllers
     [Authorize]
     public class iPadController : Controller
     {
+        const string FOLDER = "Images";
+        private readonly IToolsRepository<HinhAnh> _genericHinhAnh;
+        private readonly IHinhAnh _hinhAnh;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHost;
-
-
-        public iPadController(ApplicationDbContext context, IWebHostEnvironment webHost)
+        private readonly IProductRepository<Ipad> _ipadRepository;
+        public iPadController(ApplicationDbContext context, IWebHostEnvironment webHost
+                   , IHinhAnh hinhAnh, IToolsRepository<HinhAnh> genericHinhAnh
+                   , IProductRepository<Ipad> ipadRepository)
         {
             _context = context;
             _webHost = webHost;
+            _genericHinhAnh = genericHinhAnh;
+            _hinhAnh = hinhAnh;
+            _ipadRepository = ipadRepository;
         }
 
 
-        public async Task<IActionResult> Index(String SearchString)
+        public async Task<IActionResult> Index()
         {
-            var iPads = await _context.IPAD.ToListAsync();
-            return View(iPads);
+            var ipad = await _ipadRepository.GetAllAsync();
+            return View(ipad);
         }
         public IActionResult Create()
         {
@@ -36,127 +42,66 @@ namespace WebDT.Areas.Admin.Controllers
             ViewBag.LoaiSanPham = new SelectList(_context.LOAISANPHAM, "MaLoaiSanPham", "TenLoaiSanPham");
             ViewBag.ThuongHieu = new SelectList(_context.THUONGHIEU, "MaThuongHieu", "TenThuongHieu");
             ViewBag.SanPhamDacBiet = new SelectList(_context.SANPHAMDACBIET, "MaSanPhamDacBiet", "LoaiSanPhamDacBiet");
-            iPadViewModel ip = new iPadViewModel();
-            return View(ip);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(iPadViewModel ip)
-        {
-            if (ip == null || ip.Ipad == null)
-            {
-                return View();
-            }
-
-            Ipad ipa = new Ipad()
-            {
-                TenSanPham = ip.Ipad.TenSanPham,
-                Mota = ip.Ipad.Mota,
-                Gia = ip.Ipad.Gia,
-                ManHinh = ip.Ipad.ManHinh,
-
-
-                MaSanPhamDacBiet = ip.MaSanPhamDacBiet,
-                MaThuongHieu = ip.MaThuongHieu,
-                MaLoaiSanPham = ip.MaLoaiSanPham,
-                MaRam = ip.MaRam,
-                MaBoNho = ip.MaBoNho,
-                MaMauSac = ip.MaMauSac,
-
-                DoPhanGiai = ip.Ipad.DoPhanGiai,
-                CongNgheManHinh = ip.Ipad.CongNgheManHinh,
-                KichThuocVatLy = ip.Ipad.KichThuocVatLy
-            };
-            await _context.SANPHAM.AddAsync(ipa);
-            await _context.SaveChangesAsync();
-            foreach (var anh in ip.HinhAnhSanPham)
-                {
-                    string tenAnh = UploadFile(anh);
-                    HinhAnh hinhAnh = new HinhAnh()
-                    {
-                        FileHinhAnh = tenAnh,
-                        MaSanPham = ipa.MaSanPham
-                    };
-                    await _context.HINHANH.AddAsync(hinhAnh);
-                }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "iPad");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int maSanPham)
-        {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(IphoneViewModel iphone)
+        public async Task<IActionResult> Create(Ipad ipad)
         {
-            return RedirectToAction("Index", "Iphone");
+            if (ipad == null)
+            {
+                return View(ipad);
+            }
+            await _ipadRepository.AddAsync(ipad);
+
+            foreach (var anh in ipad.FormFiles)
+            {
+                string tenAnh = _hinhAnh.GetProfilePhotoFileName(anh, FOLDER);
+                HinhAnh hinhAnh = new HinhAnh()
+                {
+                    FileHinhAnh = tenAnh,
+                    MaSanPham = ipad.MaSanPham
+                };
+                await _genericHinhAnh.AddAsync(hinhAnh);
+            }
+            return RedirectToAction("Index", "iPad");
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int maSanPham)
         {
-            var dienThoai = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
-            var ipad = await _context.IPAD.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
-            var maRam = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                        .Select(m => m.MaRam).FirstOrDefaultAsync();
-            var maBoNho = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                    .Select(m => m.MaBoNho).FirstOrDefaultAsync();
-            var maMauSac = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                    .Select(m => m.MaMauSac).FirstOrDefaultAsync();
-            var images = await _context.HINHANH.Where(x => x.MaSanPham == maSanPham)
-                                .Select(m => m.FileHinhAnh).ToListAsync();
-            var boNho = await _context.BONHO.Where(x => x.MaBoNho == maBoNho).Select(t => t.DungLuongBoNho).FirstOrDefaultAsync();
-            var mauSac = await _context.MAUSAC.Where(x => x.MaMauSac == maMauSac).Select(t => t.TenMau).FirstOrDefaultAsync();
-            var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();
-            var loaiSanPham = await _context.LOAISANPHAM.Where(x => x.MaLoaiSanPham == ipad.MaLoaiSanPham).Select(t => t.TenLoaiSanPham).FirstOrDefaultAsync();
-            var thuongHieu = await _context.THUONGHIEU.Where(x => x.MaThuongHieu == ipad.MaThuongHieu).Select(t => t.TenThuongHieu).FirstOrDefaultAsync();
-            var sanPhamDacBiet = await _context.SANPHAMDACBIET.Where(x => x.MaSanPhamDacBiet == ipad.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
-
-            iPadViewModel ipa = new iPadViewModel()
+            var sanPham = await _ipadRepository.GetByIdAsync(maSanPham);
+            if (sanPham == null)
             {
-                Ipad = ipad,
-                DungLuongBoNho = boNho,
-                TenMauSac = mauSac,
-                TenRam = ram,
-                TenThuongHieu = thuongHieu,
-                TenLoaiSanPham = loaiSanPham,
-                LoaiSanPhamDacBiet = sanPhamDacBiet,
-                TenHinhAnh = images
-            };
-
-            return View(ipa);
+                return NotFound();
+            }
+            return View(sanPham);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int maSanPham)
+        public IActionResult Edit(int maSanPham)
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Delete(IphoneViewModel iphone)
+        public IActionResult Edit()
         {
             return RedirectToAction("Index", "Iphone");
         }
 
 
-        private string UploadFile(IFormFile file)
+        [HttpGet]
+        public IActionResult Delete(int maSanPham)
         {
-            string fileName = null;
-            if (file != null)
-            {
-                string uploadDir = Path.Combine(_webHost.WebRootPath, "Images");
-                fileName = Guid.NewGuid().ToString() + "-" + file.FileName;
-                string filePath = Path.Combine(uploadDir, fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
-            }
-            return fileName;
+            return View();
         }
+        [HttpPost]
+        public IActionResult Delete()
+        {
+            return RedirectToAction("Index", "Iphone");
+        }
+
+
     }
 }

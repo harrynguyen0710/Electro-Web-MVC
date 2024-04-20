@@ -1,34 +1,42 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
-using DACS.ViewModel;
+using DACS.IRepository;
+
 
 namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-/*    [Authorize]
-*/    public class IphoneController : Controller
+    [Authorize]
+    public class IphoneController : Controller
     {
+        const string FOLDER = "Images";
+        private readonly IToolsRepository<HinhAnh> _genericHinhAnh;
+        private readonly IHinhAnh _hinhAnh;
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHost;
+        private readonly IProductRepository<Iphone> _iphoneRepository;
 
-        public IphoneController(ApplicationDbContext context, IWebHostEnvironment webHost)
+
+        public IphoneController(ApplicationDbContext context, IWebHostEnvironment webHost
+            , IHinhAnh hinhAnh, IToolsRepository<HinhAnh> genericHinhAnh
+            ,  IProductRepository<Iphone> iphoneRepository)
         {
             _context = context;
             _webHost = webHost;
-
+            _genericHinhAnh = genericHinhAnh;
+            _hinhAnh = hinhAnh;
+            _iphoneRepository = iphoneRepository;
         }
         public async Task<IActionResult> Index()
         {
-            var iphone = await _context.IPHONE.ToListAsync();
+            var iphone = await _iphoneRepository.GetAllAsync();
             return View(iphone);
 
         }
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             ViewBag.BoNho = new SelectList(_context.BONHO, "MaBoNho", "DungLuongBoNho");
             ViewBag.MauSac = new SelectList(_context.MAUSAC, "MaMauSac", "TenMau");
@@ -36,182 +44,67 @@ namespace DACS.Areas.Admin.Controllers
             ViewBag.LoaiSanPham = new SelectList(_context.LOAISANPHAM, "MaLoaiSanPham", "TenLoaiSanPham");
             ViewBag.ThuongHieu = new SelectList(_context.THUONGHIEU, "MaThuongHieu", "TenThuongHieu");
             ViewBag.SanPhamDacBiet = new SelectList(_context.SANPHAMDACBIET, "MaSanPhamDacBiet", "LoaiSanPhamDacBiet");
-            IphoneViewModel iphone = new IphoneViewModel();
-            return View(iphone);
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(IphoneViewModel iphone)
+        public async Task<IActionResult> Create(Iphone iphone)
         {
-            if (iphone == null || iphone.Phone == null)
+            if (iphone == null)
             {
                 return View(iphone);
             }
-
-            Iphone dienThoai = new Iphone()
+            await _iphoneRepository.AddAsync(iphone);
+          
+            foreach (var anh in iphone.FormFiles)
             {
-                TenSanPham = iphone.Phone.TenSanPham,
-                Mota = iphone.Phone.Mota,
-                Gia = iphone.Phone.Gia,
-                ManHinh = iphone.Phone.ManHinh,
-               
-
-                MaSanPhamDacBiet = iphone.MaSanPhamDacBiet,
-                MaThuongHieu = iphone.MaThuongHieu,
-                MaLoaiSanPham = iphone.MaLoaiSanPham,
-                MaRam = iphone.MaRam,
-                MaBoNho = iphone.MaBoNho,
-                MaMauSac = iphone.MaMauSac,
-
-                Chip = iphone.Phone.Chip,
-                Rom = iphone.Phone.Rom,
-                CameraTruoc = iphone.Phone.CameraTruoc,
-                CameraSau = iphone.Phone.CameraSau,
-                Pin = iphone.Phone.Pin
-            };
-            if (iphone.Phone.GiaKhuyenMai == null) 
-            {
-                dienThoai.GiaKhuyenMai = iphone.Phone.GiaKhuyenMai;
-
-            }
-
-            await _context.SANPHAM.AddAsync(dienThoai);
-            await _context.SaveChangesAsync();
-            foreach (var anh in iphone.HinhAnhSanPham)
+                string tenAnh = _hinhAnh.GetProfilePhotoFileName(anh, FOLDER);
+                HinhAnh hinhAnh = new HinhAnh()
                 {
-                    string tenAnh = UploadFile(anh);
-                    HinhAnh hinhAnh = new HinhAnh()
-                    {
-                        FileHinhAnh = tenAnh,
-                        MaSanPham = dienThoai.MaSanPham
-                    };
-                    await _context.HINHANH.AddAsync(hinhAnh);
-                }
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Iphone");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int maSanPham)
-        {
-            ViewBag.BoNho = new SelectList(_context.BONHO, "MaBoNho", "DungLuongBoNho");
-            ViewBag.MauSac = new SelectList(_context.MAUSAC, "MaMauSac", "TenMau");
-            ViewBag.Ram = new SelectList(_context.RAM, "MaRam", "TenRam");
-            ViewBag.LoaiSanPham = new SelectList(_context.LOAISANPHAM, "MaLoaiSanPham", "TenLoaiSanPham");
-            ViewBag.ThuongHieu = new SelectList(_context.THUONGHIEU, "MaThuongHieu", "TenThuongHieu");
-
-            var dienThoai = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
-            var phone = await _context.IPHONE.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
-            var maRam = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                        .Select(m => m.MaRam).FirstOrDefaultAsync();
-            var maBoNho = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                    .Select(m => m.MaBoNho).FirstOrDefaultAsync();
-            var maMauSac = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                    .Select(m => m.MaMauSac).FirstOrDefaultAsync();
-            var images = await _context.HINHANH.Where(x => x.MaSanPham == maSanPham)
-                                .Select(m => m.FileHinhAnh).ToListAsync();
-
-            IphoneViewModel iphone = new IphoneViewModel()
-            {
-                Phone = phone,
-                MaBoNho = maBoNho,
-                MaMauSac = maMauSac,
-                MaRam = maRam,
-                MaThuongHieu = phone.MaThuongHieu,
-                MaLoaiSanPham = phone.MaLoaiSanPham,
-                TenHinhAnh = images
-            };
-            return View(iphone);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(IphoneViewModel iphone)
-        {
-            Iphone dienThoai = new Iphone()
-            {
-                MaSanPham = iphone.Phone.MaSanPham,
-                TenSanPham = iphone.Phone.TenSanPham,
-                Mota = iphone.Phone.Mota,
-                Gia = iphone.Phone.Gia,
-                ManHinh = iphone.Phone.ManHinh,
-
-                MaLoaiSanPham = iphone.MaLoaiSanPham,
-                MaThuongHieu = iphone.MaThuongHieu,
-                MaRam = iphone.MaRam,
-                MaBoNho = iphone.MaBoNho,
-                MaMauSac = iphone.MaMauSac,
-
-
-                Chip = iphone.Phone.Chip,
-                Rom = iphone.Phone.Rom,
-                CameraTruoc = iphone.Phone.CameraTruoc,
-                CameraSau = iphone.Phone.CameraSau,
-                Pin = iphone.Phone.Pin
-            };
-            _context.Attach(dienThoai);
-            _context.Entry(dienThoai).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+                    FileHinhAnh = tenAnh,
+                    MaSanPham = iphone.MaSanPham
+                };
+                await _genericHinhAnh.AddAsync(hinhAnh);
+            }
             return RedirectToAction("Index", "Iphone");
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int maSanPham)
         {
-            var phone = await _context.IPHONE.Where(x => x.MaSanPham == maSanPham).FirstOrDefaultAsync();
-            var maRam = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                        .Select(m => m.MaRam).FirstOrDefaultAsync();
-            var maBoNho = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                    .Select(m => m.MaBoNho).FirstOrDefaultAsync();
-            var maMauSac = await _context.SANPHAM.Where(x => x.MaSanPham == maSanPham)
-                                    .Select(m => m.MaMauSac).FirstOrDefaultAsync();
-            var images = await _context.HINHANH.Where(x => x.MaSanPham == maSanPham)
-                                .Select(m => m.FileHinhAnh).ToListAsync();
-            var boNho = await _context.BONHO.Where(x => x.MaBoNho == maBoNho).Select(t => t.DungLuongBoNho).FirstOrDefaultAsync();
-            var mauSac = await _context.MAUSAC.Where(x => x.MaMauSac == maMauSac).Select(t => t.TenMau).FirstOrDefaultAsync();
-            var ram = await _context.RAM.Where(x => x.MaRam == maRam).Select(t => t.TenRam).FirstOrDefaultAsync();
-            var loaiSanPham = await _context.LOAISANPHAM.Where(x => x.MaLoaiSanPham == phone.MaLoaiSanPham).Select(t => t.TenLoaiSanPham).FirstOrDefaultAsync();
-            var thuongHieu = await _context.THUONGHIEU.Where(x => x.MaThuongHieu == phone.MaThuongHieu).Select(t => t.TenThuongHieu).FirstOrDefaultAsync();
-            var sanPhamDacBiet = await _context.SANPHAMDACBIET.Where(x => x.MaSanPhamDacBiet == phone.MaSanPhamDacBiet).Select(t => t.LoaiSanPhamDacBiet).FirstOrDefaultAsync();
-            IphoneViewModel iphone = new IphoneViewModel()
+            var sanPham = await _iphoneRepository.GetByIdAsync(maSanPham);
+            if (sanPham == null)
             {
-                Phone = phone,
-                DungLuongBoNho = boNho,
-                TenMauSac = mauSac,
-                TenRam = ram,
-                TenThuongHieu = thuongHieu,
-                TenLoaiSanPham = loaiSanPham,
-                LoaiSanPhamDacBiet = sanPhamDacBiet,
-                TenHinhAnh = images
-            };
-            return View(iphone);
+                return NotFound();
+            }
+            return View(sanPham);
+        }
+
+
+        [HttpGet]
+        public IActionResult Edit(int maSanPham)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Iphone iphone)
+        {
+            return RedirectToAction("Index", "Iphone");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int maSanPham)
+        public IActionResult Delete(int maSanPham)
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(IphoneViewModel iphone)
+        public IActionResult Delete()
         {
             return RedirectToAction("Index", "Iphone");
         }
 
 
-        private string UploadFile(IFormFile file)
-        {
-            string fileName = null;
-            if (file != null)
-            {
-                string uploadDir = Path.Combine(_webHost.WebRootPath, "Images");
-                fileName = Guid.NewGuid().ToString() + "-" + file.FileName;
-                string filePath = Path.Combine(uploadDir, fileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
-            }
-            return fileName;
-        }
+       
     }
 }

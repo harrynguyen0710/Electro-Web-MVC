@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DACS.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using DACS.Models;
 using Microsoft.AspNetCore.Authorization;
+using DACS.IRepository;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -15,20 +9,16 @@ namespace DACS.Areas.Admin.Controllers
     [Authorize]
     public class DanhGiaController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public DanhGiaController(ApplicationDbContext context)
+        private readonly IToolsRepository<DanhGia> _repository;
+        public DanhGiaController(IToolsRepository<DanhGia> repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        // GET: Admin/DanhGia
         public async Task<IActionResult> Index()
         {
-            return View(await _context.DANHGIA.ToListAsync());
+            return View(await _repository.GetAllAsync());
         }
-
-        // GET: Admin/DanhGia/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,8 +26,7 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var danhGia = await _context.DANHGIA
-                .FirstOrDefaultAsync(m => m.MaDanhGia == id);
+            var danhGia = await _repository.GetByIdAsync(id);
             if (danhGia == null)
             {
                 return NotFound();
@@ -45,27 +34,17 @@ namespace DACS.Areas.Admin.Controllers
 
             return View(danhGia);
         }
-
-        // GET: Admin/DanhGia/Create
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Admin/DanhGia/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MaDanhGia,MoTaDanhGia,DiemDanhGia")] DanhGia danhGia)
         {
-
-                _context.Add(danhGia);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            await _repository.AddAsync(danhGia);
+            return RedirectToAction(nameof(Index));
         }
-
-        // GET: Admin/DanhGia/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,17 +52,13 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var danhGia = await _context.DANHGIA.FindAsync(id);
+            var danhGia = await _repository.GetByIdAsync(id);
             if (danhGia == null)
             {
                 return NotFound();
             }
             return View(danhGia);
         }
-
-        // POST: Admin/DanhGia/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MaDanhGia,MoTaDanhGia,DiemDanhGia")] DanhGia danhGia)
@@ -92,31 +67,9 @@ namespace DACS.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(danhGia);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DanhGiaExists(danhGia.MaDanhGia))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
+            await _repository.Update(danhGia);
             return View(danhGia);
         }
-
-        // GET: Admin/DanhGia/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,8 +77,7 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var danhGia = await _context.DANHGIA
-                .FirstOrDefaultAsync(m => m.MaDanhGia == id);
+            var danhGia = await _repository.GetByIdAsync(id);
             if (danhGia == null)
             {
                 return NotFound();
@@ -133,25 +85,16 @@ namespace DACS.Areas.Admin.Controllers
 
             return View(danhGia);
         }
-
-        // POST: Admin/DanhGia/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var danhGia = await _context.DANHGIA.FindAsync(id);
+            var danhGia = await _repository.GetByIdAsync(id);
             if (danhGia != null)
             {
-                _context.DANHGIA.Remove(danhGia);
+                await _repository.Delete(danhGia);
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool DanhGiaExists(int id)
-        {
-            return _context.DANHGIA.Any(e => e.MaDanhGia == id);
         }
     }
 }

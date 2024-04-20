@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DACS.Data;
 using DACS.Models;
+using DACS.IRepository;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -15,20 +9,17 @@ namespace DACS.Areas.Admin.Controllers
     [Authorize]
     public class RamController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public RamController(ApplicationDbContext context)
+        private readonly IGenericRepository<Ram> _genericRepository;
+        public RamController(IGenericRepository<Ram> genericRepository)
         {
-            _context = context;
+            _genericRepository = genericRepository;
         }
-
-        // GET: Ram
         public async Task<IActionResult> Index()
         {
-            return View(await _context.RAM.ToListAsync());
+            var ram = await _genericRepository.GetAllAsync();
+            return View(ram);
         }
 
-        // GET: Ram/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,8 +27,8 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var ram = await _context.RAM
-                .FirstOrDefaultAsync(m => m.MaRam == id);
+            var ram = await _genericRepository.GetByIdAsync(id);
+
             if (ram == null)
             {
                 return NotFound();
@@ -45,27 +36,17 @@ namespace DACS.Areas.Admin.Controllers
 
             return View(ram);
         }
-
-        // GET: Ram/Create
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Ram/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MaRam,TenRam")] Ram ram)
         {
-            _context.Add(ram);
-            await _context.SaveChangesAsync();
+            await _genericRepository.AddAsync(ram);
             return RedirectToAction("Index", "Ram");
-
         }
-
-        // GET: Ram/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,17 +54,13 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var ram = await _context.RAM.FindAsync(id);
+            var ram = await _genericRepository.GetByIdAsync(id);
             if (ram == null)
             {
                 return NotFound();
             }
             return View(ram);
         }
-
-        // POST: Ram/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MaRam,TenRam")] Ram ram)
@@ -92,30 +69,10 @@ namespace DACS.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-          
-                try
-
-                {
-                    _context.Update(ram);
-                    await _context.SaveChangesAsync();
-                }
-            catch (DbUpdateConcurrencyException)
-                {
-                    if (!RamExists(ram.MaRam))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+            await _genericRepository.Update(ram);
+            return RedirectToAction(nameof(Index));
 
         }
-
-        // GET: Ram/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,8 +80,7 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var ram = await _context.RAM
-                .FirstOrDefaultAsync(m => m.MaRam == id);
+            var ram = await _genericRepository.GetByIdAsync(id);
             if (ram == null)
             {
                 return NotFound();
@@ -132,25 +88,16 @@ namespace DACS.Areas.Admin.Controllers
 
             return View(ram);
         }
-
-        // POST: Ram/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ram = await _context.RAM.FindAsync(id);
+            var ram = await _genericRepository.GetByIdAsync(id);
             if (ram != null)
             {
-                _context.RAM.Remove(ram);
+                await _genericRepository.Delete(ram);
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool RamExists(int id)
-        {
-            return _context.RAM.Any(e => e.MaRam == id);
         }
     }
 }

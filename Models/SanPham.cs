@@ -49,5 +49,7 @@ namespace DACS.Models
         public ICollection<HinhAnh> HinhAnh { get; set; }
         public ICollection<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
         public ICollection<BinhLuan> BinhLuan { get; set; }
+        [NotMapped]
+        public ICollection<IFormFile> FormFiles { get; set; }
     }
 }

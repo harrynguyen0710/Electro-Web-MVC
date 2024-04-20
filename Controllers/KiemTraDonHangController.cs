@@ -4,16 +4,18 @@ using System.Linq;
 using DACS.Data;
 using DACS.Models;
 using DACS.ViewModel;
+using DACS.IRepository;
 
 namespace WebDT.Controllers
 {
     public class KiemTraDonHangController : Controller
     {
         private readonly ApplicationDbContext _dataContext;
-
-        public KiemTraDonHangController(ApplicationDbContext dataContext)
+        private readonly IDonHang _donHangRepository;
+        public KiemTraDonHangController(ApplicationDbContext dataContext, IDonHang donHangRepository)
         {
             _dataContext = dataContext;
+            _donHangRepository = donHangRepository; 
         }
 
         public IActionResult Index()
@@ -22,25 +24,17 @@ namespace WebDT.Controllers
         }
 
         [HttpGet]
-        public IActionResult ThongTinDonHang(string phoneNumber)
+        public async Task<IActionResult> ThongTinDonHang(string phoneNumber)
         {
             if (string.IsNullOrEmpty(phoneNumber))
             {
                 ViewBag.ErrorMessage = "Vui lòng nhập số điện thoại.";
                 return View("Index");
             }
-
-            var donHang = _dataContext.DONHANG.Where(d => d.SoDienThoai == phoneNumber).ToList();
-
-            if (donHang.Any()) // Check if there are any orders found
+            var donHang = await _donHangRepository.GetListDonHangByPhoneNum(phoneNumber);
+            if (donHang.Any())
             {
-                var viewModel = new DonHangViewModel
-                {
-                    DonHangList = donHang,
-                    _context = _dataContext
-                };
-
-                return View("ThongTinDonHang", viewModel);
+                return View("ThongTinDonHang", donHang);
             }
             else
             {
@@ -50,48 +44,10 @@ namespace WebDT.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int MaDonHang)
+        public async Task<IActionResult> Details(int maDonHang)
         {
-            var maTrangThaiDonHang = await _dataContext.DONHANG.Where(x => x.MaDonHang == MaDonHang).Select(m => m.MaTrangThaiDonHang).FirstOrDefaultAsync();
-            var maTrangThaiThanhToan = await _dataContext.DONHANG.Where(x => x.MaDonHang == MaDonHang).Select(m => m.MaTrangThaiThanhToan).FirstOrDefaultAsync();
-
-
-            var donHang = await _dataContext.DONHANG.FirstOrDefaultAsync(x => x.MaDonHang == MaDonHang);
-            var chiTietDonHang = await _dataContext.CHITIETDONHANGSANPHAM.Where(x => x.MaDonHang == MaDonHang).ToListAsync();
-            var trangThaiDonHang = await _dataContext.TRANGTHAIDONHANG.FirstOrDefaultAsync(x => x.MaTrangThaiDonHang == maTrangThaiDonHang);
-            var trangThaiThanhToan = await _dataContext.TRANGTHAITHANHTOAN.FirstOrDefaultAsync(x => x.MaTrangThaiThanhToan == maTrangThaiThanhToan);
-            var hinhAnh = await _dataContext.HINHANH.ToListAsync();
-            if (donHang == null || chiTietDonHang == null || trangThaiDonHang == null || trangThaiThanhToan == null)
-            {
-                return NotFound();
-            }
-
-            List<SanPham> sanPham = new List<SanPham>();
-
-            foreach (var ctDonHang in chiTietDonHang)
-            {
-                var sanPhamBan = await _dataContext.SANPHAM.FirstOrDefaultAsync(x => x.MaSanPham == ctDonHang.MaSanPham);
-                sanPham = sanPham.Append(sanPhamBan).ToList();
-            }
-
-            if (sanPham == null)
-            {
-                return NotFound();
-            }
-
-            DonHangViewModel viewModel = new DonHangViewModel()
-            {
-                DonHang = donHang,
-                ChiTietDonHangSanPhamList = chiTietDonHang,
-                TrangThaiDonHang = trangThaiDonHang,
-                TrangThaiThanhToan = trangThaiThanhToan,
-                _context = _dataContext,
-                SanPhamList = sanPham,
-                HinhAnhList = hinhAnh
-
-            };
-
-            return View(viewModel);
+            var donHang = await _donHangRepository.GetByIdAsync(maDonHang);
+            return View(donHang);
         }
 
     }

@@ -1,4 +1,4 @@
-﻿@model DACS.ViewModel.DonHangViewModel
+﻿@model DACS.Models.DonHang;
 @{
     Layout = "_DashBoardAdmin";
 }
@@ -24,28 +24,17 @@
                 <div class="card-body pt-4 p-3">
                      <form method="post" enctype="multipart/form-data">
                     <ul class="list-group">
-                         @{
-                            decimal grandTotal = 0;
-                            foreach (var sanPhamDaBan in Model.SanPhamList)
-                            {
-                                foreach (var soLuongMua in Model.ChiTietDonHangSanPhamList)
-                                {
-                                    if (soLuongMua.MaSanPham == sanPhamDaBan.MaSanPham)
-                                    {
-                                        grandTotal += soLuongMua.SoluongMua * sanPhamDaBan.Gia;
-                                    }
-                                }
-                            }       
                             <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                 <div class="d-flex flex-column">
-                                    <h6 class="mb-3 text-sm">@Model.DonHang.TenKhachHang</h6>
-                                    <span class="mb-2 text-xs">Invoice date: <span class="text-dark font-weight-bold ms-sm-2">@Model.DonHang.NgayLapDonHang</span></span>
-                                    <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.SoDienThoai</span></span>
-                                    <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.DiaChi</span></span>
-                                    <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.YeuCauKhac</span></span>
+                                    <h6 class="mb-3 text-sm">@Model.TenKhachHang</h6>
+                                    <input readonly class="mb-2 text-xs">@Model.NgayLapDonHang</input>
+                                    <input class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@Model.SoDienThoai</span></input>
+                                    <input class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DiaChi</span></input>
+                                    <input class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@Model.YeuCauKhac</span></input>
+                                    <input class="mb-2 text-xs">Total price: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TongGiaTriDonHang</span></input>
                                     <div>
-                                        <label>Order status</label>
-                                        <select id="MaTrangThaiDonHang" name="MaTrangThaiDonHang">
+                                        <label asp-for="@Model.MaTrangThaiDonHang">Order status</label>
+                                        <select asp-for="@Model.MaTrangThaiDonHang" id="MaTrangThaiDonHang" name="MaTrangThaiDonHang">
                                             @if (ViewBag.TrangThaiDonHangList != null)
                                             {
                                                 foreach (var trangThaiDonHang in ViewBag.TrangThaiDonHangList)
@@ -60,8 +49,8 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label>Payment status</label>
-                                        <select id="MaTrangThaiThanhToan" name="MaTrangThaiThanhToan">
+                                        <label asp-for="@Model.MaTrangThaiThanhToan">Payment status</label>
+                                        <select asp-for="@Model.MaTrangThaiThanhToan" id="MaTrangThaiThanhToan" name="MaTrangThaiThanhToan">
                                             @if (ViewBag.TrangThaiThanhToanList != null)
                                             {
                                                 foreach (var trangThaiThanhToan in ViewBag.TrangThaiThanhToanList)
@@ -75,13 +64,12 @@
                                             }
                                         </select>
                                     </div>
-                                    <span class="mb-2 text-xs">Total price: <span class="text-dark ms-sm-2 font-weight-bold">@grandTotal.ToString()</span></span>
                                     <div>
                                         <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Update</button>
                                     </div>
                                 </div>
                             </li>
-                          }
+                          
                     </ul>
                     </form>
                     <div>
@@ -97,35 +85,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach(var sanPhamDaBan in Model.SanPhamList)
+                                    @foreach (var sanPhamDaBan in Model.ChiTietDonHangSanPham)
                                     {
                                         <tr>
-                                            @foreach(var hinhAnh in Model.HinhAnhList)
+                                            @foreach (var hinhAnh in sanPhamDaBan.SanPham.HinhAnh)
                                             {
-                                                if (hinhAnh.MaSanPham == sanPhamDaBan.MaSanPham)
-                                                {
-                                                    <th scope="row">
-                                                        <img src="~/Images/@hinhAnh.FileHinhAnh" style="height: 80px; width: 80px;" />                                                   
-                                                    </th>
-                                                    break;
-                                                }
+                                                <th scope="row">
+                                                    <img src="~/Images/@hinhAnh.FileHinhAnh" style="height: 80px; width: 80px;" />
+                                                </th>
+                                                break;
+
                                             }
-                                            <td>@sanPhamDaBan.TenSanPham</td>
-                                            <td>@sanPhamDaBan.Gia</td>
-                                            @foreach(var soLuongMua in Model.ChiTietDonHangSanPhamList)
-                                            {
-                                                if (soLuongMua.MaSanPham == sanPhamDaBan.MaSanPham)
-                                                {
-                                                    <td>@soLuongMua.SoluongMua</td>                                                   
-                                                }
-                                            }
+                                            <td>@sanPhamDaBan.SanPham.TenSanPham</td>
+                                            <td>@sanPhamDaBan.DonGiaBan</td>
+                                            <td>@sanPhamDaBan.SoluongMua</td>
                                             <td>
                                                 @if (sanPhamDaBan is Iphone)
                                                 {
                                                     <a class="btn btn-primary" asp-area="Admin" asp-controller="Iphone" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
                                                         Details
                                                     </a>
-                                                    
+
                                                 }
                                                 @if (sanPhamDaBan is Ipad)
                                                 {
@@ -150,9 +130,9 @@
                                                 }
                                             </td>
                                         </tr>
-                                        
+
                                     }
-                              
+
                                 </tbody>
                             </table>
                         </div>

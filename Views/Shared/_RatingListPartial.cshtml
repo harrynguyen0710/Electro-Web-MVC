@@ -1,0 +1,91 @@
+﻿@model DACS.Models.SanPham;
+@if (Model.DiemDanhGia != null && Model.SoLuongDanhGia != null)
+{
+    int soLuong5Sao = 0;
+    int soLuong4Sao = 0;
+    int soLuong3Sao = 0;
+    int soLuong2Sao = 0;
+    int soLuong1Sao = 0;
+
+    foreach (var binhLuan in Model.BinhLuan)
+    {
+        if (binhLuan.MaDanhGia == 1)
+        {
+            soLuong5Sao += 1;
+        }
+        else if (binhLuan.MaDanhGia == 2)
+        {
+            soLuong4Sao += 1;
+        }
+        else if (binhLuan.MaDanhGia == 3)
+        {
+            soLuong3Sao += 1;
+        }
+        else if (binhLuan.MaDanhGia == 4)
+        {
+            soLuong2Sao += 1;
+        }
+        else
+        {
+            soLuong1Sao += 1;
+        }
+    }
+    <div class="col-6">
+        <div class="rating_list">
+            <h3>Based on @Model.SoLuongDanhGia Reviews</h3>
+            <ul class="list">
+                <li>
+                    <a>
+                        5 Star
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i> @soLuong5Sao
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        4 Star
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i> @soLuong4Sao
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        3 Star
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i> @soLuong3Sao
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        2 Star
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i> @soLuong2Sao
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        1 Star
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i> @soLuong1Sao
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+}

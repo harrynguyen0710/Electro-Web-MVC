@@ -1,4 +1,4 @@
-﻿@model DACS.ViewModel.DonHangViewModel
+﻿@model List<DACS.Models.DonHang>
 @{
     Layout = "_DashBoardAdmin";
 }
@@ -44,8 +44,7 @@
                                 </div>
                                 <div class="card-body pt-0 p-3 text-center">
                                     <h6 class="text-center mb-0">Revenue</h6>
-@*                                    <span class="text-xs">---------</span>
-*@                                    <hr class="horizontal dark my-3">
+                                  <hr class="horizontal dark my-3">
                                     <h5 class="mb-0">$20.000</h5>
                                 </div>
                             </div>
@@ -63,13 +62,11 @@
                 </div>
                 <div class="card-body pt-4 p-3">
                     <ul class="list-group">
-                    @{
                            
-                        foreach(var donhang in Model.DonHangList){
+                       @foreach(var donhang in Model)
+                       {
                             
-                            // Get name
-                        var tenTrangThaiThanhToan = Model._context.TRANGTHAITHANHTOAN.Where(x => x.MaTrangThaiThanhToan == donhang.MaTrangThaiThanhToan).Select(x => x.TenTrangThaiThanhToan).FirstOrDefault();
-                        var tenTrangThaiDonHang = Model._context.TRANGTHAIDONHANG.Where(x => x.MaTrangThaiDonHang == donhang.MaTrangThaiDonHang).Select(x => x.TenTrangThaiDonHang).FirstOrDefault();
+                      
                         <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                             <div class="d-flex flex-column">
                                 <h6 class="mb-3 text-sm">@donhang.TenKhachHang</h6>
@@ -77,23 +74,23 @@
                                 <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.SoDienThoai</span></span>
                                 <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.DiaChi</span></span>
                                 <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
-                                <span class="mb-2 text-xs">Order status: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiDonHang</span></span>
-                                <span class="mb-2 text-xs">Payment status: <span class="text-dark ms-sm-2 font-weight-bold">@tenTrangThaiThanhToan</span></span>
+                                <span class="mb-2 text-xs">Order status: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TrangThaiDonHang.TenTrangThaiDonHang</span></span>
+                                <span class="mb-2 text-xs">Payment status: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TrangThaiThanhToan.TenTrangThaiThanhToan</span></span>
                                
                             </div>
 
                                 <div class="ms-auto text-end">
-                                    <a asp-area="Admin" asp-controller="DonHang" asp-action="Edit" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
+                                    <a asp-area="Admin" asp-controller="DonHang" asp-action="Edit" asp-route-maDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
                                         <i aria-hidden="true"></i>Edit
                                     </a>
-                                    <a asp-area="Admin" asp-controller="DonHang" asp-action="Details" asp-route-MaDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
+                                    <a asp-area="Admin" asp-controller="DonHang" asp-action="Details" asp-route-maDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
                                         <i aria-hidden="true"></i>Details
                                     </a>
                                 </div>
 
                         </li>
                         }
-                        }
+                        
                     </ul>
                 </div>
             </div>

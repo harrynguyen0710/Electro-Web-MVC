@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
 using Microsoft.AspNetCore.Authorization;
+using DACS.IRepository;
+using System.Runtime.Intrinsics.Arm;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -15,20 +12,16 @@ namespace DACS.Areas.Admin.Controllers
     [Area("Admin")]
     public class LoaiSanPhamController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public LoaiSanPhamController(ApplicationDbContext context)
+        private readonly IToolsRepository<LoaiSanPham> _genericRepository;
+        public LoaiSanPhamController(IToolsRepository<LoaiSanPham> genericRepository)
         {
-            _context = context;
+            _genericRepository = genericRepository;
         }
-
-        // GET: Admin/LoaiSanPham
         public async Task<IActionResult> Index()
         {
-            return View(await _context.LOAISANPHAM.ToListAsync());
+            var dongSanPham = await _genericRepository.GetAllAsync();
+            return View(dongSanPham);
         }
-
-        // GET: Admin/LoaiSanPham/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,8 +29,8 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var loaiSanPham = await _context.LOAISANPHAM
-                .FirstOrDefaultAsync(m => m.MaLoaiSanPham == id);
+            var loaiSanPham = await _genericRepository.GetByIdAsync(id);
+
             if (loaiSanPham == null)
             {
                 return NotFound();
@@ -45,30 +38,17 @@ namespace DACS.Areas.Admin.Controllers
 
             return View(loaiSanPham);
         }
-
-        // GET: Admin/LoaiSanPham/Create
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Admin/LoaiSanPham/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MaLoaiSanPham,TenLoaiSanPham")] LoaiSanPham loaiSanPham)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(loaiSanPham);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            await _genericRepository.AddAsync(loaiSanPham);
             return View(loaiSanPham);
         }
-
-        // GET: Admin/LoaiSanPham/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,17 +56,13 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var loaiSanPham = await _context.LOAISANPHAM.FindAsync(id);
+            var loaiSanPham = await _genericRepository.GetByIdAsync(id);
             if (loaiSanPham == null)
             {
                 return NotFound();
             }
             return View(loaiSanPham);
         }
-
-        // POST: Admin/LoaiSanPham/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MaLoaiSanPham,TenLoaiSanPham")] LoaiSanPham loaiSanPham)
@@ -95,31 +71,9 @@ namespace DACS.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(loaiSanPham);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LoaiSanPhamExists(loaiSanPham.MaLoaiSanPham))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(loaiSanPham);
+            await _genericRepository.Update(loaiSanPham);
+            return RedirectToAction(nameof(Index));
         }
-
-        // GET: Admin/LoaiSanPham/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,8 +81,8 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var loaiSanPham = await _context.LOAISANPHAM
-                .FirstOrDefaultAsync(m => m.MaLoaiSanPham == id);
+            var loaiSanPham = await _genericRepository.GetByIdAsync(id);
+
             if (loaiSanPham == null)
             {
                 return NotFound();
@@ -136,25 +90,17 @@ namespace DACS.Areas.Admin.Controllers
 
             return View(loaiSanPham);
         }
-
-        // POST: Admin/LoaiSanPham/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var loaiSanPham = await _context.LOAISANPHAM.FindAsync(id);
+            var loaiSanPham = await _genericRepository.GetByIdAsync(id);
             if (loaiSanPham != null)
             {
-                _context.LOAISANPHAM.Remove(loaiSanPham);
+                await _genericRepository.Delete(loaiSanPham);
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LoaiSanPhamExists(int id)
-        {
-            return _context.LOAISANPHAM.Any(e => e.MaLoaiSanPham == id);
-        }
     }
 }
