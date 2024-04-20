@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 
-namespace DACS.Models
+namespace DACS.ViewModel
 
 {
     public class LoginViewModel

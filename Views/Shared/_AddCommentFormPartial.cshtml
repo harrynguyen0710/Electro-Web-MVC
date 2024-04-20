@@ -1,0 +1,36 @@
+﻿@model DACS.ViewModel.SanPhamChiTietViewModel;
+<form asp-controller="Home" asp-action="AddComment" method="post" class="col-lg-6">
+    <div class="review_box">
+        <h4>Add a Review</h4>
+        <p>Your Rating:</p>
+        <label asp-for="@Model.BinhLuan.MaDanhGia" style="display:none;"></label>
+        <div class="default-select" id="default-select_2">
+            <select asp-for="@Model.BinhLuan.MaDanhGia">
+                @if (ViewBag.DanhSachDanhGia != null)
+                {
+                    foreach (var item in ViewBag.DanhSachDanhGia)
+                    {
+                        <option style="cursor:pointer;" value="@item.Value">@item.Text</option>
+
+
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="row contact_form" action="contact_process.php" method="post" novalidate="novalidate">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <textarea asp-for="@Model.BinhLuan.NoiDungBinhLuan" style="height:100px; width:550px;" class="form-control" rows="1" placeholder="Review"></textarea>
+                </div>
+            </div>
+            <input type="hidden" name="BinhLuan.MaSanPham" value="@Model.SanPham.MaSanPham" />
+
+            <div class="col-md-12 text-right">
+                <button type="submit" class="btn_3">
+                    Submit Now
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

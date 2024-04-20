@@ -15,7 +15,7 @@ namespace DACS.Models
         [ForeignKey("TrangThaiDonHang")]
         public int MaTrangThaiDonHang { get; set; }
         [ForeignKey("VeGiamGia")]
-        public int MaVeGiamGia { get; set; }
+        public int? MaVeGiamGia { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập họ và tên")]
         public string TenKhachHang { get; set; }

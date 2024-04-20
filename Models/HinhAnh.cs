@@ -8,7 +8,8 @@ namespace DACS.Models
         public int MaHinhAnh { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin loại hình ảnh")]
         public string FileHinhAnh { get; set; }
-        //public IFormFile ProfilePhoto { get; set; }
+        [NotMapped]
+        public IFormFile ProfilePhoto { get; set; }
         [ForeignKey("SanPham")]
         public int MaSanPham { get; set; }
         public virtual SanPham SanPham { get; set; }

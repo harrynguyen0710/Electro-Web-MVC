@@ -1,0 +1,12 @@
+﻿@model List<DACS.Models.SanPham>
+
+<div style="display: flex; flex-direction: row;">
+        @foreach (var sanPham in Model)
+        {
+            <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
+                <div class="select-item" style="margin-right: 12px;">
+                    <div class="content-item">@sanPham.BoNho.DungLuongBoNho</div>
+                </div>
+            </a>
+        }
+    </div>

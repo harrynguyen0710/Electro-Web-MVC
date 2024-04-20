@@ -1,0 +1,17 @@
+﻿@model DACS.Models.SanPham;
+
+@if (Model.DiemDanhGia != null && Model.SoLuongDanhGia != null)
+{
+    float? DIEMDANHGIA = Model.DiemDanhGia / Model.SoLuongDanhGia;
+    float? roundedDIEMDANHGIA = (float?)Math.Round(DIEMDANHGIA.Value, 1);
+
+    <div class="row total_rate">
+        <div class="col-6">
+            <div class="box_total">
+                <h5>Overall</h5>
+                <h4>@roundedDIEMDANHGIA / 5</h4>
+                <h6>(@Model.SoLuongDanhGia Reviews)</h6>
+            </div>
+        </div>
+    </div>
+}

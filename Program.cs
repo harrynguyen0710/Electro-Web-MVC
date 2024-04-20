@@ -2,10 +2,10 @@
 using DACS.Data;
 using Microsoft.AspNetCore.Identity;
 using DACS.Models;
-using Microsoft.Extensions.Options;
 using DACS.Service;
-/*using WebDT.Service;
-*/
+using DACS.IRepository;
+using DACS.Repository;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +18,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+builder.Services.AddScoped<IProductRepository<SanPham>, ProductRepository<SanPham>>();   
+builder.Services.AddScoped<IProductRepository<Iphone>, ProductRepository<Iphone>>();
+builder.Services.AddScoped<IProductRepository<IMac>, ProductRepository<IMac>>();
+builder.Services.AddScoped<IProductRepository<Ipad>, ProductRepository<Ipad>>();
+builder.Services.AddScoped<IProductRepository<Laptop>, ProductRepository<Laptop>>();
+
+builder.Services.AddScoped(typeof(IToolsRepository<>), typeof(ToolsRepository<>));
+
+builder.Services.AddScoped<IHinhAnh, HinhAnhRepository>();
+builder.Services.AddScoped<IDonHang, DonHangRepository>();
+builder.Services.AddScoped<IGenericRepository<ChiTietDonHangSanPham>, ChiTietDonHangRepository>();
 
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
 {
@@ -48,6 +59,7 @@ builder.Services.AddSession(options =>
 
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+
 builder.Services.AddScoped<UserManager<AppUserModel>>();
 builder.Services.AddScoped<SignInManager<AppUserModel>>();
 

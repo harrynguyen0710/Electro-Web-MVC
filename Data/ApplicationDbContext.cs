@@ -30,6 +30,8 @@ namespace DACS.Data
         public DbSet<BinhLuan> BINHLUAN { get; set; }
         public DbSet<TyLeGiam> TYLEGIAM { get; set; }
         public DbSet<VeGiamGia> VEGIAMGIA { get; set; }
+        public DbSet<ChuDe> CHUDE {  get; set; }
+        public DbSet<TinTuc> TINTUC {  get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -114,6 +116,12 @@ namespace DACS.Data
                 .WithMany(s => s.DonHang)
                 .HasForeignKey(s => s.MaVeGiamGia)
                     .IsRequired(false);
+
+            modelBuilder.Entity<TinTuc>()
+                .HasOne<ChuDe>(m => m.ChuDe)
+                .WithMany(s => s.TinTuc)
+                .HasForeignKey(s => s.MaChuDe);
+        
 
             modelBuilder.Entity<SanPham>()
            .ToTable("SanPham")

@@ -21,14 +21,10 @@ namespace WebDT.Areas.Admin.Controllers
         {
             _context = context;
         }
-
-        // GET: MauSac
         public async Task<IActionResult> Index()
         {
             return View(await _context.MAUSAC.ToListAsync());
         }
-
-        // GET: MauSac/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,16 +41,10 @@ namespace WebDT.Areas.Admin.Controllers
 
             return View(mauSac);
         }
-
-        // GET: MauSac/Create
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: MauSac/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MaMauSac,TenMau")] MauSac mauSac)
@@ -63,8 +53,6 @@ namespace WebDT.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "MauSac");
         }
-
-        // GET: MauSac/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,10 +67,6 @@ namespace WebDT.Areas.Admin.Controllers
             }
             return View(mauSac);
         }
-
-        // POST: MauSac/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MaMauSac,TenMau")] MauSac mauSac)
@@ -112,8 +96,6 @@ namespace WebDT.Areas.Admin.Controllers
 
 
         }
-
-        // GET: MauSac/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,8 +112,6 @@ namespace WebDT.Areas.Admin.Controllers
 
             return View(mauSac);
         }
-
-        // POST: MauSac/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

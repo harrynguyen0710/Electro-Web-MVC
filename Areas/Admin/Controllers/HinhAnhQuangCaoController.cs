@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
+using DACS.IRepository;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -10,16 +11,15 @@ namespace DACS.Areas.Admin.Controllers
     [Authorize]
     public class HinhAnhQuangCaoController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _webHost;
-        
-        public HinhAnhQuangCaoController(ApplicationDbContext context, IWebHostEnvironment webHost)
+        private readonly IToolsRepository<HinhAnhQuangCao> _genericRepository;
+        private readonly IHinhAnh _repository;
+        public HinhAnhQuangCaoController(IToolsRepository<HinhAnhQuangCao> genericRepository, IHinhAnh repository)
         {
-            _context = context;
-            _webHost = webHost;
+            _genericRepository = genericRepository;
+            _repository = repository;
         }
 
-        public async Task<IActionResult> Index()
+       /* public async Task<IActionResult> Index()
         {
             var anh = await _context.HINHANHQUANGCAO.ToListAsync();
             return View(anh);
@@ -67,6 +67,6 @@ namespace DACS.Areas.Admin.Controllers
                 }
             }
             return uniqueFileName;
-        }
+        }*/
     }
 }
