@@ -128,7 +128,7 @@
                                 {
                                     var hinhAnh = hinhAnhs.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
                                     var filePath = Url.Content($"~/Images/{hinhAnh.FileHinhAnh}");
-                                    <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" >
+                                    <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham">
                                         <div class="col-lg-3 col-sm-6 add_cart_item">
                                             <div class="single_product_item">
                                                 <img src="@filePath" alt="">
