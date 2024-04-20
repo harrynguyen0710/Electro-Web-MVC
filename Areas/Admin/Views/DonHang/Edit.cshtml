@@ -19,7 +19,7 @@
         <div class="col-md-12 mt-4">
             <div class="card">
                 <div class="card-header pb-0 px-3">
-                    <h6 class="mb-0">Thông tin chi tiết đơn hàng</h6>
+                    <h6 class="mb-0">Order details</h6>
                 </div>
                 <div class="card-body pt-4 p-3">
                      <form method="post" enctype="multipart/form-data">
@@ -39,12 +39,12 @@
                             <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                 <div class="d-flex flex-column">
                                     <h6 class="mb-3 text-sm">@Model.DonHang.TenKhachHang</h6>
-                                    <span class="mb-2 text-xs">Ngày lập hoá đơn: <span class="text-dark font-weight-bold ms-sm-2">@Model.DonHang.NgayLapDonHang</span></span>
-                                    <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.SoDienThoai</span></span>
-                                    <span class="mb-2 text-xs">Địa chỉ: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.DiaChi</span></span>
-                                    <span class="mb-2 text-xs">Yêu cầu khác: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.YeuCauKhac</span></span>
+                                    <span class="mb-2 text-xs">Invoice date: <span class="text-dark font-weight-bold ms-sm-2">@Model.DonHang.NgayLapDonHang</span></span>
+                                    <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.SoDienThoai</span></span>
+                                    <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.DiaChi</span></span>
+                                    <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.YeuCauKhac</span></span>
                                     <div>
-                                        <label>Trạng thái đơn hàng</label>
+                                        <label>Order status</label>
                                         <select id="MaTrangThaiDonHang" name="MaTrangThaiDonHang">
                                             @if (ViewBag.TrangThaiDonHangList != null)
                                             {
@@ -60,7 +60,7 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label>Trạng thái thanh toán</label>
+                                        <label>Payment status</label>
                                         <select id="MaTrangThaiThanhToan" name="MaTrangThaiThanhToan">
                                             @if (ViewBag.TrangThaiThanhToanList != null)
                                             {
@@ -75,9 +75,9 @@
                                             }
                                         </select>
                                     </div>
-                                    <span class="mb-2 text-xs">Tổng tiền: <span class="text-dark ms-sm-2 font-weight-bold">@grandTotal.ToString()</span></span>
+                                    <span class="mb-2 text-xs">Total price: <span class="text-dark ms-sm-2 font-weight-bold">@grandTotal.ToString()</span></span>
                                     <div>
-                                        <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Cập nhật</button>
+                                        <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Update</button>
                                     </div>
                                 </div>
                             </li>
@@ -90,9 +90,9 @@
                                 <thead>
                                     <tr>
                                         <th scope="col"></th>
-                                        <th scope="col">Sản phẩm</th>
-                                        <th scope="col">Đơn giá</th>
-                                        <th scope="col">Số lượng mua</th>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -123,28 +123,28 @@
                                                 @if (sanPhamDaBan is Iphone)
                                                 {
                                                     <a class="btn btn-primary" asp-area="Admin" asp-controller="Iphone" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
-                                                        Chi tiết
+                                                        Details
                                                     </a>
                                                     
                                                 }
                                                 @if (sanPhamDaBan is Ipad)
                                                 {
                                                     <a class="btn btn-primary" asp-area="Admin" asp-controller="Ipad" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
-                                                        Chi tiết
+                                                        Details
                                                     </a>
 
                                                 }
                                                 @if (sanPhamDaBan is IMac)
                                                 {
                                                     <a class="btn btn-primary" asp-area="Admin" asp-controller="iMac" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
-                                                        Chi tiết
+                                                        Details
                                                     </a>
 
                                                 }
                                                 @if (sanPhamDaBan is Laptop)
                                                 {
                                                     <a class="btn btn-primary" asp-area="Admin" asp-controller="Laptop" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
-                                                        Chi tiết
+                                                        Details
                                                     </a>
 
                                                 }

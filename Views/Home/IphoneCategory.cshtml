@@ -25,10 +25,10 @@
     <link rel="stylesheet" href="~/css/magnific-popup.css">
     <!-- swiper CSS -->
     <link rel="stylesheet" href="~/css/slick.css">
-    <link rel="stylesheet" href="css/price_rangs.css">
+    <link rel="stylesheet" href="~/css/price_rangs.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="~/css/style.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" />
 
 </head>
@@ -77,13 +77,13 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                       Pages
+                                        Pages 
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
                                         @if (!User.Identity.IsAuthenticated)
                                         {
                                             <a class="dropdown-item" asp-controller="Account" asp-action="Login">
-                                                Log in
+                                                Log in 
                                             </a>
                                         }
                                         <a class="dropdown-item" asp-controller="Cart" asp-action="Index">
@@ -93,12 +93,12 @@
                                             Cart Details
                                         </a>
                                         <a class="dropdown-item" asp-controller="KiemTraDonHang" asp-action="Index">
-                                            Cart Checkout 
+                                            Cart Checkout
                                         </a>
                                     </div>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                         <a class="dropdown-item" asp-controller="Home" asp-action="ShopCategory">
-                                            Product Filter
+                                            Lọc sản phẩm
                                         </a>
                                     </div>
                                 </li>
@@ -143,8 +143,8 @@
                 <div class="col-lg-8">
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
-                            <h2>Product Filter</h2>
-                            <p>Home<span>-</span> Product Filter</p>
+                            <h2>Products Filter</h2>
+                            <p>Home<span>-</span>Products Filter</p>
                         </div>
                     </div>
                 </div>
@@ -166,7 +166,6 @@
                                 <ul class="list">
                                     <li>
                                         <a class="dropdown-item" asp-controller="Home" asp-action="IphoneCategory">Iphone</a>
-
                                         <span>(250)</span>
                                     <li>
                                         <a class="dropdown-item" asp-controller="Home" asp-action="IpadCategory">iPad</a>
@@ -191,16 +190,16 @@
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <li>
-                                        <a asp-controller="Home" asp-action="XemThemAppleProduct" asp-route-maThuongHieu="1">Apple</a>
+                                        <a href="#">Apple</a>
                                     </li>
                                     <li>
-                                        <a asp-controller="Home" asp-action="XemThemAsusProduct" asp-route-maThuongHieu="2">Asus</a>
+                                        <a href="#">Asus</a>
                                     </li>
                                     <li class="active">
-                                        <a asp-controller="Home" asp-action="XemThemLenovoProduct" asp-route-maThuongHieu="3">Lenovo</a>
+                                        <a href="#">Lenovo</a>
                                     </li>
                                     <li>
-                                        <a asp-controller="Home" asp-action="XemThemLenovoProduct" asp-route-maThuongHieu="4">MSI</a>
+                                        <a href="#">MSI</a>
                                     </li>
                                 </ul>
                             </div>
@@ -208,24 +207,28 @@
 
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>Color Filter</h3>
+                                <h3>Colors Filter </h3>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <li>
-                                        <a asp-controller="Home" asp-action="XemThemBlackProduct" asp-route-maMauSac="1">Black</a>
+                                        <a href="#">Đen</a>
+
                                     </li>
                                     <li>
-                                        <a asp-controller="Home" asp-action="XemThemWhiteProduct" asp-route-maMauSac="2">White</a>
+                                        <a href="#">Xám</a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="#">Đỏ</a>
                                     </li>
                                     <li>
-                                        <a asp-controller="Home" asp-action="XemThemGreyProduct" asp-route-maMauSac="3">Grey</a>
+                                        <a href="#">Vàng</a>
                                     </li>
                                     <li>
-                                        <a asp-controller="Home" asp-action="XemThemBlueProduct" asp-route-maMauSac="5">Blue</a>
+                                        <a href="#">Xanh dương</a>
                                     </li>
                                     <li>
-                                        <a asp-controller="Home" asp-action="XemThemPinkProduct" asp-route-maMauSac="6">Pink</a>
+                                        <a href="#">Hồng</a>
                                     </li>
                                 </ul>
                             </div>
@@ -251,13 +254,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="widgets_inner">
-                            <p>
-                                <label for="amount">Price range:</label>
-                                <input type="text" id="amount" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
-                            </p>
-                            <div id="slider-range"></div>
-                            </div>
                         </aside>
 
                     </div>
@@ -267,7 +263,7 @@
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu">
-                                    <p><span>10000 </span>Product Found</p>
+                                    <p><span>10000 </span> Product Found</p>
                                 </div>
                                 <div class="single_product_menu d-flex">
                                     <h5>short by : </h5>
@@ -289,7 +285,7 @@
                                 </div>
                                 <div class="single_product_menu d-flex">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Tìm kiếm"
+                                        <input type="text" class="form-control" placeholder="Search"
                                                aria-describedby="inputGroupPrepend">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroupPrepend">
@@ -305,27 +301,60 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="row align-items-center justify-content-between">
-                                @{
-                                    var sanPhams = Model.SanPhamList;
-                                    var hinhAnhs = Model.HinhAnhList;
-                                    foreach (var sanPham in sanPhams)
+                                     @if (Model != null && Model.IphoneList != null)
+     {
+        <div class="" style="transform:translate(20px,35px);  background-color:#ffffff; width:98%;">
+          <div class="new-product">
+               @{
+                      int counter = 0;
+                      foreach (var item in Model.IphoneList)
+                      {
+                          <a asp-controller="Home" asp-action="IphoneCategory" style="text-decoration:none;">
+                             <div class="product @(counter % 6 == 0 && counter > 0 ? "new-row" : "")">
+                                 @if (item.HinhAnh != null && item.HinhAnh.Any())
+                                 {
+                                    @foreach (var image in item.HinhAnh)
                                     {
-                                        var hinhAnh = hinhAnhs.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
-                                        var filePath = Url.Content($"~/Images/{hinhAnh.FileHinhAnh}");
-                                        <div class="col-lg-3 col-sm-6">
-                                            <div class="single_product_item">
-                                                <img src=@filePath alt="">
-                                                <div class="single_product_text">
-                                                    <h4>@sanPham.TenSanPham</h4>
-                                                    <h3>@sanPham.Gia</h3>
-                                                    <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
-                                                        Thêm vào giỏ hàng<i class="ti-heart"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <img src="~/Images/@image.FileHinhAnh"/>
+                                        break;
                                     }
-                                }
+                                 }
+                                 else if (Model.HinhAnhList != null && Model.HinhAnhList.Any())
+                                 {
+                                     // Display a default image from HinhAnhList
+                                    <img src="~/Images/@Url.Content(Model.HinhAnhList.First().FileHinhAnh)"/>
+                                 }
+                                 else
+                                 {
+                                     // Display a default image
+                                    <img src="@Url.Content("/Images/no-images.jpg")">
+                                 }
+
+                                <div class="product-info">
+                                    <p>@item.TenSanPham</p>
+                                    <span style="color:black;">@item.Gia</span>
+                                </div>
+                                </div>
+
+                          </a>
+                          counter++;
+
+                          if (counter % 6 == 0)
+                          {
+                                    @:</div><div class="new-product">
+                          }
+                      }
+                  }
+          </div>
+        </div>
+}
+else
+            {
+                <p>Null</p>
+            }
+          </div>
+        </div>
+}
                             </div>
                         </div>
                     </div>
@@ -358,6 +387,7 @@
         </div>
         </div>
     </section>
+
     <!-- product_list part end-->
     <!--::footer_part start::-->
     <footer class="footer_part">
@@ -462,7 +492,7 @@
     <!-- jquery plugins here-->
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <!-- popper js -->
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    @* <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script> *@
 
     <script src="~/js/popper.min.js"></script>
     <!-- bootstrap js -->
@@ -486,27 +516,12 @@
     <script src="~/js/jquery.validate.min.js"></script>
     <script src="~/js/mail-script.js"></script>
     <script src="~/js/stellar.js"></script>
-    <script src="js/price_rangs.js"></script>
+    <script src="~/js/price_rangs.js"></script>
     <!-- custom js -->
     <script src="~/js/custom.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
-    <script>
-        $(function () {
-            $("#slider-range").slider({
-                range: true,
-                min: 0,
-                max: 500,
-                values: [75, 300],
-                slide: function (event, ui) {
-                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-                }
-            });
-            $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-                " - $" + $("#slider-range").slider("values", 1));
-        });
-    </script>
 </body>
 
 </html>

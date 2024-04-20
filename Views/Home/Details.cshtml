@@ -412,12 +412,12 @@
                             }
                         }
                     }
+
                     <div class="row">
                         <div class="col-lg-6">
                             @if (Model.SanPham.DiemDanhGia != null && Model.SanPham.SoLuongDanhGia != null)
                             {
                                 float SOLUONGSAO = 0;
-
                                 float? DIEMDANHGIA = Model.SanPham.DiemDanhGia / Model.SanPham.SoLuongDanhGia;
                                 float? roundedDIEMDANHGIA = (float?)Math.Round(DIEMDANHGIA.Value, 1);
 
@@ -518,18 +518,7 @@
 
                             }
                             @if (Model.SanPham.DiemDanhGia != null && Model.SanPham.SoLuongDanhGia != null)
-
                             {
-                                var binhLuanNguoidung = Model.context.BINHLUAN.Where(x => x.MaSanPham == Model.SanPham.MaSanPham).FirstOrDefault(m => m.Id == Model.User.Id);
-                                int soSao = 0;
-                                if (binhLuanNguoidung != null)
-                                {
-                                    soSao = Model.context.DANHGIA
-                                       .Where(m => m.MaDanhGia == binhLuanNguoidung.MaDanhGia)
-                                       .Select(x => x.DiemDanhGia)
-                                       .FirstOrDefault();
-
-                                }
                                 <div class="review_list">
                                     @foreach (var binhLuan in Model.BinhLuanList)
                                     {
@@ -612,6 +601,7 @@
                                                 foreach (var item in ViewBag.DanhSachDanhGia)
                                                 {
                                                     <option value="@item.Value">@item.Text</option>
+
 
                                                 }
                                             }
@@ -717,9 +707,6 @@
         </div>
     </section>
 
-
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -727,7 +714,6 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/jquery.magnific-popup.js"></script>
     <script src="js/jquery-1.12.1.min.js"></script>
-
     <script src="js/custom.js"></script>
 </body>
 </html>

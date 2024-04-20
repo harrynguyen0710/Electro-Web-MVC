@@ -5,8 +5,8 @@
     Layout = "_DashBoardAdmin";
 }
 
-<h1>Chỉnh sửa</h1>
-<h4>Đơn hàng</h4>
+<h1>Edit</h1>
+<h4>Order</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="MaTrangThaiDonHang" />
             <div class="form-group">
-                <label asp-for="TenTrangThaiDonHang" class="control-label">Tên trạng thái</label>
+                <label asp-for="TenTrangThaiDonHang" class="control-label">Status name</label>
                 <input asp-for="TenTrangThaiDonHang" class="form-control" />
                 <span asp-validation-for="TenTrangThaiDonHang" class="text-danger"></span>
             </div>
@@ -26,7 +26,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Trở về</a>
+    <a asp-action="Index">Back to list</a>
 </div>
 
 

@@ -21,25 +21,10 @@ namespace DACS.Areas.Admin.Controllers
             _context = context;
             _webHost = webHost;
         }
-        public async Task<IActionResult> Index(String SearchString)
+        public async Task<IActionResult> Index()
         {
-            var imacData = _context.IMAC.AsQueryable().ToList();
-
-            // List iphones to show to view default is empty
-            var iMacs = new List<IMac>();
-
-            if (imacData != null && imacData.Any())
-            {
-                if (!string.IsNullOrEmpty(SearchString))
-                {
-                    iMacs = imacData.Where(x => x.TenSanPham.Contains(SearchString)).ToList();
-                }
-                else
-                {
-                    iMacs = imacData;
-                }
-            }
-            return View(iMacs);
+            var imac = await _context.IMAC.ToListAsync();
+            return View(imac);
         }
         [HttpGet]
         public IActionResult Create()

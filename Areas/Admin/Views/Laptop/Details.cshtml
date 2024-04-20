@@ -11,22 +11,22 @@
 <body>
     <div style="background-color: #ffffff; display:flex; flex-direction:row;">
         <div>
-            <h1>Thông tin sản phẩm</h1>
-            <p><strong>Tên sản phẩm:</strong> @Model.Laptop.TenSanPham</p>
-            <p><strong>Sản phẩm: </strong> @Model.LoaiSanPhamDacBiet</p>
-            <p><strong>Dung lượng:</strong> @Model.DungLuongBoNho</p>
-            <p><strong>Màu sắc:</strong> @Model.TenMauSac</p>
+            <h1>Product information</h1>
+            <p><strong>Product name:</strong> @Model.Laptop.TenSanPham</p>
+            <p><strong>Product: </strong> @Model.LoaiSanPhamDacBiet</p>
+            <p><strong>Capacity:</strong> @Model.DungLuongBoNho</p>
+            <p><strong>Color:</strong> @Model.TenMauSac</p>
             <p><strong>RAM:</strong> @Model.TenRam</p>
-            <p><strong>Thương hiệu:</strong> @Model.TenThuongHieu</p>
+            <p><strong>Brand:</strong> @Model.TenThuongHieu</p>
             <p><strong>CPU:</strong> @Model.Laptop.CPU</p>
-            <p><strong>Số nhân luồng:</strong> @Model.Laptop.SoNhanLuong</p>
+            <p><strong>Flow multipliers:</strong> @Model.Laptop.SoNhanLuong</p>
             <p><strong>VGA:</strong> @Model.Laptop.VGA</p>
-            <p><strong>Trọng lượng</strong> @Model.Laptop.TrongLuong</p>
+            <p><strong>Weight</strong> @Model.Laptop.TrongLuong</p>
             
 
             @*    <p><strong>Product Category:</strong> @Model.MaLoaiSanPham</p>
             *@
-            <h2>Hình ảnh sản phẩm</h2>
+            <h2>Product image</h2>
             @if (Model.TenHinhAnh != null && Model.TenHinhAnh.Any())
             {
                 <div>
@@ -44,10 +44,10 @@
         </div>
         <div>
             <div style="width:180px;  height:40px; text-align:center; margin-top:30px;" class="btn btn-primary">
-                <a style="color: #ffffff;" asp-area="Admin" asp-controller="Laptop" asp-action="Index">Quay lại</a>
+                <a style="color: #ffffff;" asp-area="Admin" asp-controller="Laptop" asp-action="Index">Back</a>
             </div>
             <div style="width:180px;  height:40px; text-align:center; margin-top:30px;" class="btn btn-behance">
-                <a style="color: #ffffff;" asp-area="Admin" asp-controller="Laptop" asp-action="Edit" asp-route-MaSanPham="@Model.Laptop.MaSanPham">Chỉnh sửa</a>
+                <a style="color: #ffffff;" asp-area="Admin" asp-controller="Laptop" asp-action="Edit" asp-route-MaSanPham="@Model.Laptop.MaSanPham">Edit</a>
             </div>
         </div>
     </div>
