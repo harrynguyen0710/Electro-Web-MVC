@@ -128,20 +128,22 @@
                                 {
                                     var hinhAnh = hinhAnhs.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
                                     var filePath = Url.Content($"~/Images/{hinhAnh.FileHinhAnh}");
+                                    <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham">
+                                        <div class="col-lg-3 col-sm-6 add_cart_item">
+                                            <div class="single_product_item">
+                                                <img src="@filePath" alt="">
+                                                <div class="single_product_text">
+                                                    <h4>@sanPham.TenSanPham</h4>
+                                                    <h3>@sanPham.Gia</h3>
+                                                    <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
+                                                        ADD TO CART<i class="ti-heart"></i>
+                                                    </a>
+                                                </div>
 
-                                    <div class="col-lg-3 col-sm-6 add_cart_item" data-product-id="@sanPham.MaSanPham">
-                                        <div class="single_product_item">
-                                            <img src="@filePath" alt="">
-                                            <div class="single_product_text">
-                                                <h4>@sanPham.TenSanPham</h4>
-                                                <h3>@sanPham.Gia</h3>
-                                                <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
-                                                    Thêm vào giỏ hàng<i class="ti-heart"></i>
-                                                </a>
                                             </div>
-
                                         </div>
-                                    </div>
+
+                                    </a>
                                 }
                             </div>
 

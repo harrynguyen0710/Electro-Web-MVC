@@ -37,7 +37,13 @@
 
 <style>
     .notification {
+        font-size: 16px;
+        text-align: center;
         display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
         position: fixed;
         top: 50%;
         left: 50%;
@@ -51,25 +57,16 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
     }
 
-    .notification-content {
-        color: black;
-        font-size: 16px;
-        margin-bottom: 20px;
-        text-align: center;
-        display: flex;
-        flex-direction: column; /* Hiển thị các phần tử theo chiều dọc */
-        align-items: center; /* Căn giữa theo chiều ngang */
-    }
-
         .notification-content img {
-            margin-bottom: 10px; /* Tạo khoảng cách giữa hình ảnh và dòng chữ */
+            margin-bottom: 10px;
         }
 
+        .notification-content p {
+            margin-bottom: 10px;
+        }
 
         .notification-content button {
-            display: block;
-            margin: 20px auto 0;
-            background-color: #28a745; /* Màu nền xanh lá cây cho nút "OK" */
+            background-color: #28a745;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -78,9 +75,8 @@
         }
 
             .notification-content button:hover {
-                background-color: #218838; /* Màu nền xanh lá cây sáng hơn khi di chuột vào */
+                background-color: #218838;
             }
-
 
     .image-slider {
         position: relative;
@@ -184,17 +180,18 @@
                             @Model.SanPham.Mota
                         </p>
                         <div class="card_area d-flex justify-content-between align-items-center">
-                            <button class="btn-add-cart" onclick="addToCart(@Model.SanPham.MaSanPham)" style="text-decoration:none;" class="btn_3">add to cart</button>
+                            <button onclick="addToCart(@Model.SanPham.MaSanPham)" style="text-decoration:none;" class="btn_3">add to cart</button>
                         </div>
                         <div id="cart-notification" class="notification">
-                              <div class="notification-content">
+                            <div class="notification-content">
                                 <img src="~/image-cart/correct.png" alt="Tick" class="banner-img">
-                              <div>
-                              <p>Add to cart successfully!</p>
-                              <button onclick="closeNotification()">OK</button>
+                                <div>
+                                    <p>Add to cart successfully!</p>
+                                    <button onclick="closeNotification()">OK</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
