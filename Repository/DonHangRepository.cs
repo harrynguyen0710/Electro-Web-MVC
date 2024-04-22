@@ -32,28 +32,26 @@ namespace DACS.Repository
             await _context.DONHANG.AddRangeAsync(entities);
             await _context.SaveChangesAsync();
         }
-        public async Task<DonHang> GetByIdAsync(int? id) 
-        { 
-                var donHang = await _context.DONHANG
-                           .Include(tt => tt.TrangThaiDonHang)
-                           .Include(tt => tt.TrangThaiThanhToan)
-                           .Include(v => v.VeGiamGia)
-                                .ThenInclude(tl => tl.TyLeGiam)
-                           .Include(dh => dh.ChiTietDonHangSanPham)
-                                .ThenInclude(sp => sp.SanPham)
-                                .ThenInclude(anh => anh.HinhAnh)
-                               .Where(m => m.MaDonHang == id)
-                           .FirstOrDefaultAsync();
-            
-            if (donHang != null)
-            {
-                return donHang;
-            }
-            else
+        public async Task<DonHang> GetByIdAsync(int? id)
+        {
+            if (id == null)
             {
                 return null;
             }
+
+            var donHang = await _context.DONHANG
+                .Include(tt => tt.TrangThaiDonHang)
+                .Include(tt => tt.TrangThaiThanhToan)
+                .Include(v => v.VeGiamGia)
+                    .ThenInclude(tl => tl.TyLeGiam)
+                .Include(dh => dh.ChiTietDonHangSanPham)
+                    .ThenInclude(sp => sp.SanPham)
+                        .ThenInclude(anh => anh.HinhAnh)
+                .FirstOrDefaultAsync(m => m.MaDonHang == id);
+
+            return donHang;
         }
+
 
         public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum)
         {

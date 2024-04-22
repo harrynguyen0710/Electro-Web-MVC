@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DACS.Models;
 using DACS.IRepository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DACS.Areas.Admin.Controllers
 {
