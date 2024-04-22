@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-
         <title>Techzone</title>
-
         <link rel="icon" href="~/favicon.png">
         <link rel="stylesheet" href="~/css/bootstrap.min.css">
         <link rel="stylesheet" href="~/css/animate.css">
@@ -17,8 +14,6 @@
         <link rel="stylesheet" href="~/css/magnific-popup.css">
         <link rel="stylesheet" href="~/css/slick.css">
         <link rel="stylesheet" href="~/css/style.css">
-
-   
 </head>
 <body>
     <header class="main_menu home_menu">
@@ -83,7 +78,7 @@
                                         <a class="dropdown-item" asp-controller="KiemTraDonHang" asp-action="Index">
                                             Cart Checkout
                                         </a>
-                                        <a class="dropdown-item" asp-controller="Home" asp-action="Category">
+                                        <a class="dropdown-item" asp-controller="Home" asp-action="CategoryByProduct">
                                             Product Filter
                                         </a>
                                     </div>
@@ -94,8 +89,8 @@
                                         blog
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="blog.html"> blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="TinTuc" asp-action="Index">Blog</a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="ChuDe" asp-action="Index">Topic</a>
                                     </div>
                                 </li>
 

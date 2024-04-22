@@ -14,14 +14,13 @@
                         <div class="col-lg-12">
                             <div class="row align-items-center justify-content-between">
                                 @if(Model != null)
-                                {
-                                    foreach (var sanPham in Model)
                                     {
-                                        var hinhAnh = sanPham.HinhAnh.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
-                                        var filePath = Url.Content($"~/Images/{hinhAnh.FileHinhAnh}");
+                                        foreach (var sanPham in Model)
+                                        {
+                                            var hinhAnh = sanPham.HinhAnh.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
                                         <div class="col-lg-3 col-sm-6">
                                             <div class="single_product_item">
-                                                <img src=@filePath alt="">
+                                                <img src="~/Images/@hinhAnh.FileHinhAnh" alt="">
                                                 <div class="single_product_text">
                                                     <h4>@sanPham.TenSanPham</h4>
                                                     <h3>@sanPham.Gia</h3>

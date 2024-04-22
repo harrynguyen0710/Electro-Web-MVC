@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace DACS.IRepository
+﻿namespace DACS.IRepository
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {

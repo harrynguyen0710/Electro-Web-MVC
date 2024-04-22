@@ -15,7 +15,7 @@ namespace DACS.Repository
         }
         public string GetProfilePhotoFileName(IFormFile file, string folder)
         {
-            string? fileName = null;
+            string fileName = null;
             if (file != null)
             {
                 string uploadDir = Path.Combine(_webHost.WebRootPath, folder);
@@ -28,7 +28,8 @@ namespace DACS.Repository
             }
             return fileName;
         }
-      
+
+
     }
 }
 
