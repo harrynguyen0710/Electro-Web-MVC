@@ -2,46 +2,98 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "_DashBoardAdmin";
+    ViewBag.ScriptSection = "CreatePageScripts";
 }
 
-<h1>Create</h1>
+<div style="background-color:#ffffff;">
+    <h1>Create</h1>
+    <h4>TinTuc</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="TieuDe" class="control-label"></label>
+                    <input asp-for="TieuDe" class="form-control" />
+                    <span asp-validation-for="TieuDe" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NoiDung" class="control-label"></label>
+                    <textarea id="summernoteEditor" name="NoiDung" placeholder="Content" class="form-control"></textarea>
+                    <span asp-validation-for="NoiDung" class="text-danger"></span>
+                </div>
+                <!-- Thumbnail -->
+                <div class="form-group col-4 p-0">
+                    <label class="control-label"></label>
+                    <img id="PreviewPhoto" src="~/Images/noimage.png" alt="Logo Image"
+                         style="width:260px; height:260px; border: 1px solid #333333; border-radius:5px;" />
+                    <span asp-validation-for="HinhAnh" class="text-danger"></span>
+                </div>
 
-<h4>TinTuc</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TieuDe" class="control-label"></label>
-                <input asp-for="TieuDe" class="form-control" />
-                <span asp-validation-for="TieuDe" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NoiDung" class="control-label"></label>
-                <input asp-for="NoiDung" class="form-control" />
-                <span asp-validation-for="NoiDung" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HinhAnh" class="control-label"></label>
-                <input asp-for="HinhAnh" class="form-control" />
-                <span asp-validation-for="HinhAnh" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaChuDe" class="control-label"></label>
-                <select asp-for="MaChuDe" class ="form-control" asp-items="ViewBag.MaChuDe"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="col-1 p-0">
+                </div>
+
+                <div class="form-group col-7 p-0">
+                    <div class="input-group custom-file-button mt-5 pt-5" style="width:260px; height:30px; transform:translateY(-65px);">
+                        <div class="custom-file">
+                            <input asp-for="HinhAnh" class="custom-file-input" type="file" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group pt-0 mt-0">
+                    <div ID="HiddenDiv" style="visibility: hidden;">
+                        <input asp-for="HinhAnh" id="PhotoUrl" value="" />
+                    </div>
+                </div>
+                <!-- Thumbnail -->
+                <div class="form-group">
+                    <label asp-for="MaChuDe" class="control-label"></label>
+                    <select asp-for="MaChuDe" class="form-control" asp-items="ViewBag.MaChuDe"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="~/lib/summernote/summernote-bs4.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/summernote/summernote-bs4.min.css" />
+    <script>
+        $(document).ready(function () {
+            // Initialize Summernote
+            $('#summernoteEditor').summernote({
+                height: 300, // Set the height as needed
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['color', ['forecolor', 'backcolor']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
+
+            // Display the file name when a file is selected
+            $('.custom-file-input').on('change', function () {
+                var fileName = $(this).val().split('\\').pop();
+                $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
+            });
+        });
+    </script>
 }

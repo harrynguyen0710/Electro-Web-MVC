@@ -5,6 +5,8 @@ using DACS.Data;
 using DACS.Models;
 using DACS.ViewModel;
 using DACS.IRepository;
+using Microsoft.Extensions.Logging; 
+
 
 namespace WebDT.Controllers
 {
@@ -12,10 +14,14 @@ namespace WebDT.Controllers
     {
         private readonly ApplicationDbContext _dataContext;
         private readonly IDonHang _donHangRepository;
-        public KiemTraDonHangController(ApplicationDbContext dataContext, IDonHang donHangRepository)
+        private readonly ILogger<KiemTraDonHangController> _logger; 
+
+
+        public KiemTraDonHangController(ApplicationDbContext dataContext, IDonHang donHangRepository, ILogger<KiemTraDonHangController> logger)
         {
             _dataContext = dataContext;
-            _donHangRepository = donHangRepository; 
+            _donHangRepository = donHangRepository;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -46,8 +52,17 @@ namespace WebDT.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int maDonHang)
         {
-            var donHang = await _donHangRepository.GetByIdAsync(maDonHang);
-            return View(donHang);
+            try
+            {
+                var donHang = await _donHangRepository.GetByIdAsync(maDonHang);
+                return View(donHang);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing the request.");
+                return RedirectToAction("Error", "Home"); 
+            }
+
         }
 
     }

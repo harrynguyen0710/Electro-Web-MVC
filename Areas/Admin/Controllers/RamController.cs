@@ -9,8 +9,8 @@ namespace DACS.Areas.Admin.Controllers
     [Authorize]
     public class RamController : Controller
     {
-        private readonly IGenericRepository<Ram> _genericRepository;
-        public RamController(IGenericRepository<Ram> genericRepository)
+        private readonly IToolsRepository<Ram> _genericRepository;
+        public RamController(IToolsRepository<Ram> genericRepository)
         {
             _genericRepository = genericRepository;
         }

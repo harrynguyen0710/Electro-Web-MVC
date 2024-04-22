@@ -138,7 +138,7 @@ namespace DACS.Controllers
             }
             else
             {
-                sanPham = await _dataContext.SANPHAM.ToListAsync();
+                sanPham = await _dataContext.SANPHAM.Include(i => i.HinhAnh).ToListAsync();
             }
 
 

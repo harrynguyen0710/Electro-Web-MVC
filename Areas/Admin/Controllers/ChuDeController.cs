@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DACS.Models;
 using DACS.IRepository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -15,7 +16,8 @@ namespace DACS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _repository.GetAllAsync());
+            var chuDe = await _repository.GetAllAsync();
+            return View(chuDe);
         }
 
         public async Task<IActionResult> Details(int? id)
