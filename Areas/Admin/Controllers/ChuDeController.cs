@@ -15,7 +15,8 @@ namespace DACS.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _repository.GetAllAsync());
+            var chuDe = await _repository.GetAllAsync();
+            return View(chuDe);
         }
 
         public async Task<IActionResult> Details(int? id)
