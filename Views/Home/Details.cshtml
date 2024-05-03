@@ -1,43 +1,14 @@
 ﻿@model DACS.ViewModel.SanPhamChiTietViewModel;
-@using System.Linq
-@using System.Threading.Tasks
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Techzone</title>
-
-    <link rel="icon" href="~/favicon.png">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="~/css/bootstrap.min.css">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="~/css/animate.css">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="~/css/all.css">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="~/css/flaticon.css">
-    <link rel="stylesheet" href="~/css/themify-icons.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="~/css/magnific-popup.css">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="~/css/slick.css">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="~/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
 
 <style>
     .notification {
+        font-size: 16px;
+        text-align: center;
         display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
         position: fixed;
         top: 50%;
         left: 50%;
@@ -46,30 +17,21 @@
         padding: 20px;
         border-radius: 10px;
         z-index: 999;
-        width: 300px; /* Điều chỉnh chiều rộng của box thông báo */
+        width: 300px;
         background-color: #f0f0f0; /* Màu nền của box thông báo */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
     }
 
-    .notification-content {
-        color: black;
-        font-size: 16px;
-        margin-bottom: 20px;
-        text-align: center;
-        display: flex;
-        flex-direction: column; /* Hiển thị các phần tử theo chiều dọc */
-        align-items: center; /* Căn giữa theo chiều ngang */
-    }
-
         .notification-content img {
-            margin-bottom: 10px; /* Tạo khoảng cách giữa hình ảnh và dòng chữ */
+            margin-bottom: 10px;
         }
 
+        .notification-content p {
+            margin-bottom: 10px;
+        }
 
         .notification-content button {
-            display: block;
-            margin: 20px auto 0;
-            background-color: #28a745; /* Màu nền xanh lá cây cho nút "OK" */
+            background-color: #28a745;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -78,9 +40,8 @@
         }
 
             .notification-content button:hover {
-                background-color: #218838; /* Màu nền xanh lá cây sáng hơn khi di chuột vào */
+                background-color: #218838;
             }
-
 
     .image-slider {
         position: relative;
@@ -120,20 +81,7 @@
     }
 </style>
 <body>
-    <section class="breadcrumb breadcrumb_bg">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="breadcrumb_iner">
-                        <div class="breadcrumb_iner_item">
-                            <h2>Shop Single</h2>
-                            <p>Home <span>-</span> Shop Single</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <partial name="_BannerPartial" />
 
     <div class="product_image_area section_padding">
         <div class="container">
@@ -141,7 +89,7 @@
                 <div class="col-lg-7 col-xl-7">
                     <div class="image-slider" style="transform:translateY(-50px);">
                         <div class="slides">
-                            @foreach (var hinhAnh in Model.HinhAnhList)
+                            @foreach (var hinhAnh in Model.SanPham.HinhAnh)
                             {
                                 <img class="slide" src="~/Images/@hinhAnh.FileHinhAnh">
                             }
@@ -153,48 +101,34 @@
                 <div class="col-lg-5 col-xl-4">
                     <div class="s_product_text">
                         <h3>@Model.SanPham.TenSanPham</h3>
-
                         <h2>@Model.SanPham.Gia ₫</h2>
                         <ul class="list">
                             <li>
                                 <a class="active" href="#">
-                                    <span>Brand</span> : @Model.SanPham.ThuongHieu.TenThuongHieu
+                                    <span>Brand</span> : @Model.SanPham.ThuongHieu.TenThuongHieu;
                                 </a>
                             </li>
                             <li>
                                 <a href="#"> <span>Availibility</span> : In Stock</a>
                             </li>
-                            <div style="display: flex; flex-direction: row;">
-                                @foreach (var sanPham in Model.SanPhamList)
-                                {
-                                    if (sanPham.MaMauSac == Model.SanPham.MaMauSac)
-                                    {
-                                        var boNho = Model.context.BONHO.Where(x => x.MaBoNho == sanPham.MaBoNho).FirstOrDefault();
-
-                                        <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
-                                            <div class="select-item" style="margin-right: 12px;">
-                                                <div class="content-item">@boNho.DungLuongBoNho</div>
-                                            </div>
-                                        </a>
-                                    }
-                                }
-                            </div>
+                            @await Component.InvokeAsync("ProductLine", new { Model.SanPham.MaLoaiSanPham, Model.SanPham.MaMauSac })
                         </ul>
                         <p>
                             @Model.SanPham.Mota
                         </p>
                         <div class="card_area d-flex justify-content-between align-items-center">
-                            <button  onclick="addToCart(@Model.SanPham.MaSanPham)" style="text-decoration:none;" class="btn_3">add to cart</button>
+                            <button onclick="addToCart(@Model.SanPham.MaSanPham)" style="text-decoration:none;" class="btn_3">add to cart</button>
                         </div>
                         <div id="cart-notification" class="notification">
-                              <div class="notification-content">
+                            <div class="notification-content">
                                 <img src="~/image-cart/correct.png" alt="Tick" class="banner-img">
-                              <div>
-                              <p>Add to cart successfully!</p>
-                              <button onclick="closeNotification()">OK</button>
+                                <div>
+                                    <p>Add to cart successfully!</p>
+                                    <button onclick="closeNotification()">OK</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -225,176 +159,19 @@
                     <div class="table-responsive">
                         @if (Model.SanPham is Laptop)
                         {
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <h5>Loại CPU</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Laptop.CPU</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Số nhân / luồng</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Laptop.SoNhanLuong</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Kích thước màn hình</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@@Model.SanPham.ManHinh</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Trọng lượng</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Laptop.TrongLuong</h5>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
+                            <partial name="_LaptopPartial" model="Model.SanPham" />
                         }
                         else if (Model.SanPham is Iphone)
                         {
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <h5>Chip</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Iphone.Chip</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>ROM</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Iphone.Rom</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>RAM</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Iphone.Ram</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Camera sau</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Iphone.CameraSau</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Camera trước</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Iphone.CameraTruoc</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Pin</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Iphone.Pin</h5>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <partial name="_IphonePartial" model="Model.SanPham" />
                         }
                         else if (Model.SanPham is IMac)
                         {
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <h5>Công nghệ CPU</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Imac.CongNgheCPU</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Tốc độ CPU</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Imac.TocDoCPU</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Màn hình</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.SanPham.ManHinh</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Turbo</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Imac.Turbo</h5>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <partial name="_iMacPartial" model="Model.SanPham" />
                         }
                         else if (Model.SanPham is Ipad)
                         {
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <h5>Công nghệ màn hình</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Ipad.CongNgheManHinh</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Độ phân giải</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Ipad.DoPhanGiai</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Kích thước vật lý</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.Ipad.KichThuocVatLy</h5>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h5>Màn hình</h5>
-                                        </td>
-                                        <td>
-                                            <h5>@Model.SanPham.ManHinh</h5>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <partial name="_iPadPartial" model="Model.SanPham" />
                         }
 
 
@@ -405,7 +182,7 @@
                         bool daBinhLuan = false;
                         if (Model.User != null)
                         {
-                            foreach (var nguoiDungDanhGia in Model.BinhLuanList)
+                            foreach (var nguoiDungDanhGia in Model.SanPham.BinhLuan)
                             {
                                 if (nguoiDungDanhGia.Id == Model.User.Id)
                                 {
@@ -418,238 +195,20 @@
 
                     <div class="row">
                         <div class="col-lg-6">
-                            @if (Model.SanPham.DiemDanhGia != null && Model.SanPham.SoLuongDanhGia != null)
-                            {
-                                float SOLUONGSAO = 0;
-                                float? DIEMDANHGIA = Model.SanPham.DiemDanhGia / Model.SanPham.SoLuongDanhGia;
-                                float? roundedDIEMDANHGIA = (float?)Math.Round(DIEMDANHGIA.Value, 1);
+                            <partial name="_OverallRatingPartial" model="Model.SanPham" />
 
-                                int soLuong5Sao = 0;
-                                int soLuong4Sao = 0;
-                                int soLuong3Sao = 0;
-                                int soLuong2Sao = 0;
-                                int soLuong1Sao = 0;
-                                foreach (var binhLuan in Model.BinhLuanList)
-                                {
-                                    if (binhLuan.MaDanhGia == 1)
-                                    {
-                                        soLuong5Sao += 1;
-                                    }
-                                    else if (binhLuan.MaDanhGia == 2)
-                                    {
-                                        soLuong4Sao += 1;
-                                    }
-                                    else if (binhLuan.MaDanhGia == 3)
-                                    {
-                                        soLuong3Sao += 1;
-                                    }
-                                    else if (binhLuan.MaDanhGia == 4)
-                                    {
-                                        soLuong2Sao += 1;
-                                    }
-                                    else
-                                    {
-                                        soLuong1Sao += 1;
-                                    }
-                                }
-                                <div class="row total_rate">
-                                    <div class="col-6">
-                                        <div class="box_total">
-                                            <h5>Overall</h5>
-                                            <h4>@roundedDIEMDANHGIA / 5</h4>
-                                            <h6>(@Model.SanPham.SoLuongDanhGia Reviews)</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="rating_list">
-                                            <h3>Based on @Model.SanPham.SoLuongDanhGia Reviews</h3>
-                                            <ul class="list">
-                                                <li>
-                                                    <a>
-                                                        5 Star
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i> @soLuong5Sao
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        4 Star
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i> @soLuong4Sao
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        3 Star
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i> @soLuong3Sao
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        2 Star
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i> @soLuong2Sao
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        1 Star
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i> @soLuong1Sao
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                            <partial name="_RatingListPartial" model="Model.SanPham" />
 
-                            }
-                            @if (Model.SanPham.DiemDanhGia != null && Model.SanPham.SoLuongDanhGia != null)
-                            {
-                                <div class="review_list">
-                                    @foreach (var binhLuan in Model.BinhLuanList)
-                                    {
-                                        string name = Model.context.Users.Where(x => x.Id == binhLuan.Id).Select(m => m.Name).FirstOrDefault();
-                                        <div class="review_item">
-                                            <div class="media">
-                                                <div class="d-flex">
-                                                    <img src="img/product/single-product/review-3.png" alt="" />
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4>@name</h4>
-                                                    @if (binhLuan.MaDanhGia == 1)
-                                                    {
-                                                        <div>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                            <partial name="_ReviewListPartial" model="Model.SanPham" />
 
-                                                        </div>
-                                                    }
-                                                    else if (binhLuan.MaDanhGia == 2)
-                                                    {
-                                                        <div>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                            <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                            <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                        </div>
-
-                                                    }
-                                                    else if (binhLuan.MaDanhGia == 3)
-                                                    {
-                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                    }
-                                                    else if (binhLuan.MaDanhGia == 4)
-                                                    {
-                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                    }
-                                                    else if (binhLuan.MaDanhGia == 5)
-                                                    {
-                                                        <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                        <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
-                                                    }
-                                                </div>
-                                            </div>
-                                            <p>
-                                                @binhLuan.NoiDungBinhLuan
-                                            </p>
-                                        </div>
-                                    }
-                                </div>
-
-                            }
                         </div>
                         @if (User.Identity.IsAuthenticated && daBinhLuan == false)
                         {
-                            <form asp-controller="Home" asp-action="AddComment" method="post" class="col-lg-6">
-                                <div class="review_box">
-                                    <h4>Add a Review</h4>
-                                    <p>Your Rating:</p>
-                                    <label asp-for="@Model.BinhLuan.MaDanhGia" style="display:none;"></label>
-                                    <div class="default-select" id="default-select_2">
-                                        <select asp-for="@Model.BinhLuan.MaDanhGia">
-                                            @if (ViewBag.DanhSachDanhGia != null)
-                                            {
-                                                foreach (var item in ViewBag.DanhSachDanhGia)
-                                                {
-                                                    <option value="@item.Value">@item.Text</option>
-
-
-                                                }
-                                            }
-                                        </select>
-
-                                    </div>
-                                    <div class="row contact_form" action="contact_process.php" method="post" novalidate="novalidate">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <textarea asp-for="@Model.BinhLuan.NoiDungBinhLuan" style="height:100px; width:550px;" class="form-control"  rows="1" placeholder="Review"></textarea>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="BinhLuan.MaSanPham" value="@Model.SanPham.MaSanPham" />
-
-                                        <div class="col-md-12 text-right">
-                                            <button type="submit" class="btn_3">
-                                                Submit Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            <partial name="_AddCommentFormPartial" model="Model" />
                         }
-                        else if (User.Identity.IsAuthenticated && daBinhLuan == true)
+                        else if (daBinhLuan == true && Model.User != null)
                         {
-                            var binhLuanNguoidung = Model.context.BINHLUAN.Where(x => x.MaSanPham == Model.SanPham.MaSanPham).FirstOrDefault(m => m.Id == Model.User.Id);
-                            int soSao = 0;
-                            if (binhLuanNguoidung != null)
-                            {
-                                soSao = Model.context.DANHGIA
-                                   .Where(m => m.MaDanhGia == binhLuanNguoidung.MaDanhGia)
-                                   .Select(x => x.DiemDanhGia)
-                                   .FirstOrDefault();
-
-                            }
-                            <div class="row contact_form" action="contact_process.php" method="post" novalidate="novalidate">
-                                <div class="col-md-12">
-                                    <div style="padding: 10px 0; width: 100%; border-radius: 5px; font-size: 14px;">Đánh giá: @soSao sao</div>
-                                    <div class="form-group">
-                                        <textarea readonly style="height:100px; width:550px;" class="form-control" name="message" rows="1" placeholder="Review">@binhLuanNguoidung.NoiDungBinhLuan</textarea>
-                                    </div>
-                                </div>
-
-                 
-                            </div>
+                            @await Component.InvokeAsync("UserReview", new { Model.SanPham.MaSanPham})
                         }
                     </div>
                 </div>
@@ -657,70 +216,15 @@
         </div>
     </section>
 
-    <section class="product_list best_seller">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-                        <h2>Best Sellers <span>shop</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-12">
-                    <div class="best_product_slider owl-carousel">
-                        <div class="single_product_item">
-                            <img src="img/product/product_1.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_2.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_3.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_4.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_5.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.magnific-popup.js"></script>
-    <script src="js/jquery-1.12.1.min.js"></script>
-    <script src="js/custom.js"></script>
+
+
 </body>
-</html>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     var slideIndex = 0;
     showSlides();

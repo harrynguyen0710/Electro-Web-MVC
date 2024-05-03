@@ -1,0 +1,65 @@
+﻿@model List<DACS.Models.SanPham>
+
+<body>
+
+    <partial name="_BannerPartial" />
+    <section class="cat_product_area section_padding">
+        <div class="container">
+            <div class="row">
+                <partial name="_CategoryPartial" />
+                <div class="col-lg-9">
+                    <partial name="_SearchingPartial" />
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row align-items-center justify-content-between">
+                                @if(Model != null)
+                                    {
+                                        foreach (var sanPham in Model)
+                                        {
+                                            var hinhAnh = sanPham.HinhAnh.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="single_product_item">
+                                                <img src="~/Images/@hinhAnh.FileHinhAnh" alt="">
+                                                <div class="single_product_text">
+                                                    <h4>@sanPham.TenSanPham</h4>
+                                                    <h3>@sanPham.Gia</h3>
+                                                    <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
+                                                        Add To Cart<i class="ti-heart"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>No Product Found!</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <partial name="_PaginationPartial" />
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        $(function () {
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 500,
+                values: [75, 300],
+                slide: function (event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                }
+            });
+            $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+                " - $" + $("#slider-range").slider("values", 1));
+        });
+    </script>
+</body>
+

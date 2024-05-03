@@ -1,69 +1,29 @@
-@using DACS.Models
-@using DACS.ViewModel
-@model DonHangViewModel
-
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Techzone</title>
-
-    <link rel="icon" href="~/favicon.png">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="~/css/bootstrap.min.css">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="~/css/animate.css">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="~/css/all.css">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="~/css/flaticon.css">
-    <link rel="stylesheet" href="~/css/themify-icons.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="~/css/magnific-popup.css">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="~/css/slick.css">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="~/css/style.css">
-
-    </head>
-    <body>
-        <div>
-            <form method="get" asp-controller="KiemTraDonHang" asp-action="ThongTinDonHang">
-                <div style="border-radius: 12px; height: 500px ; width:95%; background-color: #f4f6f9; display:flex; flex-direction:row; justify-content:center; align-items:center">
-                    <div>
-                        <img src="~/assets/images/TGDD-540x270.png" />
-                    </div>
-                    <div style="background-color:#ffffff; height: 400px; width:600px; border-radius:14px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-                        <p style="font-size:25px; font-weight:350;">Look up order information</p>
-                        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-                        {
-                            <div style="color: red;">
-                                @ViewBag.ErrorMessage
+<body>
+    <section class="tracking_box_area padding_top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="tracking_box_inner">
+                        <p>
+                            To track your order please enter your phone number the box below and press the "Track" button. This was
+                            given
+                            to you on your receipt and in the confirmation email you should have received.
+                        </p>
+                        <form asp-controller="KiemTraDonHang" asp-action="ThongTinDonHang" class="row tracking_form" method="get" novalidate="novalidate">
+                            <div class="col-md-12 form-group">
+                                <input type="text" class="form-control" name="phoneNumber" id="phoneNumber"  placeholder="Phone number">
                             </div>
-                        }
-                        <div style="display: flex; flex-direction: row; border: 1px solid gray; border-radius: 30px; margin-top:30px;">
-                            <i class="fa-solid fa-phone" style="color: #18a0c6; transform:translate(11px,12px);"></i>
-                            <div style="height: 40px; width:300px; margin-left: 15px;">
-                                <input name="phoneNumber" id="phoneNumber" style="outline: none; border:none; height: 100%; width: 80%;" placeholder="Phone number" />
+                            <div class="col-md-12 form-group">
+                                <button type="submit" value="submit" class="btn_3">Track Order</button>
                             </div>
-                            <div class="form-group">
-                                <input type="submit" value="Search" class="btn btn-primary" />
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
-            </form>
+
+            </div>
 
         </div>
-    </body>
-</html>
+    </section>
+</body>
 
 

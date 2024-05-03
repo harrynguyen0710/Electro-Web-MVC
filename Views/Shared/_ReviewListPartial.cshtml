@@ -1,0 +1,72 @@
+﻿@model DACS.Models.SanPham;
+@if (Model.DiemDanhGia != null && Model.SoLuongDanhGia != null)
+{
+    <div class="review_list">
+        @foreach (var binhLuan in Model.BinhLuan)
+        {
+            string name = binhLuan.Customer.Name;
+            <div class="review_item">
+                <div class="media">
+                    <div class="d-flex">
+                        <img src="img/product/single-product/review-3.png" alt="" />
+                    </div>
+                    <div class="media-body">
+                        @if (name != null)
+                        {
+                            <h4>@name</h4>
+                            @if (binhLuan.MaDanhGia == 1)
+                            {
+                                <div>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                </div>
+                            }
+                            else if (binhLuan.MaDanhGia == 2)
+                            {
+                                <div>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                    <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                    <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                </div>
+
+                            }
+                            else if (binhLuan.MaDanhGia == 3)
+                            {
+                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                            }
+                            else if (binhLuan.MaDanhGia == 4)
+                            {
+                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                            }
+                            else if (binhLuan.MaDanhGia == 5)
+                            {
+                                <i class="fa-solid fa-star" style="color: #f19d27; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                                <i class="fa-solid fa-star" style="color: #b9b6b1; margin-right: 6px; font-size:12px;"></i>
+                            }
+
+                        }
+                    </div>
+                </div>
+                <p>
+                    @binhLuan.NoiDungBinhLuan
+                </p>
+            </div>
+        }
+    </div>
+}

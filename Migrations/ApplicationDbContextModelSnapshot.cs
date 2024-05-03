@@ -159,6 +159,27 @@ namespace DACS.Migrations
                     b.ToTable("CHITIETDONHANGSANPHAM");
                 });
 
+            modelBuilder.Entity("DACS.Models.ChuDe", b =>
+                {
+                    b.Property<int>("MaChuDe")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaChuDe"));
+
+                    b.Property<string>("Mota")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenChuDe")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaChuDe");
+
+                    b.ToTable("CHUDE");
+                });
+
             modelBuilder.Entity("DACS.Models.DanhGia", b =>
                 {
                     b.Property<int>("MaDanhGia")
@@ -424,6 +445,36 @@ namespace DACS.Migrations
                     b.HasKey("MaThuongHieu");
 
                     b.ToTable("THUONGHIEU");
+                });
+
+            modelBuilder.Entity("DACS.Models.TinTuc", b =>
+                {
+                    b.Property<int>("MaTinTuc")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTinTuc"));
+
+                    b.Property<string>("HinhAnh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaChuDe")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NoiDung")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TieuDe")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaTinTuc");
+
+                    b.HasIndex("MaChuDe");
+
+                    b.ToTable("TINTUC");
                 });
 
             modelBuilder.Entity("DACS.Models.TrangThaiDonHang", b =>
@@ -863,6 +914,17 @@ namespace DACS.Migrations
                     b.Navigation("ThuongHieu");
                 });
 
+            modelBuilder.Entity("DACS.Models.TinTuc", b =>
+                {
+                    b.HasOne("DACS.Models.ChuDe", "ChuDe")
+                        .WithMany("TinTuc")
+                        .HasForeignKey("MaChuDe")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChuDe");
+                });
+
             modelBuilder.Entity("DACS.Models.VeGiamGia", b =>
                 {
                     b.HasOne("DACS.Models.TyLeGiam", "TyLeGiam")
@@ -933,6 +995,11 @@ namespace DACS.Migrations
             modelBuilder.Entity("DACS.Models.BoNho", b =>
                 {
                     b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("DACS.Models.ChuDe", b =>
+                {
+                    b.Navigation("TinTuc");
                 });
 
             modelBuilder.Entity("DACS.Models.DanhGia", b =>

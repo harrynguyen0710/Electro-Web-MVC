@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.Models;
 using DACS.Repository;
 using DACS.ViewModel;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
-using System.Collections.Generic;
 using DACS.Service;
 using Microsoft.AspNetCore.Identity;
 
@@ -30,36 +27,25 @@ namespace WebDT.Controllers
         public async Task<IActionResult> Index()
         {
             List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
-
-            // Lấy thông tin người dùng đang đăng nhập
             var user = await _userManager.GetUserAsync(User);
-
             DonHang donHang = new DonHang();
-           
             decimal tongDonHang = 0;
-
-            AppUserModel khachHang = user; // Truyền thông tin người dùng vào biến khachHang
-
-
+            AppUserModel khachHang = user; 
             foreach (var item in cartItems)
             {
                 if (item.GiaKhuyenMai != null)
                 {
-                    // If GiaKhuyenMai is not null for this item, calculate price using GiaKhuyenMai
                     tongDonHang = (decimal)(tongDonHang + (item.Soluong * item.GiaKhuyenMai));
                 }
                 else
                 {
-                    // Otherwise, calculate price using Gia
                     tongDonHang += item.Soluong * item.Gia;
                 }
             }
             CartItemViewModel cartVM = new CartItemViewModel
             {
-                CartItems = cartItems,
-                
-/*                GrandTotal = cartItems.Sum(x => x.Soluong * x.Gia),
-*/
+                CartItems = cartItems,             
+/*                GrandTotal = cartItems.Sum(x => x.Soluong * x.Gia), */
                 GrandTotal = tongDonHang,
                 TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
                 DonHang = donHang,
@@ -71,21 +57,17 @@ namespace WebDT.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Index(CartItemViewModel cartVM) { 
+        public async Task<IActionResult> Index(CartItemViewModel cartVM)
+        { 
             cartVM.CartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
             DonHang donHang = new DonHang();
             if (User.Identity.IsAuthenticated)
             {
-                // Lấy thông tin người dùng đăng nhập
                 var user = await _userManager.GetUserAsync(User);
-
-                // Sử dụng thông tin từ người dùng đăng nhập để cập nhật thông tin khách hàng
                 cartVM.DonHang.TenKhachHang = user.UserName;
                 cartVM.DonHang.SoDienThoai = user.PhoneNumber;
                 cartVM.DonHang.DiaChi = user.Address;
             }
-
-            // Kiểm tra xem các thông tin bắt buộc đã được nhập hay chưa
             if (string.IsNullOrEmpty(cartVM.DonHang.TenKhachHang) || string.IsNullOrEmpty(cartVM.DonHang.SoDienThoai) || string.IsNullOrEmpty(cartVM.DonHang.DiaChi))
             {
                 return View(cartVM);
@@ -110,7 +92,6 @@ namespace WebDT.Controllers
             var tinhTong = cartItems.Sum(x => x.TongTien);
             if (tyLeGiam == null)
             {
-
                 cartVM.DonHang.TongGiaTriDonHang = tinhTong;
             }
             else
@@ -118,26 +99,16 @@ namespace WebDT.Controllers
                 cartVM.DonHang.TongGiaTriDonHang = tinhTong -   (tinhTong * tyLeGiam.PhanTramGiam) / 100;
 
             }
-
-
             cartVM.DonHang.MaTrangThaiDonHang = 1;
             cartVM.DonHang.MaTrangThaiThanhToan = 2;
             cartVM.DonHang.NgayLapDonHang = DateTime.Now;
             donHang = cartVM.DonHang;
-
-
-           
             if (maGiamGia != null)
             {
                 donHang.MaVeGiamGia = maGiamGia.MaVeGiamGia;
             }
-
-
-            
             await _dataContext.DONHANG.AddAsync(donHang);
-
             await _dataContext.SaveChangesAsync();
-
             foreach (var sanPham in cartItems)
             {
                 ChiTietDonHangSanPham ctDonHang = new ChiTietDonHangSanPham()
@@ -174,8 +145,6 @@ namespace WebDT.Controllers
                     "
             };
             await _emailSender.SendMail(content);
-
-
             return RedirectToAction("BuySuccessfully", "Cart");
         }
 
@@ -208,8 +177,6 @@ namespace WebDT.Controllers
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
-
 
 
         public IActionResult Decrease(int maSanPham)

@@ -1,4 +1,4 @@
-﻿@model DACS.ViewModel.DonHangViewModel
+﻿@model DACS.Models.DonHang;
 @{
     Layout = "_DashBoardAdmin";
 }
@@ -22,32 +22,20 @@
                 </div>
                 <div class="card-body pt-4 p-3">
                     <ul class="list-group">
-                        @{
-                            decimal grandTotal = 0;
-                            foreach (var sanPhamDaBan in Model.SanPhamList)
-                            {
-                                foreach (var soLuongMua in Model.ChiTietDonHangSanPhamList)
-                                {
-                                    if (soLuongMua.MaSanPham == sanPhamDaBan.MaSanPham)
-                                    {
-                                        grandTotal += soLuongMua.SoluongMua * sanPhamDaBan.Gia;
-                                    }
-                                }
-                            }
                             <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                 <div class="d-flex flex-column">
-                                    <h6 class="mb-3 text-sm">@Model.DonHang.TenKhachHang</h6>
-                                    <span class="mb-2 text-xs">Invoice date: <span class="text-dark font-weight-bold ms-sm-2">@Model.DonHang.NgayLapDonHang</span></span>
-                                    <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.SoDienThoai</span></span>
-                                    <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.DiaChi</span></span>
-                                    <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DonHang.YeuCauKhac</span></span>
+                                    <h6 class="mb-3 text-sm">@Model.TenKhachHang</h6>
+                                    <span class="mb-2 text-xs">Invoice date: <span class="text-dark font-weight-bold ms-sm-2">@Model.NgayLapDonHang</span></span>
+                                    <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@Model.SoDienThoai</span></span>
+                                    <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DiaChi</span></span>
+                                    <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@Model.YeuCauKhac</span></span>
                                     <span class="mb-2 text-xs">Order status: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TrangThaiDonHang.TenTrangThaiDonHang</span></span>
                                     <span class="mb-2 text-xs">Payment status: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TrangThaiThanhToan.TenTrangThaiThanhToan</span></span>
-                                    <span class="mb-2 text-xs">Total price: <span class="text-dark ms-sm-2 font-weight-bold">@grandTotal.ToString()</span></span>
+                                    <span class="mb-2 text-xs">Total price: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TongGiaTriDonHang</span></span>
 
                                 </div>
                             </li>
-                        }
+                        
                     </ul>
                     <div>
                         <div class="container mt-5">
@@ -62,33 +50,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var sanPhamDaBan in Model.SanPhamList)
+                                    @foreach (var sanPhamDaBan in Model.ChiTietDonHangSanPham)
                                     {
                                         <tr>
-                                            @foreach (var hinhAnh in Model.HinhAnhList)
+                                            @foreach (var hinhAnh in sanPhamDaBan.SanPham.HinhAnh)
                                             {
-                                                if (hinhAnh.MaSanPham == sanPhamDaBan.MaSanPham)
-                                                {
-                                                    <th scope="row">
-                                                        <img src="~/Images/@hinhAnh.FileHinhAnh" style="height: 80px; width: 80px;" />
-                                                    </th>
-                                                    break;
-                                                }
+                                                <th scope="row">
+                                                    <img src="~/Images/@hinhAnh.FileHinhAnh" style="height: 80px; width: 80px;" />
+                                                </th>
+                                                break;
+
                                             }
-                                            <td>@sanPhamDaBan.TenSanPham</td>
-                                            <td>@sanPhamDaBan.Gia</td>
-                                            @foreach (var soLuongMua in Model.ChiTietDonHangSanPhamList)
-                                            {
-                                                if (soLuongMua.MaSanPham == sanPhamDaBan.MaSanPham)
-                                                {
-                                                    <td>@soLuongMua.SoluongMua</td>
-                                                }
-                                            }
+                                            <td>@sanPhamDaBan.SanPham.TenSanPham</td>
+                                            <td>@sanPhamDaBan.DonGiaBan</td>
+                                            <td>@sanPhamDaBan.SoluongMua</td>
                                             <td>
                                                 @if (sanPhamDaBan is Iphone)
                                                 {
                                                     <a class="btn btn-primary" asp-area="Admin" asp-controller="Iphone" asp-action="Details" asp-route-MaSanPham="@sanPhamDaBan.MaSanPham">
-                                                       Details
+                                                        Details
                                                     </a>
 
                                                 }

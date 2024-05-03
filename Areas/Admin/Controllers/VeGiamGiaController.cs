@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
@@ -21,15 +17,11 @@ namespace DACS.Areas.Admin.Controllers
         {
             _context = context;
         }
-
-        // GET: Admin/VeGiamGia
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.VEGIAMGIA.Include(v => v.TyLeGiam);
             return View(await applicationDbContext.ToListAsync());
         }
-
-        // GET: Admin/VeGiamGia/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,17 +39,11 @@ namespace DACS.Areas.Admin.Controllers
 
             return View(veGiamGia);
         }
-
-        // GET: Admin/VeGiamGia/Create
         public IActionResult Create()
         {
             ViewData["MaTyLeGiam"] = new SelectList(_context.TYLEGIAM, "MaTyLeGiam", "MoTaTyLeGiam");
             return View();
         }
-
-        // POST: Admin/VeGiamGia/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MaVeGiamGia,Code,NgayThietLap,SoLuongToiDaSuDung,MaTyLeGiam")] VeGiamGia veGiamGia)
@@ -69,8 +55,6 @@ namespace DACS.Areas.Admin.Controllers
 
 
         }
-
-        // GET: Admin/VeGiamGia/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,10 +70,6 @@ namespace DACS.Areas.Admin.Controllers
             ViewData["MaTyLeGiam"] = new SelectList(_context.TYLEGIAM, "MaTyLeGiam", "MoTaTyLeGiam", veGiamGia.MaTyLeGiam);
             return View(veGiamGia);
         }
-
-        // POST: Admin/VeGiamGia/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("MaVeGiamGia,Code,NgayThietLap,SoLuongToiDaSuDung,MaTyLeGiam")] VeGiamGia veGiamGia)
@@ -118,7 +98,6 @@ namespace DACS.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
 
         }
-        // GET: Admin/VeGiamGia/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,8 +115,6 @@ namespace DACS.Areas.Admin.Controllers
 
             return View(veGiamGia);
         }
-
-        // POST: Admin/VeGiamGia/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -151,7 +128,6 @@ namespace DACS.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool VeGiamGiaExists(int id)
         {
             return _context.VEGIAMGIA.Any(e => e.MaVeGiamGia == id);
