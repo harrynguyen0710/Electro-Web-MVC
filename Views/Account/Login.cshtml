@@ -61,39 +61,41 @@
                                         Log in
                                     </button>
                                     <a class="lost_pass" href="#">Forgot password?</a>
-                                    <div class="login-social">
-                                        @{
-                                            var loginProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                                            <form asp-controller="Account" asp-action="ExternalLogin" method="POST" class="form-horizontal" style="text-align: center">
-                                                @foreach (var provider in loginProviders)
-                                                {
-                                                    if (string.Equals(provider.Name, "facebook", StringComparison.OrdinalIgnoreCase))
-                                                    {
-
-                                                        <button style="width:342px;height:55px;" type="submit" class="btn btn-facebook text-uppercase" name="provider" value="@provider.Name"
-                                                                title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
-                                                            <i style="height:14px;width:14px;" class="fab fa-facebook mr-2"></i>
-                                                            @provider.DisplayName
-                                                        </button>
-
-
-
-                                                    }
-                                                    else if (string.Equals(provider.Name, "google", StringComparison.OrdinalIgnoreCase))
-                                                    {
-                                                        <button style="width:342px;height:55px;" type="submit" class="btn btn-google text-uppercase mt-3" name="provider" value="@provider.Name"
-                                                                title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
-                                                            <i style="height:14px;width:14px;" class="fab fa-google mr-2"></i>
-                                                            @provider.DisplayName
-                                                        </button>
-                                                    }
-                                                }
-                                            </form>
-
-                                        }
-                                    </div>
+                                 
                                 </div>
                             </form>
+
+                            <div class="login-social">
+                                @{
+                                    var loginProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                                    <form asp-controller="Account" asp-action="ExternalLogin" method="POST" class="form-horizontal" style="text-align: center">
+                                        @foreach (var provider in loginProviders)
+                                        {
+                                            if (string.Equals(provider.Name, "facebook", StringComparison.OrdinalIgnoreCase))
+                                            {
+
+                                                <button style="width:342px;height:55px;" type="submit" class="btn btn-facebook text-uppercase" name="provider" value="@provider.Name"
+                                                        title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
+                                                    <i style="height:14px;width:14px;" class="fab fa-facebook mr-2"></i>
+                                                    @provider.DisplayName
+                                                </button>
+
+
+
+                                            }
+                                            else if (string.Equals(provider.Name, "google", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                <button style="width:342px;height:55px;" type="submit" class="btn btn-google text-uppercase mt-3" name="provider" value="@provider.Name"
+                                                        title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
+                                                    <i style="height:14px;width:14px;" class="fab fa-google mr-2"></i>
+                                                    @provider.DisplayName
+                                                </button>
+                                            }
+                                        }
+                                    </form>
+
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
