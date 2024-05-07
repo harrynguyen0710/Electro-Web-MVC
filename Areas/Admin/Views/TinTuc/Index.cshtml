@@ -16,10 +16,16 @@
         <thead>
             <tr>
                 <th>
+                    @Html.DisplayNameFor(model => model.MaTinTuc)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.TieuDe)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.HinhAnh)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TomTat)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ChuDe)
@@ -31,10 +37,16 @@
     @foreach (var item in Model) {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.MaTinTuc)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.TieuDe)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.HinhAnh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TomTat)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ChuDe.TenChuDe)

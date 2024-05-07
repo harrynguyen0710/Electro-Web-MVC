@@ -12,47 +12,31 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create" enctype="multipart/form-data">
+            <form asp-action="Create" enctype="multipart/form-data" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="TieuDe" class="control-label"></label>
-                    <input asp-for="TieuDe" class="form-control" />
-                    <span asp-validation-for="TieuDe" class="text-danger"></span>
+                    <label asp-for="@Model.TieuDe" class="control-label"></label>
+                    <input asp-for="@Model.TieuDe" class="form-control" />
+                    <span asp-validation-for="@Model.TieuDe" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="NoiDung" class="control-label"></label>
+                    <label asp-for="@Model.TomTat" class="control-label"></label>
+                     <textarea asp-for="@Model.TomTat" class="form-control"></textarea>
+                    <span asp-validation-for="@Model.TomTat" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.NoiDung" class="control-label"></label>
                     <textarea id="summernoteEditor" name="NoiDung" placeholder="Content" class="form-control"></textarea>
-                    <span asp-validation-for="NoiDung" class="text-danger"></span>
+                    <span asp-validation-for="@Model.NoiDung" class="text-danger"></span>
                 </div>
-                <!-- Thumbnail -->
-                <div class="form-group col-4 p-0">
-                    <label class="control-label"></label>
-                    <img id="PreviewPhoto" src="~/Images/noimage.png" alt="Logo Image"
-                         style="width:260px; height:260px; border: 1px solid #333333; border-radius:5px;" />
-                    <span asp-validation-for="HinhAnh" class="text-danger"></span>
-                </div>
-
-                <div class="col-1 p-0">
-                </div>
-
-                <div class="form-group col-7 p-0">
-                    <div class="input-group custom-file-button mt-5 pt-5" style="width:260px; height:30px; transform:translateY(-65px);">
-                        <div class="custom-file">
-                            <input asp-for="HinhAnh" class="custom-file-input" type="file" id="customFile">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group pt-0 mt-0">
-                    <div ID="HiddenDiv" style="visibility: hidden;">
-                        <input asp-for="HinhAnh" id="PhotoUrl" value="" />
-                    </div>
-                </div>
-                <!-- Thumbnail -->
                 <div class="form-group">
-                    <label asp-for="MaChuDe" class="control-label"></label>
-                    <select asp-for="MaChuDe" class="form-control" asp-items="ViewBag.MaChuDe"></select>
+                    <label asp-for="@Model.ProfilePhoto" class="control-label"></label>
+                    <input asp-for="@Model.ProfilePhoto" class="form-control" type="file">
+                    <span asp-validation-for="@Model.ProfilePhoto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.MaChuDe" class="control-label"></label>
+                    <select asp-for="@Model.MaChuDe" class="form-control" asp-items="ViewBag.MaChuDe"></select>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
@@ -95,5 +79,22 @@
                 $(this).siblings('.custom-file-label').addClass('selected').html(fileName);
             });
         });
+
+        function previewFile() {
+            var preview = document.getElementById('previewImage');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+            }
+        }
     </script>
 }

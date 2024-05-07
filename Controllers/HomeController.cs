@@ -10,21 +10,25 @@ using System.Diagnostics;
 
 namespace DACS.Controllers
 {
-
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _dataContext;
         private readonly UserManager<AppUserModel> _userManager;
         private readonly IProductRepository<SanPham> _productRepository;
+        private readonly IBlog _blogRepository;
+        private readonly IToolsRepository<ChuDe> _topicRepository;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext dataContext
-            , UserManager<AppUserModel> userManager, IProductRepository<SanPham> productRepository)
+            , UserManager<AppUserModel> userManager, IProductRepository<SanPham> productRepository
+            , IBlog blogRepository, IToolsRepository<ChuDe> topicRepository)
         {
             _logger = logger;
             _dataContext = dataContext;
             _userManager = userManager;
-            _productRepository = productRepository; 
+            _productRepository = productRepository;
+            _blogRepository = blogRepository;
+            _topicRepository = topicRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -107,6 +111,27 @@ namespace DACS.Controllers
             return View("Category", sanPham);
         }
 
+        public async Task<IActionResult> GetAllBlogs()
+        {
+            var blogs = await _blogRepository.GetAllAsync();
+            var topics = await _topicRepository.GetAllAsync();
+            ViewData["Topics"] = topics;
+            return View(blogs); 
+        }
+        [HttpGet]
+        public async Task<IActionResult> BlogCategory(int maTinTuc)
+        {
+            var blog = await _blogRepository.GetByIdAsync(maTinTuc);
+            if (blog == null) 
+            { 
+                return NotFound();
+            }
+            var topics = await _topicRepository.GetAllAsync(); 
+
+            ViewData["Topics"] = topics; 
+            return View(blog);
+
+        }
 
         public async Task<IActionResult> CategoryByProduct(string? category)
         {
@@ -143,6 +168,12 @@ namespace DACS.Controllers
 
 
             return View("Category", sanPham);
+        }
+
+        public async Task<IActionResult> TopicsPartial()
+        {
+            var topics = await _topicRepository.GetAllAsync();
+            return PartialView("_TopicsPartial", topics);
         }
 
         public IActionResult CSKH()

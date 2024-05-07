@@ -5,6 +5,7 @@ using DACS.Models;
 using DACS.Service;
 using DACS.IRepository;
 using DACS.Repository;
+using Microsoft.Extensions.Options;
 
 
 
@@ -13,8 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"), o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
 );
+
+
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
@@ -26,9 +29,10 @@ builder.Services.AddScoped<IProductRepository<Laptop>, ProductRepository<Laptop>
 
 builder.Services.AddScoped(typeof(IToolsRepository<>), typeof(ToolsRepository<>));
 
+builder.Services.AddScoped<IBlog,BlogRepository>(); 
 builder.Services.AddScoped<IHinhAnh, HinhAnhRepository>();
 builder.Services.AddScoped<IDonHang, DonHangRepository>();
-builder.Services.AddScoped<IGenericRepository<ChiTietDonHangSanPham>, ChiTietDonHangRepository>();
+builder.Services.AddScoped<IOrderDetails, OrderDetailsRepository>();
 
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
 {

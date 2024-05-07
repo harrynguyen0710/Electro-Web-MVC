@@ -45,12 +45,8 @@ namespace DACS.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MaChuDe,TenChuDe,Mota")] ChuDe chuDe)
         {
-            if (ModelState.IsValid)
-            {
-                await _repository.AddAsync(chuDe);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(chuDe);
+            await _repository.AddAsync(chuDe);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(int? id)

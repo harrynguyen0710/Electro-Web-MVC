@@ -71,31 +71,6 @@ namespace DACS.Areas.Admin.Controllers
             await _genericRepository.Update(thuongHieu);
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var thuongHieu = await _genericRepository.GetByIdAsync(id);
 
-            if (thuongHieu == null)
-            {
-                return NotFound();
-            }
-
-            return View(thuongHieu);
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var thuongHieu = await _genericRepository.GetByIdAsync(id);
-            if (thuongHieu != null)
-            {
-                await _genericRepository.Delete(thuongHieu);
-            }
-            return RedirectToAction(nameof(Index));
-        }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
@@ -15,19 +11,20 @@ namespace DACS.Areas.Admin.Controllers
     [Area("Admin")]
     public class TinTucController : Controller
     {
-        const string FOLDER = "thumbnail";
-        private readonly ApplicationDbContext _context;
+        private const string FOLDER = "thumbnail";
+        private readonly IBlog _blogRepository;
         private readonly IHinhAnh _repository;
-
-        public TinTucController(ApplicationDbContext context, IHinhAnh repository)
+        private readonly ApplicationDbContext _context; 
+        public TinTucController(IBlog blogRepository, IHinhAnh repository, ApplicationDbContext context)
         {
-            _context = context;
+            _blogRepository = blogRepository;
             _repository = repository;
+            _context = context;
         }
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.TINTUC.Include(t => t.ChuDe);
-            return View(await applicationDbContext.ToListAsync());
+            var blogs = await _blogRepository.GetAllAsync();
+            return View(blogs);
         }
         public async Task<IActionResult> Details(int? id)
         {
@@ -35,10 +32,8 @@ namespace DACS.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            var tinTuc = await _blogRepository.GetByIdAsync(id);
 
-            var tinTuc = await _context.TINTUC
-                .Include(t => t.ChuDe)
-                .FirstOrDefaultAsync(m => m.MaTinTuc == id);
             if (tinTuc == null)
             {
                 return NotFound();
@@ -53,13 +48,16 @@ namespace DACS.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaTinTuc,TieuDe,NoiDung,HinhAnh,MaChuDe")] TinTuc tinTuc)
+        public async Task<IActionResult> Create(TinTuc tinTuc)
         {
             string file = _repository.GetProfilePhotoFileName(tinTuc.ProfilePhoto, FOLDER);
-            tinTuc.HinhAnh = file ?? "";
+            if (file == null)
+            {
+                return View(tinTuc);
+            }
+            tinTuc.HinhAnh = file;
 
-            await _context.TINTUC.AddAsync(tinTuc);
-            await _context.SaveChangesAsync();
+            await _blogRepository.AddAsync(tinTuc);
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Edit(int? id)

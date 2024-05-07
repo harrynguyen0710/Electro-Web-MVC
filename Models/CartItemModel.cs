@@ -1,8 +1,4 @@
-﻿using System.Drawing;
-using System.Net.Http.Headers;
-using DACS.Models;
-
-namespace DACS.Models
+﻿namespace DACS.Models
 {
     public class CartItemModel
     {
