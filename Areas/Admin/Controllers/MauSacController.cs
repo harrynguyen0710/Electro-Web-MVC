@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DACS.Data;
 using DACS.Models;
+using DACS.IRepository;
 
 namespace WebDT.Areas.Admin.Controllers
 {
@@ -15,15 +9,16 @@ namespace WebDT.Areas.Admin.Controllers
     [Authorize]
     public class MauSacController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IToolsRepository<MauSac> _toolsRepository;
 
-        public MauSacController(ApplicationDbContext context)
+        public MauSacController(IToolsRepository<MauSac> toolsRepository)
         {
-            _context = context;
+            _toolsRepository = toolsRepository;
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MAUSAC.ToListAsync());
+            var mauSac = await _toolsRepository.GetAllAsync();
+            return View(mauSac);
         }
         public async Task<IActionResult> Details(int? id)
         {
@@ -32,8 +27,7 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var mauSac = await _context.MAUSAC
-                .FirstOrDefaultAsync(m => m.MaMauSac == id);
+            var mauSac = await _toolsRepository.GetByIdAsync(id);
             if (mauSac == null)
             {
                 return NotFound();
@@ -49,8 +43,7 @@ namespace WebDT.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("MaMauSac,TenMau")] MauSac mauSac)
         {
-            _context.Add(mauSac);
-            await _context.SaveChangesAsync();
+            await _toolsRepository.AddAsync(mauSac);  
             return RedirectToAction("Index", "MauSac");
         }
         public async Task<IActionResult> Edit(int? id)
@@ -60,7 +53,7 @@ namespace WebDT.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var mauSac = await _context.MAUSAC.FindAsync(id);
+            var mauSac = await _toolsRepository.GetByIdAsync(id);
             if (mauSac == null)
             {
                 return NotFound();
@@ -75,60 +68,8 @@ namespace WebDT.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-                try
-                {
-                    _context.Update(mauSac);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MauSacExists(mauSac.MaMauSac))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-
-
-        }
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var mauSac = await _context.MAUSAC
-                .FirstOrDefaultAsync(m => m.MaMauSac == id);
-            if (mauSac == null)
-            {
-                return NotFound();
-            }
-
-            return View(mauSac);
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var mauSac = await _context.MAUSAC.FindAsync(id);
-            if (mauSac != null)
-            {
-                _context.MAUSAC.Remove(mauSac);
-            }
-
-            await _context.SaveChangesAsync();
+            await _toolsRepository.Update(mauSac);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool MauSacExists(int id)
-        {
-            return _context.MAUSAC.Any(e => e.MaMauSac == id);
         }
     }
 }

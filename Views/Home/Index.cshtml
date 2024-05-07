@@ -1,6 +1,5 @@
-﻿@*@model DACS.ViewModel.SanPhamChiTietViewModel
-*@
-@model List<DACS.Models.SanPham>;
+﻿@model List<DACS.Models.SanPham>;
+
 <body>
     @await Component.InvokeAsync("Slider")
 
@@ -14,86 +13,134 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="product_list_slider owl-carousel">
-                        <div class="single_product_list_slider">
-                            <div class="row align-items-center justify-content-between">
-
-                                @foreach (var sanPham in Model)
+                @foreach (var sanPham in Model)
+                {
+                    <div class="col-lg-3 col-sm-6 add_cart_item">
+                        <div class="product_item">
+                            <a href="@Url.Action("Details", "Home", new { MaSanPham = sanPham.MaSanPham })" class="product_link">
+                                @foreach (var anh in sanPham.HinhAnh.Take(1))
                                 {
-                                    <a asp-controller="Home" asp-action="Details" asp-route-MaSanPham="@sanPham.MaSanPham">
-                                        <div class="col-lg-3 col-sm-6 add_cart_item">
-                                            <div class="single_product_item">
-                                                @foreach (var anh in sanPham.HinhAnh)
-                                                {
-                                                    <img src="~/Images/@anh.FileHinhAnh" alt="">
-                                                    break;
-                                                }
-                                                <div class="single_product_text">
-                                                    <h4>@sanPham.TenSanPham</h4>
-                                                    <h3>@sanPham.Gia</h3>
-                                                    <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
-                                                        ADD TO CART<i class="ti-heart"></i>
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </a>
+                                    <img src="~/Images/@anh.FileHinhAnh" alt="" class="product_image">
+                                    break;
                                 }
+                            <div class="product_info">
+                                <h4 class="product_name">@sanPham.TenSanPham</h4>
+                                <h3 class="product_price">@sanPham.Gia.ToString("#,##0 đ")</h3>
+                                <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" class="add_to_cart_button">ADD TO CART</a>
+                                <i class="ti-heart"></i>
                             </div>
-
+                            </a>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </section>
 
-    <partial name="_SpecialDiscountPartial"/>
 
-@*    <section class="product_list best_seller section_padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-                        <h2>Best sellers<span>shop</span></h2>
+    <style>
+        .product_item {
+            border: 1px solid #ddd;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+            .product_item:hover {
+                box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+            }
+
+        .product_info {
+            margin-top: 10px;
+        }
+
+        .product_name {
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .product_price {
+            color: #f57224;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .add_to_cart_button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f57224;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+            .add_to_cart_button:hover {
+                background-color: #e45610;
+                color: #fff; 
+            }
+
+        .product_link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product_image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .add_cart_item {
+            margin-bottom: 30px;
+        }
+    </style>
+
+
+
+    <partial name="_SpecialDiscountPartial" />
+
+    @*    <section class="product_list best_seller section_padding">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="section_tittle text-center">
+                            <h2>Best sellers<span>shop</span></h2>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="product_list_slider owl-carousel">
-                        <div class="single_product_list_slider">
-                            <div class="row align-items-center justify-content-between">
-                                @{
-                                    foreach (var sanPham in Model)
-                                    {
-                                        <div class="col-lg-3 col-sm-6">
-                                            <div class="single_product_item">
-                                                @foreach (var anh in sanPham.HinhAnh)
-                                                {
-                                                    <img src="~/Images/@anh.FileHinhAnh" alt="">
-                                                    break;
-                                                }
-                                                <div class="single_product_text">
-                                                    <h4>@sanPham.TenSanPham</h4>
-                                                    <h3>@sanPham.Gia</h3>
-                                                    <a href="#" class="add_cart">Add to cart<i class="ti-heart"></i></a>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product_list_slider owl-carousel">
+                            <div class="single_product_list_slider">
+                                <div class="row align-items-center justify-content-between">
+                                    @{
+                                        foreach (var sanPham in Model)
+                                        {
+                                            <div class="col-lg-3 col-sm-6">
+                                                <div class="single_product_item">
+                                                    @foreach (var anh in sanPham.HinhAnh)
+                                                    {
+                                                        <img src="~/Images/@anh.FileHinhAnh" alt="">
+                                                        break;
+                                                    }
+                                                    <div class="single_product_text">
+                                                        <h4>@sanPham.TenSanPham</h4>
+                                                        <h3>@sanPham.Gia</h3>
+                                                        <a href="#" class="add_cart">Add to cart<i class="ti-heart"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        }
                                     }
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>*@
+        </section>*@
 
-    <partial name="_SubscribePartial"/>
+    <partial name="_SubscribePartial" />
 </body>
 

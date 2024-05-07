@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using DACS.Models;
 
 namespace DACS.Data
@@ -20,15 +18,12 @@ namespace DACS.Data
         public DbSet<Ram> RAM { get; set; }
         public DbSet<ThuongHieu> THUONGHIEU { get; set; }
         public DbSet<SanPham> SANPHAM { get; set; }
-        public DbSet<TrangThaiDonHang> TRANGTHAIDONHANG { get; set; }
-        public DbSet<TrangThaiThanhToan> TRANGTHAITHANHTOAN { get; set; }
         public DbSet<DonHang> DONHANG { get; set; }
         public DbSet<ChiTietDonHangSanPham> CHITIETDONHANGSANPHAM { get; set; }
         public DbSet<SanPhamDacBiet> SANPHAMDACBIET { get; set; }
         public DbSet<HinhAnhQuangCao> HINHANHQUANGCAO { get; set; }
         public DbSet<DanhGia> DANHGIA { get; set; }
         public DbSet<BinhLuan> BINHLUAN { get; set; }
-        public DbSet<TyLeGiam> TYLEGIAM { get; set; }
         public DbSet<VeGiamGia> VEGIAMGIA { get; set; }
         public DbSet<ChuDe> CHUDE {  get; set; }
         public DbSet<TinTuc> TINTUC {  get; set; }
@@ -105,11 +100,6 @@ namespace DACS.Data
                 .HasOne<SanPham>(m => m.SanPham)
                 .WithMany(s => s.BinhLuan)
                 .HasForeignKey(s => s.MaSanPham);
-
-            modelBuilder.Entity<VeGiamGia>()
-                .HasOne<TyLeGiam>(m => m.TyLeGiam)
-                .WithMany(s => s.VeGiamGia)
-                .HasForeignKey(s => s.MaTyLeGiam);
 
             modelBuilder.Entity<DonHang>()
                 .HasOne<VeGiamGia>(m => m.VeGiamGia)

@@ -10,6 +10,10 @@ namespace DACS.Models
         public string TieuDe { get; set; }
         public string NoiDung { get; set; } 
         public string HinhAnh { get; set; }
+        public string TomTat { get; set; }
+        public bool TrangThaiBaiDang { get; set; }
+        public DateTime ThoiGianDangBai { get; set; }
+
         [ForeignKey("ChuDe")]
         public int MaChuDe { get; set; }    
         public ChuDe ChuDe { get; set; }

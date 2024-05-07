@@ -6,6 +6,8 @@ using DACS.Repository;
 using DACS.ViewModel;
 using DACS.Service;
 using Microsoft.AspNetCore.Identity;
+using DACS.IRepository;
+using System.Web;
 
 namespace WebDT.Controllers
 {
@@ -14,120 +16,68 @@ namespace WebDT.Controllers
         private readonly ApplicationDbContext _dataContext;
         private readonly IEmailSender _emailSender;
         private readonly UserManager<AppUserModel> _userManager;
+        private readonly IDonHang _billRepository;
+        private readonly IOrderDetails _orderDetailsRepository;
 
 
-        public CartController(ApplicationDbContext _context, IEmailSender emailSender, UserManager<AppUserModel> userManager)
+        public CartController(ApplicationDbContext _context, IEmailSender emailSender, 
+            UserManager<AppUserModel> userManager, IDonHang billRepository, IOrderDetails orderDetailsRepository)
         {
             _dataContext = _context;
             _emailSender = emailSender;
             _userManager = userManager;
-
+            _billRepository = billRepository;
+            _orderDetailsRepository = orderDetailsRepository;
         }
 
         public async Task<IActionResult> Index()
         {
             List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
             var user = await _userManager.GetUserAsync(User);
-            DonHang donHang = new DonHang();
-            decimal tongDonHang = 0;
-            AppUserModel khachHang = user; 
-            foreach (var item in cartItems)
+            
+            DonHang donHang = new DonHang()
             {
-                if (item.GiaKhuyenMai != null)
-                {
-                    tongDonHang = (decimal)(tongDonHang + (item.Soluong * item.GiaKhuyenMai));
-                }
-                else
-                {
-                    tongDonHang += item.Soluong * item.Gia;
-                }
-            }
+                TenKhachHang = user?.Name,
+                DiaChi = user?.Address,
+                SoDienThoai = user?.PhoneNumber
+            };
+
             CartItemViewModel cartVM = new CartItemViewModel
             {
                 CartItems = cartItems,             
-/*                GrandTotal = cartItems.Sum(x => x.Soluong * x.Gia), */
-                GrandTotal = tongDonHang,
+                GrandTotal = _billRepository.GetTotalBill(cartItems),
                 TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
-                DonHang = donHang,
-                KhachHang = khachHang
+                DonHang = donHang
             };
 
             return View(cartVM);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Index(CartItemViewModel cartVM)
-        { 
-            cartVM.CartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
-            DonHang donHang = new DonHang();
-            if (User.Identity.IsAuthenticated)
+        {
+            List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            if (cartVM.DonHang == null || cartItems == null)
             {
-                var user = await _userManager.GetUserAsync(User);
-                cartVM.DonHang.TenKhachHang = user.UserName;
-                cartVM.DonHang.SoDienThoai = user.PhoneNumber;
-                cartVM.DonHang.DiaChi = user.Address;
+                return NotFound();
             }
-            if (string.IsNullOrEmpty(cartVM.DonHang.TenKhachHang) || string.IsNullOrEmpty(cartVM.DonHang.SoDienThoai) || string.IsNullOrEmpty(cartVM.DonHang.DiaChi))
+            var veGiamGia = _dataContext.VEGIAMGIA.Where(x => x.Code == cartVM.Code).FirstOrDefault();
+            if(veGiamGia != null)
             {
+                cartVM.DonHang.MaVeGiamGia = veGiamGia.MaVeGiamGia;
+            }
+            else if (veGiamGia == null && cartVM.Code != null)
+            {
+                ViewBag.InvalidVoucher = "Code voucher is invalid or outdated!";
+                cartVM.CartItems = cartItems;
                 return View(cartVM);
             }
-            if (cartVM == null || cartVM.DonHang == null)
-            {
-                return NotFound();
-            }
-            List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>(); // neu co du lieu thi hien thi con khong se tao moi 1 list 
-            if (cartItems == null)
-            {
-                return NotFound();
-            }
-            TyLeGiam tyLeGiam = new TyLeGiam();
-
-            var maGiamGia = _dataContext.VEGIAMGIA.Where(x => x.Code == cartVM.MaGiamGia).FirstOrDefault();
-            if (maGiamGia != null)
-            {
-                tyLeGiam = _dataContext.TYLEGIAM.Where(x => x.MaTyLeGiam == maGiamGia.MaTyLeGiam).FirstOrDefault();
-            }
-
-            var tinhTong = cartItems.Sum(x => x.TongTien);
-            if (tyLeGiam == null)
-            {
-                cartVM.DonHang.TongGiaTriDonHang = tinhTong;
-            }
-            else
-            {
-                cartVM.DonHang.TongGiaTriDonHang = tinhTong -   (tinhTong * tyLeGiam.PhanTramGiam) / 100;
-
-            }
-            cartVM.DonHang.MaTrangThaiDonHang = 1;
-            cartVM.DonHang.MaTrangThaiThanhToan = 2;
+            cartVM.DonHang.TongGiaTriDonHang = _billRepository.GetTotalBillWithVoucher(cartItems, veGiamGia?.TyleGiam);
             cartVM.DonHang.NgayLapDonHang = DateTime.Now;
-            donHang = cartVM.DonHang;
-            if (maGiamGia != null)
-            {
-                donHang.MaVeGiamGia = maGiamGia.MaVeGiamGia;
-            }
-            await _dataContext.DONHANG.AddAsync(donHang);
-            await _dataContext.SaveChangesAsync();
-            foreach (var sanPham in cartItems)
-            {
-                ChiTietDonHangSanPham ctDonHang = new ChiTietDonHangSanPham()
-                {
-                    MaDonHang = donHang.MaDonHang,
-                    MaSanPham = sanPham.MaSanPham,
-                    SoluongMua = sanPham.Soluong,
-                };
-                if (sanPham.GiaKhuyenMai != null)
-                {
-                    ctDonHang.DonGiaBan = (decimal)sanPham.GiaKhuyenMai;
-                }
-                else
-                {
-                    ctDonHang.DonGiaBan = sanPham.Gia;
-                }
-                await _dataContext.CHITIETDONHANGSANPHAM.AddAsync(ctDonHang);
-                await _dataContext.SaveChangesAsync();
-            }
+            await _billRepository.AddAsync(cartVM.DonHang);
+            var orders = _orderDetailsRepository.GetAllOrderDetails(cartItems, cartVM.DonHang);
+            await _orderDetailsRepository.AddRangeAsync(orders.ToArray());
+
             HttpContext.Session.Remove("Cart");
 
             MailContent content = new MailContent
@@ -135,14 +85,13 @@ namespace WebDT.Controllers
                 To = "nnhoang0710@gmail.com",
                 Subject = "Đơn hàng mới",
                 Body = $@"
-                        <p><strong>Mã đơn hàng: {donHang.MaDonHang}</strong></p>
-                        <p>Khách hàng: {donHang.TenKhachHang}</p>
-                        <p>Ngày lập đơn hàng {donHang.NgayLapDonHang}<p/>
-                        <p>Số điện thoại: {donHang.SoDienThoai}</p>
-                        <p>Địa chỉ: {donHang.DiaChi}</p>
-                        <p>Yêu cấu khác: {donHang.YeuCauKhac}</p>
-                        <p>Tổng đơn hàng: {cartVM.DonHang.TongGiaTriDonHang}<p>
-                    "
+                    <p><strong>Mã đơn hàng: {cartVM.DonHang.MaDonHang}</strong></p>
+                    <p>Khách hàng: {cartVM.DonHang.TenKhachHang}</p>
+                    <p>Ngày lập đơn hàng: {cartVM.DonHang.NgayLapDonHang}</p>
+                    <p>Số điện thoại: {cartVM.DonHang.SoDienThoai}</p>
+                    <p>Địa chỉ: {cartVM.DonHang.DiaChi}</p>
+                    <p>Yêu cầu khác: {cartVM.DonHang.YeuCauKhac}</p>
+                    <p>Tổng đơn hàng: {cartVM.DonHang.TongGiaTriDonHang}</p>"
             };
             await _emailSender.SendMail(content);
             return RedirectToAction("BuySuccessfully", "Cart");
@@ -253,6 +202,30 @@ namespace WebDT.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ApplyVoucher(string code)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(code))
+                {
+                    return Json(new { valid = false, error = "Voucher code is empty." });
+                }
+                var voucher = await _dataContext.VEGIAMGIA.SingleOrDefaultAsync(v => v.Code == code);
+
+                if (voucher != null)
+                {
+                    List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+                    var totalCost = _billRepository.GetTotalBillWithVoucher(cartItems, voucher?.TyleGiam);
+                    return Json(new { valid = true, voucher = new { code = voucher.Code, tyleGiam = voucher.TyleGiam, description = voucher.Mota }, totalCost });
+                }
+                return Json(new { valid = false, error = "Invalid voucher code." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { valid = false, error = "An error occurred while applying the voucher." });
+            }
+        }
 
 
 

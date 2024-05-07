@@ -30,8 +30,9 @@
                 <span asp-validation-for="SoLuongToiDaSuDung" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MaTyLeGiam" class="control-label">Reduction rate code </label>
-                <select asp-for="MaTyLeGiam" class ="form-control" asp-items="ViewBag.MaTyLeGiam"></select>
+                <label asp-for="TyleGiam" class="control-label">Reduction rate code</label>
+                <input asp-for="TyleGiam" class="form-control" />
+                <span asp-validation-for="TyleGiam" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
