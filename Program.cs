@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -33,6 +34,9 @@ builder.Services.AddScoped<IBlog,BlogRepository>();
 builder.Services.AddScoped<IHinhAnh, HinhAnhRepository>();
 builder.Services.AddScoped<IDonHang, DonHangRepository>();
 builder.Services.AddScoped<IOrderDetails, OrderDetailsRepository>();
+builder.Services.AddScoped<IWishList, WishListRepository>();
+builder.Services.AddScoped<IWishListService, WishListService>();
+builder.Services.AddScoped<IAddress, AddressRepository>();
 
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
 {
@@ -118,7 +122,6 @@ using (var scope = app.Services.CreateScope())
         var user = new AppUserModel();
         user.UserName = email;
         user.Email = email;
-        user.Address = address;
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Manager");
     }
@@ -127,7 +130,6 @@ using (var scope = app.Services.CreateScope())
         var user = new AppUserModel();
         user.UserName = emailtStaff;
         user.Email = emailtStaff;
-        user.Address = address;
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Staff");
     }

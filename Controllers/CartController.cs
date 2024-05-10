@@ -18,16 +18,19 @@ namespace WebDT.Controllers
         private readonly UserManager<AppUserModel> _userManager;
         private readonly IDonHang _billRepository;
         private readonly IOrderDetails _orderDetailsRepository;
+        private readonly IWishListService _wishlistService;
 
 
         public CartController(ApplicationDbContext _context, IEmailSender emailSender, 
-            UserManager<AppUserModel> userManager, IDonHang billRepository, IOrderDetails orderDetailsRepository)
+            UserManager<AppUserModel> userManager, IDonHang billRepository
+            , IOrderDetails orderDetailsRepository, IWishListService wishlistService)
         {
             _dataContext = _context;
             _emailSender = emailSender;
             _userManager = userManager;
             _billRepository = billRepository;
             _orderDetailsRepository = orderDetailsRepository;
+            _wishlistService = wishlistService;
         }
 
         public async Task<IActionResult> Index()
@@ -38,7 +41,6 @@ namespace WebDT.Controllers
             DonHang donHang = new DonHang()
             {
                 TenKhachHang = user?.Name,
-                DiaChi = user?.Address,
                 SoDienThoai = user?.PhoneNumber
             };
 
@@ -101,6 +103,7 @@ namespace WebDT.Controllers
         public async Task<IActionResult> Add(int maSanPham)
         {
             var sanPham = await _dataContext.SANPHAM.FirstOrDefaultAsync(x => x.MaSanPham == maSanPham);
+
 
             if (sanPham != null)
             {

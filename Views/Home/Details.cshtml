@@ -195,9 +195,11 @@
 
                     <div class="row">
                         <div class="col-lg-6">
-                            <partial name="_OverallRatingPartial" model="Model.SanPham" />
+                            <div style="display: flex; flex-direction: row;">
+                                <partial name="_OverallRatingPartial" model="Model.SanPham" />
 
-                            <partial name="_RatingListPartial" model="Model.SanPham" />
+                                <partial name="_RatingListPartial" model="Model.SanPham" />
+                            </div>
 
                             <partial name="_ReviewListPartial" model="Model.SanPham" />
 

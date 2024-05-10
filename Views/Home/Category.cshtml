@@ -26,7 +26,11 @@
                                                 <h3 class="product_price">@sanPham.Gia.ToString("#,##0 đ")</h3>
                                                 <form asp-controller="Cart" asp-action="Add" method="post">
                                                     <input type="hidden" name="MaSanPham" value="@sanPham.MaSanPham">
-                                                    <button type="submit" class="add_to_cart_button">Add To Cart <i class="ti-heart"></i></button>
+                                                    <button type="submit" class="add_to_cart_button">Add To Cart</button>
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        <i class="ti-heart add-to-wishlist-btn" style="cursor:pointer;" data-maSanPham="@sanPham.MaSanPham"></i>
+                                                    }
                                                 </form>
                                             </div>
 

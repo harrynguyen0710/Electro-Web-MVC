@@ -17,11 +17,9 @@
         .apply-voucher-btn:hover {
             background-color: #45a049; /* Darker green on hover */
         }
-
-
 </style>
 <body>
-    <partial name="_BannerPartial"/>
+    <partial name="_BannerPartial" />
 
     <form asp-action="Index" method="post" enctype="multipart/form-data">
         <section class="cart_area padding_top">
@@ -45,7 +43,7 @@
                                             <td>
                                                 <div class="media">
                                                     <div class="d-flex">
-                                                        <img style="height:150px; width:150px;"  src="~/Images/@item.HinhAnh" alt="" />
+                                                        <img style="height:150px; width:150px;" src="~/Images/@item.HinhAnh" alt="" />
                                                     </div>
                                                     <div class="media-body">
                                                         <p>@item.TenSanPham</p>
@@ -112,52 +110,52 @@
                                             <h5>Information Customer</h5>
                                         </td>
                                         <td>
-                                                <div class="shipping_box">
-                                                    <div class="product-details-infor">
-                                                        <div class="general-infor set-background">
-                                                            <div class="infor-customer">
-                                                                <label asp-for="@Model.DonHang.TenKhachHang">Full Name <span class="text-danger">*</span></label>
-                                                                <input  asp-for="@Model.DonHang.TenKhachHang" type="text" value="@Model.DonHang.TenKhachHang">
-                                                                <span asp-validation-for="@Model.DonHang.TenKhachHang" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="@Model.DonHang.DiaChi">Address <span class="text-danger">*</span></label>
-                                                                <input asp-for="@Model.DonHang.DiaChi" type="text" value="@Model.DonHang.DiaChi">
-                                                                <span asp-validation-for="@Model.DonHang.DiaChi" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="@Model.DonHang.SoDienThoai">Phone Number <span class="text-danger">*</span></label>
-                                                                <input asp-for="@Model.DonHang.SoDienThoai" type="text" value="@Model.DonHang.SoDienThoai">
-                                                                <span asp-validation-for="@Model.DonHang.SoDienThoai" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="@Model.DonHang.YeuCauKhac">Other Reason</label>
-                                                                <input asp-for="@Model.DonHang.YeuCauKhac" type="text">
-                                                                <span asp-validation-for="@Model.DonHang.YeuCauKhac" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer" id="applyVoucherForm">
-                                                                <label asp-for="@Model.Code">Discount code</label>
-                                                                <input id="voucherCode" asp-for="@Model.Code" type="text">
-                                                                <button type="button" onclick="applyVoucher()" class="apply-voucher-btn">Apply voucher</button>
-                                                            </div>
-                                                            @if (ViewBag.InvalidVoucher != null)
-                                                            {
-                                                                <p style="color:red;">@ViewBag.InvalidVoucher</p>
-                                                            }
-                                                            <div id="voucherInfo"></div>
-                                                            <div class="infor-customer" style="display:none;">
-                                                                <label asp-for="@Model.DonHang.TrangThaiDonHang">Phone Number <span class="text-danger">*</span></label>
-                                                                <input asp-for="@Model.DonHang.TrangThaiDonHang" type="text" value="@DACS.Enum.TrangThaiDonHang.Preparing">
-                                                            </div>
-                                                            <div class="infor-customer" style="display:none;">
-                                                                <label asp-for="@Model.DonHang.TrangThaiThanhToan">Other Reason</label>
-                                                                <input asp-for="@Model.DonHang.TrangThaiThanhToan" type="text" value="@DACS.Enum.TrangThaiThanhToan.Unpaid">
-                                                            </div>
-
+                                            <div class="shipping_box">
+                                                <div class="product-details-infor">
+                                                    <div class="general-infor set-background">
+                                                        <div class="infor-customer">
+                                                            <label asp-for="@Model.DonHang.TenKhachHang">Full Name <span class="text-danger">*</span></label>
+                                                            <input asp-for="@Model.DonHang.TenKhachHang" type="text" value="@Model.DonHang.TenKhachHang">
+                                                            <span asp-validation-for="@Model.DonHang.TenKhachHang" class="text-danger"></span>
                                                         </div>
+                                                        <div class="infor-customer">
+                                                            <label asp-for="@Model.DonHang.DiaChi">Address <span class="text-danger">*</span></label>
+                                                            <input asp-for="@Model.DonHang.DiaChi" type="text" value="@Model.DonHang.DiaChi">
+                                                            <span asp-validation-for="@Model.DonHang.DiaChi" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="infor-customer">
+                                                            <label asp-for="@Model.DonHang.SoDienThoai">Phone Number <span class="text-danger">*</span></label>
+                                                            <input asp-for="@Model.DonHang.SoDienThoai" type="text" value="@Model.DonHang.SoDienThoai">
+                                                            <span asp-validation-for="@Model.DonHang.SoDienThoai" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="infor-customer">
+                                                            <label asp-for="@Model.DonHang.YeuCauKhac">Other Reason</label>
+                                                            <input asp-for="@Model.DonHang.YeuCauKhac" type="text">
+                                                            <span asp-validation-for="@Model.DonHang.YeuCauKhac" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="infor-customer" id="applyVoucherForm">
+                                                            <label asp-for="@Model.Code">Discount code</label>
+                                                            <input id="voucherCode" asp-for="@Model.Code" type="text">
+                                                            <button type="button" onclick="applyVoucher()" class="apply-voucher-btn">Apply voucher</button>
+                                                        </div>
+                                                        @if (ViewBag.InvalidVoucher != null)
+                                                        {
+                                                            <p style="color:red;">@ViewBag.InvalidVoucher</p>
+                                                        }
+                                                        <div id="voucherInfo"></div>
+                                                        <div class="infor-customer" style="display:none;">
+                                                            <label asp-for="@Model.DonHang.TrangThaiDonHang">Phone Number <span class="text-danger">*</span></label>
+                                                            <input asp-for="@Model.DonHang.TrangThaiDonHang" type="text" value="@DACS.Enum.TrangThaiDonHang.Preparing">
+                                                        </div>
+                                                        <div class="infor-customer" style="display:none;">
+                                                            <label asp-for="@Model.DonHang.TrangThaiThanhToan">Other Reason</label>
+                                                            <input asp-for="@Model.DonHang.TrangThaiThanhToan" type="text" value="@DACS.Enum.TrangThaiThanhToan.Unpaid">
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                            </td>
+                                            </div>
+                                        </td>
 
                                     </tr>
                                 }
@@ -174,7 +172,7 @@
                         </table>
                         <div class="checkout_btn_inner float-right">
                             <a href="@Url.Action("Index", "Home")" class="btn_1" style="border: none;">Continue Shopping</a>
-                            @if(Model.CartItems.Count > 0)
+                            @if (Model.CartItems.Count > 0)
                             {
                                 <button type="submit" class="btn_1 checkout_btn_1" style="border: none;">Proceed to checkout</button>
                             }
