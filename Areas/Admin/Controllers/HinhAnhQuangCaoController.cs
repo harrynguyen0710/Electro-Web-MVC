@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DACS.Data;
 using DACS.Models;
 using DACS.IRepository;
 
@@ -11,6 +9,7 @@ namespace DACS.Areas.Admin.Controllers
     [Authorize]
     public class HinhAnhQuangCaoController : Controller
     {
+        private const string FOLDER = "slider";
         private readonly IToolsRepository<HinhAnhQuangCao> _genericRepository;
         private readonly IHinhAnh _repository;
         public HinhAnhQuangCaoController(IToolsRepository<HinhAnhQuangCao> genericRepository, IHinhAnh repository)
@@ -19,12 +18,12 @@ namespace DACS.Areas.Admin.Controllers
             _repository = repository;
         }
 
-       /* public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var anh = await _context.HINHANHQUANGCAO.ToListAsync();
+            var anh = await _genericRepository.GetAllAsync();
             return View(anh);
         }
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -32,41 +31,24 @@ namespace DACS.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(HinhAnhQuangCao anh)
         {
-            string uniqueFileName = GetProfilePhotoFileName(anh);
+            string uniqueFileName = _repository.GetProfilePhotoFileName(anh.ProfilePhoto, FOLDER);
             anh.FileAnh = uniqueFileName;
-            await _context.HINHANHQUANGCAO.AddAsync(anh);
-            await _context.SaveChangesAsync();
+            await _genericRepository.AddAsync(anh);
             return RedirectToAction("Index", "HinhAnhQuangCao");
-        }
-
-        public async Task<IActionResult> Delete(int maHinhAnh)
-        {
-            var anh = await _context.HINHANHQUANGCAO.Where(t => t.MaAnhQuangCao == maHinhAnh).FirstOrDefaultAsync();
-            return View(anh);
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(HinhAnhQuangCao anh)
+        public async Task<IActionResult> Delete(int maHinhAnh)
         {
-            _context.HINHANHQUANGCAO.Remove(anh);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "HinhAnhQuangCao");
+            var anh = await _genericRepository.GetByIdAsync(maHinhAnh);
+            if (anh != null)
+            {
+                await _genericRepository.Delete(anh);
+                return RedirectToAction("Index", "HinhAnhQuangCao");
+            }
+            return View(anh);
         }
 
-        private string GetProfilePhotoFileName(HinhAnhQuangCao anh)
-        {
-            string uniqueFileName = null;
 
-            if (anh.ProfilePhoto != null)
-            {
-                string uploadsFolder = Path.Combine(_webHost.WebRootPath, "slider");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + anh.ProfilePhoto.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    anh.ProfilePhoto.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }*/
+      
     }
 }

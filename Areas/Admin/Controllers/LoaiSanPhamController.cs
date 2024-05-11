@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DACS.Data;
 using DACS.Models;
 using Microsoft.AspNetCore.Authorization;
 using DACS.IRepository;
-using System.Runtime.Intrinsics.Arm;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -74,33 +71,6 @@ namespace DACS.Areas.Admin.Controllers
             await _genericRepository.Update(loaiSanPham);
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var loaiSanPham = await _genericRepository.GetByIdAsync(id);
-
-            if (loaiSanPham == null)
-            {
-                return NotFound();
-            }
-
-            return View(loaiSanPham);
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var loaiSanPham = await _genericRepository.GetByIdAsync(id);
-            if (loaiSanPham != null)
-            {
-                await _genericRepository.Delete(loaiSanPham);
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
+       
     }
 }

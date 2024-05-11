@@ -3,48 +3,96 @@
 <body>
 
     <partial name="_BannerPartial" />
+
     <section class="cat_product_area section_padding">
         <div class="container">
             <div class="row">
-                <partial name="_CategoryPartial" />
+                <partial name="_CategoryPartial" model="Model" />
                 <div class="col-lg-9">
-                    <partial name="_SearchingPartial" />
+                    <partial name="_SearchingPartial" model="Model" />
 
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="row align-items-center justify-content-between">
-                                @if(Model != null)
-                                    {
-                                        foreach (var sanPham in Model)
-                                        {
-                                            var hinhAnh = sanPham.HinhAnh.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
-                                        <div class="col-lg-3 col-sm-6">
-                                            <div class="single_product_item">
-                                                <img src="~/Images/@hinhAnh.FileHinhAnh" alt="">
-                                                <div class="single_product_text">
-                                                    <h4>@sanPham.TenSanPham</h4>
-                                                    <h3>@sanPham.Gia</h3>
-                                                    <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" style="text-decoration:none;">
-                                                        Add To Cart<i class="ti-heart"></i>
-                                                    </a>
-                                                </div>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var sanPham in Model)
+                            {
+                                var hinhAnh = sanPham.HinhAnh.FirstOrDefault(x => x.MaSanPham == sanPham.MaSanPham);
+                                <div class="col-lg-3 col-sm-6">
+                                    <div class="single_product_item">
+                                        <a href="@Url.Action("Details", "Home", new { MaSanPham = sanPham.MaSanPham })">
+                                            <img src="~/Images/@hinhAnh.FileHinhAnh" alt="" class="product_image">
+                                            <div class="single_product_text">
+                                                <h4 class="product_name">@sanPham.TenSanPham</h4>
+                                                <h3 class="product_price">@sanPham.Gia.ToString("#,##0 đ")</h3>
+                                                <form asp-controller="Cart" asp-action="Add" method="post">
+                                                    <input type="hidden" name="MaSanPham" value="@sanPham.MaSanPham">
+                                                    <button type="submit" class="add_to_cart_button">Add To Cart <i class="ti-heart"></i></button>
+                                                </form>
                                             </div>
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    <p>No Product Found!</p>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <partial name="_PaginationPartial" />
 
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-lg-12">
+                                <p>No Product Found!</p>
+                            </div>
+                        }
+                    </div>
+
+                    <partial name="_PaginationPartial" />
                 </div>
             </div>
         </div>
     </section>
+
+    <style>
+        .single_product_item {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .product_image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product_name {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .product_price {
+            color: #f57224;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product_description {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .add_to_cart_button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f57224;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+            .add_to_cart_button:hover {
+                background-color: #c14f1b;
+            }
+    </style>
 
     <script>
         $(function () {
@@ -62,4 +110,3 @@
         });
     </script>
 </body>
-

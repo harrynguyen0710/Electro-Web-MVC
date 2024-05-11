@@ -15,10 +15,8 @@ namespace DACS.Repository
         public async Task<List<DonHang>> GetAllAsync()
         {
             return await _context.DONHANG
-                .Include(tt => tt.TrangThaiDonHang)
-                .Include(tt => tt.TrangThaiThanhToan)
                 .Include(v => v.VeGiamGia)
-                    .ThenInclude(tl => tl.TyLeGiam)
+                .AsSplitQuery()
                 .ToListAsync();
         }
 
@@ -40,10 +38,7 @@ namespace DACS.Repository
             }
 
             var donHang = await _context.DONHANG
-                .Include(tt => tt.TrangThaiDonHang)
-                .Include(tt => tt.TrangThaiThanhToan)
                 .Include(v => v.VeGiamGia)
-                    .ThenInclude(tl => tl.TyLeGiam)
                 .Include(dh => dh.ChiTietDonHangSanPham)
                     .ThenInclude(sp => sp.SanPham)
                         .ThenInclude(anh => anh.HinhAnh)
@@ -53,15 +48,61 @@ namespace DACS.Repository
         }
 
 
-        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum)
+
+        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum, bool sortByDateDescending)
         {
-            return await _context.DONHANG
+            var query = _context.DONHANG
                 .Include(tt => tt.TrangThaiDonHang)
                 .Include(tt => tt.TrangThaiThanhToan)
                 .Include(v => v.VeGiamGia)
                     .ThenInclude(tl => tl.TyLeGiam)
+                .Where(p => p.SoDienThoai == phoneNum);
+
+            if (sortByDateDescending)
+            {
+                query = query.OrderByDescending(d => d.NgayLapDonHang);
+            }
+            else
+            {
+                query = query.OrderBy(d => d.NgayLapDonHang);
+            }
+
+            return await query.ToListAsync();
+
+        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum)
+        {
+            return await _context.DONHANG
+                .Include(v => v.VeGiamGia)
                 .Where(p => p.SoDienThoai == phoneNum)
                 .ToListAsync();
+
+        }
+
+        public decimal GetTotalBill(List<CartItemModel>  cartItems)
+        {
+            decimal tongDonHang = 0;
+            foreach (var item in cartItems)
+            {
+                if (item.GiaKhuyenMai != null)
+                {
+                    tongDonHang = (decimal)(tongDonHang + (item.Soluong * item.GiaKhuyenMai));
+                }
+                else
+                {
+                    tongDonHang += item.Soluong * item.Gia;
+                }
+            }
+            return tongDonHang;
+        }
+        public decimal GetTotalBillWithVoucher(List<CartItemModel> cartItems, float? tyleGiam)
+        {
+            var tinhTong = cartItems.Sum(x => x.TongTien);
+            if (tyleGiam == null)
+            {
+                return tinhTong;
+            }
+
+            return tinhTong - (tinhTong * (decimal)tyleGiam) / 100;
         }
 
 

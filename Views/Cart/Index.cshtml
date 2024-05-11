@@ -1,55 +1,27 @@
 ﻿@model DACS.ViewModel.CartItemViewModel
-<!DOCTYPE html>
-<!doctype html>
-<html lang="zxx">
+<style>
+    .apply-voucher-btn {
+        background-color: #4CAF50; /* Green background */
+        border: none; /* Remove border */
+        color: white; /* White text */
+        padding: 10px 20px; /* Padding */
+        text-align: center; /* Center text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Make it an inline block */
+        font-size: 14px; /* Font size */
+        margin: 4px 2px; /* Margin */
+        cursor: pointer; /* Add cursor pointer */
+        border-radius: 5px; /* Rounded corners */
+    }
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>aranaz</title>
-    <link rel="icon" href="img/favicon.png">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- animate CSS -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <!-- nice select CSS -->
-    <link rel="stylesheet" href="css/nice-select.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/all.css">
-    <!-- flaticon CSS -->
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/themify-icons.css">
-    <!-- font awesome CSS -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <!-- swiper CSS -->
-    <link rel="stylesheet" href="css/slick.css">
-    <link rel="stylesheet" href="css/price_rangs.css">
-    <!-- style CSS -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
+        .apply-voucher-btn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+
+</style>
 <body>
-
-
-    <!--================Home Banner Area =================-->
-    <!-- breadcrumb start-->
-    <!-- breadcrumb start-->
-    <section class="breadcrumb breadcrumb_bg">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="breadcrumb_iner">
-                        <div class="breadcrumb_iner_item">
-                            <h2>Shop Single</h2>
-                            <p>Home <span>-</span> Shop Single</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <partial name="_BannerPartial"/>
 
     <form asp-action="Index" method="post" enctype="multipart/form-data">
         <section class="cart_area padding_top">
@@ -60,12 +32,13 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Product</th>
+                                    <th scope="col">Price Product</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Quantity</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (Model.CartItems.Count > 0)
+                                @if (Model.CartItems.Count > 0 || Model.CartItems != null)
                                 {
                                     foreach (var item in Model.CartItems)
                                     {
@@ -73,16 +46,21 @@
                                             <td>
                                                 <div class="media">
                                                     <div class="d-flex">
-                                                        <img style="height:150px; width:150px;"  src="~/Images/@item.HinhAnh" alt="" />
+                                                        <img style="height:150px; width:150px;" src="~/Images/@item.HinhAnh" alt="" />
                                                     </div>
                                                     <div class="media-body">
                                                         <p>@item.TenSanPham</p>
                                                     </div>
                                                 </div>
                                             </td>
+
                                             <td>
-                                                <h5>@(item.GiaKhuyenMai ?? item.Gia)</h5>
+
+
+                                                <h5>@((item.GiaKhuyenMai != null ? item.GiaKhuyenMai.Value : item.Gia).ToString("#,##0 đ"))</h5>
+
                                             </td>
+
                                             <td>
                                                 <div class="product_count d-flex align-items-center">
                                                     <a class="btn btn-primary px-3 me-2 btn-sm" asp-action="Decrease" asp-route-MaSanPham="@item.MaSanPham"
@@ -129,9 +107,10 @@
                                             <h5>Sub total</h5>
                                         </td>
                                         <td>
-                                            <h5 id="grandTotal">đ</h5>
+                                            <h5 id="grandTotal" style="white-space: nowrap;">@FormatCurrency(Model.GrandTotal).Replace(",00", "")</h5>
                                         </td>
                                     </tr>
+                                    /*Form here*/
                                     <tr class="shipping_area">
                                         <td></td>
                                         <td></td>
@@ -139,78 +118,57 @@
                                             <h5>Information Customer</h5>
                                         </td>
                                         <td>
-                                            <div class="shipping_box">
-                                                @if (User.Identity.IsAuthenticated) // Kiểm tra người dùng đã đăng nhập hay chưa
-                                                {
-                                                    <!-- Hiển thị thông tin người dùng từ model nếu đã đăng nhập -->
+                                                <div class="shipping_box">
                                                     <div class="product-details-infor">
                                                         <div class="general-infor set-background">
                                                             <div class="infor-customer">
-                                                                <label asp-for="KhachHang.Name">Full Name <span class="text-danger">*</span></label>
-                                                                <input asp-for="KhachHang.Name" type="text" value="@Model.KhachHang.Name">
-                                                                <span asp-validation-for="KhachHang.Name" class="text-danger"></span>
+                                                                <label asp-for="@Model.DonHang.TenKhachHang">Full Name <span class="text-danger">*</span></label>
+                                                                <input  asp-for="@Model.DonHang.TenKhachHang" type="text" value="@Model.DonHang.TenKhachHang">
+                                                                <span asp-validation-for="@Model.DonHang.TenKhachHang" class="text-danger"></span>
                                                             </div>
                                                             <div class="infor-customer">
-                                                                <label asp-for="KhachHang.Address">Address <span class="text-danger">*</span></label>
-                                                                <input asp-for="KhachHang.Address" type="text" value="@Model.KhachHang.Address">
-                                                                <span asp-validation-for="KhachHang.Address" class="text-danger"></span>
+                                                                <label asp-for="@Model.DonHang.DiaChi">Address <span class="text-danger">*</span></label>
+                                                                <input asp-for="@Model.DonHang.DiaChi" type="text" value="@Model.DonHang.DiaChi">
+                                                                <span asp-validation-for="@Model.DonHang.DiaChi" class="text-danger"></span>
                                                             </div>
                                                             <div class="infor-customer">
-                                                                <label asp-for="KhachHang.PhoneNumber">Phone Number <span class="text-danger">*</span></label>
-                                                                <input asp-for="KhachHang.PhoneNumber" type="text" value="@Model.KhachHang.PhoneNumber">
-                                                                <span asp-validation-for="KhachHang.PhoneNumber" class="text-danger"></span>
+                                                                <label asp-for="@Model.DonHang.SoDienThoai">Phone Number <span class="text-danger">*</span></label>
+                                                                <input asp-for="@Model.DonHang.SoDienThoai" type="text" value="@Model.DonHang.SoDienThoai">
+                                                                <span asp-validation-for="@Model.DonHang.SoDienThoai" class="text-danger"></span>
                                                             </div>
                                                             <div class="infor-customer">
-                                                                <label asp-for="DonHang.YeuCauKhac">Other Reason</label>
-                                                                <input asp-for="DonHang.YeuCauKhac" type="text">
-                                                                <span asp-validation-for="DonHang.YeuCauKhac" class="text-danger"></span>
+                                                                <label asp-for="@Model.DonHang.YeuCauKhac">Other Reason</label>
+                                                                <input asp-for="@Model.DonHang.YeuCauKhac" type="text">
+                                                                <span asp-validation-for="@Model.DonHang.YeuCauKhac" class="text-danger"></span>
                                                             </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="MaGiamGia">Discount code</label>
-                                                                <input asp-for="MaGiamGia" type="text">
+                                                            <div class="infor-customer" id="applyVoucherForm">
+                                                                <label asp-for="@Model.Code">Discount code</label>
+                                                                <input id="voucherCode" asp-for="@Model.Code" type="text">
+                                                                <button type="button" onclick="applyVoucher()" class="apply-voucher-btn">Apply voucher</button>
                                                             </div>
+                                                            @if (ViewBag.InvalidVoucher != null)
+                                                            {
+                                                                <p style="color:red;">@ViewBag.InvalidVoucher</p>
+                                                            }
+                                                            <div id="voucherInfo"></div>
+                                                            <div class="infor-customer" style="display:none;">
+                                                                <label asp-for="@Model.DonHang.TrangThaiDonHang">Phone Number <span class="text-danger">*</span></label>
+                                                                <input asp-for="@Model.DonHang.TrangThaiDonHang" type="text" value="@DACS.Enum.TrangThaiDonHang.Preparing">
+                                                            </div>
+                                                            <div class="infor-customer" style="display:none;">
+                                                                <label asp-for="@Model.DonHang.TrangThaiThanhToan">Other Reason</label>
+                                                                <input asp-for="@Model.DonHang.TrangThaiThanhToan" type="text" value="@DACS.Enum.TrangThaiThanhToan.Unpaid">
+                                                            </div>
+
                                                         </div>
                                                     </div>
-                                                }
-                                                else
-                                                {
-                                                    <!-- Hiển thị form để lưu thông tin người dùng vào đơn hàng nếu chưa đăng nhập -->
-                                                    <div class="product-details-infor">
-                                                        <div class="general-infor set-background">
-                                                            <div class="infor-customer">
-                                                                <label asp-for="DonHang.TenKhachHang">Full Name <span class="text-danger">*</span></label>
-                                                                <input asp-for="DonHang.TenKhachHang" type="text">
-                                                                <span asp-validation-for="DonHang.TenKhachHang" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="DonHang.DiaChi">Address <span class="text-danger">*</span></label>
-                                                                <input asp-for="DonHang.DiaChi" type="text">
-                                                                <span asp-validation-for="DonHang.DiaChi" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="DonHang.SoDienThoai">Phone Number <span class="text-danger">*</span></label>
-                                                                <input asp-for="DonHang.SoDienThoai" type="text">
-                                                                <span asp-validation-for="DonHang.SoDienThoai" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="DonHang.YeuCauKhac">Other Reason</label>
-                                                                <input asp-for="DonHang.YeuCauKhac" type="text">
-                                                                <span asp-validation-for="DonHang.YeuCauKhac" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="MaGiamGia">Discount code</label>
-                                                                <input asp-for="MaGiamGia" type="text">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </div>
-                                        </td>
+                                                </div>
+                                            </td>
+
                                     </tr>
                                 }
                                 else
                                 {
-                                    <!-- Display a message if there are no products in the cart -->
                                     <tr>
                                         <td colspan="4">
                                             <h2>Don't have any product in shopping cart</h2>
@@ -222,8 +180,11 @@
                         </table>
                         <div class="checkout_btn_inner float-right">
                             <a href="@Url.Action("Index", "Home")" class="btn_1" style="border: none;">Continue Shopping</a>
-                            <input type="submit" name ="Dathang" class="btn border-secondary text-uppercase text-primary w-10 mt-2" value= "Order (COD)">
-                            <input type="submit" name="Payment" class="btn border-secondary text-uppercase text-primary w-10 mt-2" value="Pay by VNPay">
+                            @if(Model.CartItems.Count > 0)
+                            {
+                                <button type="submit" class="btn_1 checkout_btn_1" style="border: none;">Proceed to checkout</button>
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -231,14 +192,43 @@
     </form>
 </body>
 </html>
+
 <script>
-    // Định dạng số có dấu chấm để phân tách hàng nghìn
     function formatCurrency(value) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
 
-    // Sử dụng JavaScript để cập nhật giá trị tổng giá trị đơn hàng
+
     var grandTotalElement = document.getElementById('grandTotal');
-    var giaSanPham = document.getElementById('price-product');
-    grandTotalElement.textContent = formatCurrency(@Model.GrandTotal);
+    var formattedGrandTotal = '@FormatCurrency(Model.GrandTotal)'.replace('đ', '&#x20AB;').replace(',00', ''); // Thay thế ký tự 'đ' bằng ₫ và loại bỏ phần phụ định ,00
+    grandTotalElement.innerHTML = formattedGrandTotal;
+
 </script>
+
+
+<script>
+    function applyVoucher() {
+        var voucherCode = encodeURIComponent(document.getElementById("voucherCode").value);
+        fetch(`/Cart/ApplyVoucher?code=${voucherCode}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    console.log(data);
+                    document.getElementById("voucherInfo").innerHTML = `
+                    <h4>Voucher Information</h4>
+                    <p>Code: ${data.voucher.code}</p>
+                    <p>Discount Percentage: ${data.voucher.tyleGiam} %</p>
+                    <p>Voucher Description: ${data.voucher.description}</p>
+                    <p>Total cost after discount: ${new Intl.NumberFormat('vi-VN').format(data.totalCost)} đ</p>
+                `;
+                } else {
+                    document.getElementById("voucherInfo").innerHTML = "<p style=\"color: red;\">Invalid voucher</p>";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                document.getElementById("voucherInfo").innerHTML = "<p style=\"color: red;\">An error occurred while applying the voucher.</p>";
+            });
+    }
+</script>
+
