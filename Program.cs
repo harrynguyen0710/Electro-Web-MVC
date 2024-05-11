@@ -61,7 +61,6 @@ builder.Services.AddSession(options =>
 });
 
 
-
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddScoped<UserManager<AppUserModel>>();
@@ -95,10 +94,18 @@ builder.Services.AddAuthentication()
      });
 
 
-var app = builder.Build();
+/*builder.Services.AddSingleton(x => new PaypalClient(
+        builder.Configuration["PaypalOptions:AppId"],
+        builder.Configuration["PaypalOptions:AppSecret"],
+        builder.Configuration["PaypalOptions:Mode"]
+));
+
+builder.Services.AddSingleton<IVnPayService, VnPayService>();
+*/
+
+var app = builder.Build(); 
 
 app.UseSession();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -159,7 +166,5 @@ using (var scope = app.Services.CreateScope())
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Staff");
     }
-
-
 }
 app.Run();

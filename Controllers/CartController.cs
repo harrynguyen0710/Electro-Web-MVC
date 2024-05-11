@@ -6,8 +6,9 @@ using DACS.Repository;
 using DACS.ViewModel;
 using DACS.Service;
 using Microsoft.AspNetCore.Identity;
-using DACS.IRepository;
-using System.Web;
+
+using DACS.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebDT.Controllers
 {
@@ -20,8 +21,10 @@ namespace WebDT.Controllers
         private readonly IOrderDetails _orderDetailsRepository;
 
 
+
         public CartController(ApplicationDbContext _context, IEmailSender emailSender, 
             UserManager<AppUserModel> userManager, IDonHang billRepository, IOrderDetails orderDetailsRepository)
+
         {
             _dataContext = _context;
             _emailSender = emailSender;
@@ -29,7 +32,6 @@ namespace WebDT.Controllers
             _billRepository = billRepository;
             _orderDetailsRepository = orderDetailsRepository;
         }
-
         public async Task<IActionResult> Index()
         {
             List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
@@ -97,7 +99,6 @@ namespace WebDT.Controllers
             return RedirectToAction("BuySuccessfully", "Cart");
         }
 
-
         public async Task<IActionResult> Add(int maSanPham)
         {
             var sanPham = await _dataContext.SANPHAM.FirstOrDefaultAsync(x => x.MaSanPham == maSanPham);
@@ -126,7 +127,6 @@ namespace WebDT.Controllers
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
 
         public IActionResult Decrease(int maSanPham)
         {
@@ -172,9 +172,6 @@ namespace WebDT.Controllers
             }
             return RedirectToAction("Index");
         }
-
-
-
 
         public IActionResult Delete(int maSanPham)
         {
@@ -226,8 +223,6 @@ namespace WebDT.Controllers
                 return StatusCode(500, new { valid = false, error = "An error occurred while applying the voucher." });
             }
         }
-
-
 
     }
 }
