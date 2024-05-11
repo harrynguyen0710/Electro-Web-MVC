@@ -4,6 +4,6 @@ namespace DACS.IRepository
 {
     public interface IDonHang : IGenericRepository<DonHang>
     {
-        Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum);
+        Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum, bool sortByDateDescending);
     }
 }

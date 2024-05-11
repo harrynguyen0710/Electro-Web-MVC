@@ -75,7 +75,20 @@ builder.Services.AddAuthentication()
         googleOptions.SaveTokens = true;
         googleOptions.CallbackPath = builder.Configuration["Google:CallbackPath"];
 
-    });
+    })
+    .AddFacebook(FacebookOptions =>
+      {
+          // Đọc thông tin Authentication:Google từ appsettings.json
+
+
+
+          FacebookOptions.ClientId = builder.Configuration["Facebook:ClientId"];
+          FacebookOptions.ClientSecret = builder.Configuration["Facebook:ClientSecret"];
+
+          FacebookOptions.SaveTokens = true;
+          FacebookOptions.CallbackPath = builder.Configuration["Facebook:CallbackPath"];
+
+     });
 
 
 var app = builder.Build();

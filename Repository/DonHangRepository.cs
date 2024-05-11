@@ -53,16 +53,27 @@ namespace DACS.Repository
         }
 
 
-        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum)
+        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum, bool sortByDateDescending)
         {
-            return await _context.DONHANG
+            var query = _context.DONHANG
                 .Include(tt => tt.TrangThaiDonHang)
                 .Include(tt => tt.TrangThaiThanhToan)
                 .Include(v => v.VeGiamGia)
                     .ThenInclude(tl => tl.TyLeGiam)
-                .Where(p => p.SoDienThoai == phoneNum)
-                .ToListAsync();
+                .Where(p => p.SoDienThoai == phoneNum);
+
+            if (sortByDateDescending)
+            {
+                query = query.OrderByDescending(d => d.NgayLapDonHang);
+            }
+            else
+            {
+                query = query.OrderBy(d => d.NgayLapDonHang);
+            }
+
+            return await query.ToListAsync();
         }
+
 
 
         public async Task Update(DonHang donHang)
