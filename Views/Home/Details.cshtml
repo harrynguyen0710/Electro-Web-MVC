@@ -101,11 +101,11 @@
                 <div class="col-lg-5 col-xl-4">
                     <div class="s_product_text">
                         <h3>@Model.SanPham.TenSanPham</h3>
-                        <h2>@Model.SanPham.Gia ₫</h2>
+                        <h2>@Model.SanPham.Gia.ToString("#,##0 đ")</h2>
                         <ul class="list">
                             <li>
                                 <a class="active" href="#">
-                                    <span>Brand</span> : @Model.SanPham.ThuongHieu.TenThuongHieu;
+                                    <span>Brand</span> : @Model.SanPham.ThuongHieu.TenThuongHieu
                                 </a>
                             </li>
                             <li>

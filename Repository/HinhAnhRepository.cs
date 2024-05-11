@@ -1,8 +1,4 @@
-﻿using DACS.Data;
-using DACS.IRepository;
-using DACS.Models;
-using Microsoft.EntityFrameworkCore;
-
+﻿using DACS.IRepository;
 namespace DACS.Repository
 {
     public class HinhAnhRepository :  IHinhAnh

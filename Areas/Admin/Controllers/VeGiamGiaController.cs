@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DACS.Data;
 using DACS.Models;
 using Microsoft.AspNetCore.Authorization;
+using DACS.IRepository;
 
 namespace DACS.Areas.Admin.Controllers
 {
@@ -11,16 +9,15 @@ namespace DACS.Areas.Admin.Controllers
     [Authorize]
     public class VeGiamGiaController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public VeGiamGiaController(ApplicationDbContext context)
+        private readonly IToolsRepository<VeGiamGia> _toolsRepository;
+        public VeGiamGiaController(IToolsRepository<VeGiamGia> toolsRepository)
         {
-            _context = context;
+            _toolsRepository = toolsRepository; 
         }
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.VEGIAMGIA.Include(v => v.TyLeGiam);
-            return View(await applicationDbContext.ToListAsync());
+            var voucher = await _toolsRepository.GetAllAsync();
+            return View(voucher);
         }
         public async Task<IActionResult> Details(int? id)
         {
@@ -29,31 +26,24 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var veGiamGia = await _context.VEGIAMGIA
-                .Include(v => v.TyLeGiam)
-                .FirstOrDefaultAsync(m => m.MaVeGiamGia == id);
-            if (veGiamGia == null)
+            var voucher = await _toolsRepository.GetByIdAsync(id);  
+            if (voucher == null)
             {
                 return NotFound();
             }
 
-            return View(veGiamGia);
+            return View(voucher);
         }
         public IActionResult Create()
         {
-            ViewData["MaTyLeGiam"] = new SelectList(_context.TYLEGIAM, "MaTyLeGiam", "MoTaTyLeGiam");
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaVeGiamGia,Code,NgayThietLap,SoLuongToiDaSuDung,MaTyLeGiam")] VeGiamGia veGiamGia)
+        public async Task<IActionResult> Create([Bind("MaVeGiamGia,Code,NgayThietLap,SoLuongToiDaSuDung,TyLeGiam")] VeGiamGia veGiamGia)
         {
-
-                _context.Add(veGiamGia);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-
-
+            await _toolsRepository.AddAsync(veGiamGia); 
+            return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Edit(int? id)
         {
@@ -62,75 +52,25 @@ namespace DACS.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var veGiamGia = await _context.VEGIAMGIA.FindAsync(id);
-            if (veGiamGia == null)
+            var voucher = await _toolsRepository.GetByIdAsync(id);
+            if (voucher == null)
             {
                 return NotFound();
             }
-            ViewData["MaTyLeGiam"] = new SelectList(_context.TYLEGIAM, "MaTyLeGiam", "MoTaTyLeGiam", veGiamGia.MaTyLeGiam);
-            return View(veGiamGia);
+            return View(voucher);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaVeGiamGia,Code,NgayThietLap,SoLuongToiDaSuDung,MaTyLeGiam")] VeGiamGia veGiamGia)
+        public async Task<IActionResult> Edit(int id, [Bind("MaVeGiamGia,Code,NgayThietLap,SoLuongToiDaSuDung,TyLeGiam")] VeGiamGia veGiamGia)
         {
             if (id != veGiamGia.MaVeGiamGia)
             {
                 return NotFound();
             }
-
-            try
-            {
-                _context.Update(veGiamGia);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VeGiamGiaExists(veGiamGia.MaVeGiamGia))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _toolsRepository.Update(veGiamGia);
             return RedirectToAction(nameof(Index));
 
         }
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var veGiamGia = await _context.VEGIAMGIA
-                .Include(v => v.TyLeGiam)
-                .FirstOrDefaultAsync(m => m.MaVeGiamGia == id);
-            if (veGiamGia == null)
-            {
-                return NotFound();
-            }
-
-            return View(veGiamGia);
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var veGiamGia = await _context.VEGIAMGIA.FindAsync(id);
-            if (veGiamGia != null)
-            {
-                _context.VEGIAMGIA.Remove(veGiamGia);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        private bool VeGiamGiaExists(int id)
-        {
-            return _context.VEGIAMGIA.Any(e => e.MaVeGiamGia == id);
-        }
     }
 }

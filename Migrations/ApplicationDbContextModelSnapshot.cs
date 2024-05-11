@@ -17,7 +17,7 @@ namespace DACS.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -212,13 +212,7 @@ namespace DACS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaTrangThaiDonHang")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaTrangThaiThanhToan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaVeGiamGia")
+                    b.Property<int?>("MaVeGiamGia")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("NgayLapDonHang")
@@ -235,14 +229,18 @@ namespace DACS.Migrations
                     b.Property<decimal>("TongGiaTriDonHang")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("TrangThaiDonHang")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThaiThanhToan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("YeuCauKhac")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MaDonHang");
-
-                    b.HasIndex("MaTrangThaiDonHang");
-
-                    b.HasIndex("MaTrangThaiThanhToan");
 
                     b.HasIndex("MaVeGiamGia");
 
@@ -466,69 +464,25 @@ namespace DACS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ThoiGianDangBai")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("TieuDe")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TomTat")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TrangThaiBaiDang")
+                        .HasColumnType("bit");
 
                     b.HasKey("MaTinTuc");
 
                     b.HasIndex("MaChuDe");
 
                     b.ToTable("TINTUC");
-                });
-
-            modelBuilder.Entity("DACS.Models.TrangThaiDonHang", b =>
-                {
-                    b.Property<int>("MaTrangThaiDonHang")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTrangThaiDonHang"));
-
-                    b.Property<string>("TenTrangThaiDonHang")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MaTrangThaiDonHang");
-
-                    b.ToTable("TRANGTHAIDONHANG");
-                });
-
-            modelBuilder.Entity("DACS.Models.TrangThaiThanhToan", b =>
-                {
-                    b.Property<int>("MaTrangThaiThanhToan")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTrangThaiThanhToan"));
-
-                    b.Property<string>("TenTrangThaiThanhToan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MaTrangThaiThanhToan");
-
-                    b.ToTable("TRANGTHAITHANHTOAN");
-                });
-
-            modelBuilder.Entity("DACS.Models.TyLeGiam", b =>
-                {
-                    b.Property<int>("MaTyLeGiam")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaTyLeGiam"));
-
-                    b.Property<string>("MoTaTyLeGiam")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PhanTramGiam")
-                        .HasColumnType("int");
-
-                    b.HasKey("MaTyLeGiam");
-
-                    b.ToTable("TYLEGIAM");
                 });
 
             modelBuilder.Entity("DACS.Models.VeGiamGia", b =>
@@ -543,19 +497,20 @@ namespace DACS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaTyLeGiam")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NgayThietLap")
+                    b.Property<string>("Mota")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NgayThietLap")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SoLuongToiDaSuDung")
                         .HasColumnType("int");
 
-                    b.HasKey("MaVeGiamGia");
+                    b.Property<float>("TyleGiam")
+                        .HasColumnType("real");
 
-                    b.HasIndex("MaTyLeGiam");
+                    b.HasKey("MaVeGiamGia");
 
                     b.ToTable("VEGIAMGIA");
                 });
@@ -829,25 +784,9 @@ namespace DACS.Migrations
 
             modelBuilder.Entity("DACS.Models.DonHang", b =>
                 {
-                    b.HasOne("DACS.Models.TrangThaiDonHang", "TrangThaiDonHang")
-                        .WithMany("DonHang")
-                        .HasForeignKey("MaTrangThaiDonHang")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DACS.Models.TrangThaiThanhToan", "TrangThaiThanhToan")
-                        .WithMany("DonHang")
-                        .HasForeignKey("MaTrangThaiThanhToan")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DACS.Models.VeGiamGia", "VeGiamGia")
                         .WithMany("DonHang")
                         .HasForeignKey("MaVeGiamGia");
-
-                    b.Navigation("TrangThaiDonHang");
-
-                    b.Navigation("TrangThaiThanhToan");
 
                     b.Navigation("VeGiamGia");
                 });
@@ -923,17 +862,6 @@ namespace DACS.Migrations
                         .IsRequired();
 
                     b.Navigation("ChuDe");
-                });
-
-            modelBuilder.Entity("DACS.Models.VeGiamGia", b =>
-                {
-                    b.HasOne("DACS.Models.TyLeGiam", "TyLeGiam")
-                        .WithMany("VeGiamGia")
-                        .HasForeignKey("MaTyLeGiam")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TyLeGiam");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1044,21 +972,6 @@ namespace DACS.Migrations
             modelBuilder.Entity("DACS.Models.ThuongHieu", b =>
                 {
                     b.Navigation("SanPham");
-                });
-
-            modelBuilder.Entity("DACS.Models.TrangThaiDonHang", b =>
-                {
-                    b.Navigation("DonHang");
-                });
-
-            modelBuilder.Entity("DACS.Models.TrangThaiThanhToan", b =>
-                {
-                    b.Navigation("DonHang");
-                });
-
-            modelBuilder.Entity("DACS.Models.TyLeGiam", b =>
-                {
-                    b.Navigation("VeGiamGia");
                 });
 
             modelBuilder.Entity("DACS.Models.VeGiamGia", b =>
