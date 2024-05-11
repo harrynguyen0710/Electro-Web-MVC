@@ -61,11 +61,13 @@
                                         Log in
                                     </button>
                                     <a class="lost_pass" href="#">Forgot password?</a>
-                                 
+                                     <br>
                                 </div>
                             </form>
-
+                            
                             <div class="login-social">
+                                <a >Đăng nhập khác bằng:</a>
+
                                 @{
                                     var loginProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                                     <form asp-controller="Account" asp-action="ExternalLogin" method="POST" class="form-horizontal" style="text-align: center">
@@ -87,6 +89,7 @@
                                             {
                                                 <button style="width:342px;height:55px;" type="submit" class="btn btn-google text-uppercase mt-3" name="provider" value="@provider.Name"
                                                         title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
+                                                    
                                                     <i style="height:14px;width:14px;" class="fab fa-google mr-2"></i>
                                                     @provider.DisplayName
                                                 </button>

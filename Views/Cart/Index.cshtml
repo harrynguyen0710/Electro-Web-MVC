@@ -32,6 +32,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Product</th>
+                                    <th scope="col">Price Product</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Quantity</th>
                                 </tr>
@@ -45,16 +46,21 @@
                                             <td>
                                                 <div class="media">
                                                     <div class="d-flex">
-                                                        <img style="height:150px; width:150px;"  src="~/Images/@item.HinhAnh" alt="" />
+                                                        <img style="height:150px; width:150px;" src="~/Images/@item.HinhAnh" alt="" />
                                                     </div>
                                                     <div class="media-body">
                                                         <p>@item.TenSanPham</p>
                                                     </div>
                                                 </div>
                                             </td>
+
                                             <td>
+
+
                                                 <h5>@((item.GiaKhuyenMai != null ? item.GiaKhuyenMai.Value : item.Gia).ToString("#,##0 đ"))</h5>
+
                                             </td>
+
                                             <td>
                                                 <div class="product_count d-flex align-items-center">
                                                     <a class="btn btn-primary px-3 me-2 btn-sm" asp-action="Decrease" asp-route-MaSanPham="@item.MaSanPham"
@@ -101,7 +107,7 @@
                                             <h5>Subtotal</h5>
                                         </td>
                                         <td>
-                                            <h5 id="grandTotal">đ</h5>
+                                            <h5 id="grandTotal" style="white-space: nowrap;">@FormatCurrency(Model.GrandTotal).Replace(",00", "")</h5>
                                         </td>
                                     </tr>
                                     /*Form here*/
@@ -185,15 +191,19 @@
     </form>
 </body>
 </html>
+
 <script>
     function formatCurrency(value) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
 
+
     var grandTotalElement = document.getElementById('grandTotal');
-    var giaSanPham = document.getElementById('price-product');
-    grandTotalElement.textContent = formatCurrency(@Model.GrandTotal);
+    var formattedGrandTotal = '@FormatCurrency(Model.GrandTotal)'.replace('đ', '&#x20AB;').replace(',00', ''); // Thay thế ký tự 'đ' bằng ₫ và loại bỏ phần phụ định ,00
+    grandTotalElement.innerHTML = formattedGrandTotal;
+
 </script>
+
 
 <script>
     function applyVoucher() {
@@ -220,3 +230,4 @@
             });
     }
 </script>
+

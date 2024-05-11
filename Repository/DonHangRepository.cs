@@ -47,12 +47,35 @@ namespace DACS.Repository
             return donHang;
         }
 
+
+
+        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum, bool sortByDateDescending)
+        {
+            var query = _context.DONHANG
+                .Include(tt => tt.TrangThaiDonHang)
+                .Include(tt => tt.TrangThaiThanhToan)
+                .Include(v => v.VeGiamGia)
+                    .ThenInclude(tl => tl.TyLeGiam)
+                .Where(p => p.SoDienThoai == phoneNum);
+
+            if (sortByDateDescending)
+            {
+                query = query.OrderByDescending(d => d.NgayLapDonHang);
+            }
+            else
+            {
+                query = query.OrderBy(d => d.NgayLapDonHang);
+            }
+
+            return await query.ToListAsync();
+
         public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum)
         {
             return await _context.DONHANG
                 .Include(v => v.VeGiamGia)
                 .Where(p => p.SoDienThoai == phoneNum)
                 .ToListAsync();
+
         }
 
         public decimal GetTotalBill(List<CartItemModel>  cartItems)
@@ -81,6 +104,7 @@ namespace DACS.Repository
 
             return tinhTong - (tinhTong * (decimal)tyleGiam) / 100;
         }
+
 
         public async Task Update(DonHang donHang)
         {
