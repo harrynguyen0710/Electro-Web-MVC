@@ -6,6 +6,8 @@ using DACS.Repository;
 using DACS.ViewModel;
 using DACS.Service;
 using Microsoft.AspNetCore.Identity;
+using DACS.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebDT.Controllers
 {
@@ -15,7 +17,6 @@ namespace WebDT.Controllers
         private readonly IEmailSender _emailSender;
         private readonly UserManager<AppUserModel> _userManager;
 
-
         public CartController(ApplicationDbContext _context, IEmailSender emailSender, UserManager<AppUserModel> userManager)
         {
             _dataContext = _context;
@@ -23,7 +24,6 @@ namespace WebDT.Controllers
             _userManager = userManager;
 
         }
-
         public async Task<IActionResult> Index()
         {
             List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
@@ -54,7 +54,6 @@ namespace WebDT.Controllers
 
             return View(cartVM);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Index(CartItemViewModel cartVM)
@@ -148,7 +147,6 @@ namespace WebDT.Controllers
             return RedirectToAction("BuySuccessfully", "Cart");
         }
 
-
         public async Task<IActionResult> Add(int maSanPham)
         {
             var sanPham = await _dataContext.SANPHAM.FirstOrDefaultAsync(x => x.MaSanPham == maSanPham);
@@ -177,7 +175,6 @@ namespace WebDT.Controllers
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
 
         public IActionResult Decrease(int maSanPham)
         {
@@ -224,9 +221,6 @@ namespace WebDT.Controllers
             return RedirectToAction("Index");
         }
 
-
-
-
         public IActionResult Delete(int maSanPham)
         {
             List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");
@@ -253,8 +247,48 @@ namespace WebDT.Controllers
             return View();
         }
 
+        [HttpPost("/Cart/capture-paypal-order")]
+        public async Task<IActionResult> CapturePaypalOrder(string orderID, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var response = await _paypalClient.CaptureOrder(orderID);
+
+                // Lưu database đơn hàng của mình
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var error = new { ex.GetBaseException().Message };
+                return BadRequest(error);
+            }
+        }
+
+#endregion
+
+        [Authorize]
+        public IActionResult PaymentFail()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult PaymentCallBack()
+        {
+            var response = _vnPayservice.PaymentExecute(Request.Query);
+
+            if (response == null || response.VnPayResponseCode != "00")
+            {
+                TempData["Message"] = $"Lỗi thanh toán VN Pay: {response.VnPayResponseCode}";
+                return RedirectToAction("PaymentFail");
+            }
 
 
+            // Lưu đơn hàng vô database
 
+            TempData["Message"] = $"Thanh toán VNPay thành công";
+            return RedirectToAction("PaymentSuccess");
+        }
     }
 }
