@@ -1,20 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using DACS.Data;
 using DACS.Models;
 using DACS.IRepository;
+
 
 namespace DACS.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class DonHangController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IDonHang _donHangRepository;
-
-        public DonHangController(ApplicationDbContext context, IDonHang donHangRepository)
+        public DonHangController(IDonHang donHangRepository)
         {
-            _context = context;
             _donHangRepository = donHangRepository;
         }
         public async Task<IActionResult> Index()
@@ -50,10 +47,10 @@ namespace DACS.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewBag.TrangThaiDonHangList = new SelectList(_context.TRANGTHAIDONHANG, "MaTrangThaiDonHang", "TenTrangThaiDonHang", donHang.MaTrangThaiDonHang);
-            ViewBag.TrangThaiThanhToanList = new SelectList(_context.TRANGTHAITHANHTOAN, "MaTrangThaiThanhToan", "TenTrangThaiThanhToan", donHang.MaTrangThaiThanhToan);
             return View(donHang);
         }
+       
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -66,7 +63,8 @@ namespace DACS.Areas.Admin.Controllers
             await _donHangRepository.Update(donHang);
             return View(donHang);
         }
+        
 
-       
+
     }
 }

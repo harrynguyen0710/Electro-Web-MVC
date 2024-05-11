@@ -5,6 +5,7 @@ using DACS.Models;
 using DACS.Service;
 using DACS.IRepository;
 using DACS.Repository;
+using Microsoft.Extensions.Options;
 
 
 
@@ -13,8 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ElectroWeb"), o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
 );
+
+
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
@@ -26,9 +29,10 @@ builder.Services.AddScoped<IProductRepository<Laptop>, ProductRepository<Laptop>
 
 builder.Services.AddScoped(typeof(IToolsRepository<>), typeof(ToolsRepository<>));
 
+builder.Services.AddScoped<IBlog,BlogRepository>(); 
 builder.Services.AddScoped<IHinhAnh, HinhAnhRepository>();
 builder.Services.AddScoped<IDonHang, DonHangRepository>();
-builder.Services.AddScoped<IGenericRepository<ChiTietDonHangSanPham>, ChiTietDonHangRepository>();
+builder.Services.AddScoped<IOrderDetails, OrderDetailsRepository>();
 
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
 {
@@ -57,16 +61,51 @@ builder.Services.AddSession(options =>
 });
 
 
-
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddScoped<UserManager<AppUserModel>>();
 builder.Services.AddScoped<SignInManager<AppUserModel>>();
+builder.Services.AddAuthentication()
+    .AddGoogle(googleOptions =>
+    {
+        // Đọc thông tin Authentication:Google từ appsettings.json
 
-var app = builder.Build();
+
+
+        googleOptions.ClientId = builder.Configuration["Google:ClientId"];
+        googleOptions.ClientSecret = builder.Configuration["Google:ClientSecret"];
+      
+        googleOptions.SaveTokens = true;
+        googleOptions.CallbackPath = builder.Configuration["Google:CallbackPath"];
+
+    })
+    .AddFacebook(FacebookOptions =>
+      {
+          // Đọc thông tin Authentication:Google từ appsettings.json
+
+
+
+          FacebookOptions.ClientId = builder.Configuration["Facebook:ClientId"];
+          FacebookOptions.ClientSecret = builder.Configuration["Facebook:ClientSecret"];
+
+          FacebookOptions.SaveTokens = true;
+          FacebookOptions.CallbackPath = builder.Configuration["Facebook:CallbackPath"];
+
+     });
+
+
+/*builder.Services.AddSingleton(x => new PaypalClient(
+        builder.Configuration["PaypalOptions:AppId"],
+        builder.Configuration["PaypalOptions:AppSecret"],
+        builder.Configuration["PaypalOptions:Mode"]
+));
+
+builder.Services.AddSingleton<IVnPayService, VnPayService>();
+*/
+
+var app = builder.Build(); 
 
 app.UseSession();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -127,7 +166,5 @@ using (var scope = app.Services.CreateScope())
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Staff");
     }
-
-
 }
 app.Run();

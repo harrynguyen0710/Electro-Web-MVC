@@ -1,8 +1,10 @@
 ﻿@model DACS.ViewModel.LoginViewModel;
+@using Microsoft.AspNetCore.Identity
 @{
     ViewData["Title"] = "Login";
     Layout = "_Layout";
 }
+@inject SignInManager<AppUserModel> _signInManager
 <body>
     <section class="breadcrumb breadcrumb_bg">
         <div class="container">
@@ -40,7 +42,7 @@
                                 Welcome! <br>
                                 Let's log in now
                             </h3>
-                             <form method="post">
+                            <form method="post">
                                 <div class="col-md-12 form-group p_star">
                                     <input asp-for="UserName" class="form-control" type="text" required placeholder="User name">
                                     <span asp-validation-for="UserName"></span>
@@ -54,12 +56,49 @@
                                         <input type="checkbox" id="f-option" name="selector">
                                         <label for="f-option">Remember me</label>
                                     </div>
+                                    
                                     <button type="submit" value="submit" class="btn_3">
                                         Log in
                                     </button>
                                     <a class="lost_pass" href="#">Forgot password?</a>
+                                     <br>
                                 </div>
                             </form>
+                            
+                            <div class="login-social">
+                                <a >Đăng nhập khác bằng:</a>
+
+                                @{
+                                    var loginProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                                    <form asp-controller="Account" asp-action="ExternalLogin" method="POST" class="form-horizontal" style="text-align: center">
+                                        @foreach (var provider in loginProviders)
+                                        {
+                                            if (string.Equals(provider.Name, "facebook", StringComparison.OrdinalIgnoreCase))
+                                            {
+
+                                                <button style="width:342px;height:55px;" type="submit" class="btn btn-facebook text-uppercase" name="provider" value="@provider.Name"
+                                                        title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
+                                                    <i style="height:14px;width:14px;" class="fab fa-facebook mr-2"></i>
+                                                    @provider.DisplayName
+                                                </button>
+
+
+
+                                            }
+                                            else if (string.Equals(provider.Name, "google", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                <button style="width:342px;height:55px;" type="submit" class="btn btn-google text-uppercase mt-3" name="provider" value="@provider.Name"
+                                                        title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
+                                                    
+                                                    <i style="height:14px;width:14px;" class="fab fa-google mr-2"></i>
+                                                    @provider.DisplayName
+                                                </button>
+                                            }
+                                        }
+                                    </form>
+
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -67,6 +106,5 @@
         </div>
     </section>
 
-
-
 </body>
+

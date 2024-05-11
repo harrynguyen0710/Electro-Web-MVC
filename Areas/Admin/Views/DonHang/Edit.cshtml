@@ -1,6 +1,8 @@
 ﻿@model DACS.Models.DonHang;
 @{
     Layout = "_DashBoardAdmin";
+    ViewData["TrangThaiThanhToan"] = "TrangThaiThanhToan";
+    ViewData["TrangThaiDonHang"] = "TrangThaiDonHang";
 }
 
 <div class="container-fluid py-4">
@@ -33,36 +35,12 @@
                                     <input class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@Model.YeuCauKhac</span></input>
                                     <input class="mb-2 text-xs">Total price: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TongGiaTriDonHang</span></input>
                                     <div>
-                                        <label asp-for="@Model.MaTrangThaiDonHang">Order status</label>
-                                        <select asp-for="@Model.MaTrangThaiDonHang" id="MaTrangThaiDonHang" name="MaTrangThaiDonHang">
-                                            @if (ViewBag.TrangThaiDonHangList != null)
-                                            {
-                                                foreach (var trangThaiDonHang in ViewBag.TrangThaiDonHangList)
-                                                {
-                                                    <option value="@trangThaiDonHang.Value">@trangThaiDonHang.Text</option>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <option value="">No data available</option>
-                                            }
-                                        </select>
+                                        <label asp-for="@Model.TrangThaiDonHang">Bill status</label>
+                                        <select asp-for="@Model.TrangThaiDonHang" asp-items="Html.GetEnumSelectList<DACS.Enum.TrangThaiDonHang>()"></select>
                                     </div>
                                     <div>
-                                        <label asp-for="@Model.MaTrangThaiThanhToan">Payment status</label>
-                                        <select asp-for="@Model.MaTrangThaiThanhToan" id="MaTrangThaiThanhToan" name="MaTrangThaiThanhToan">
-                                            @if (ViewBag.TrangThaiThanhToanList != null)
-                                            {
-                                                foreach (var trangThaiThanhToan in ViewBag.TrangThaiThanhToanList)
-                                                {
-                                                    <option value="@trangThaiThanhToan.Value">@trangThaiThanhToan.Text</option>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <option value="">No data available</option>
-                                            }
-                                        </select>
+                                        <label asp-for="@Model.TrangThaiThanhToan">Payment status</label>
+                                        <select asp-for="@Model.TrangThaiThanhToan" asp-items="Html.GetEnumSelectList<DACS.Enum.TrangThaiThanhToan>()"></select>
                                     </div>
                                     <div>
                                         <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Update</button>
