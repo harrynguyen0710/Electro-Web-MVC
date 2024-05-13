@@ -1,0 +1,33 @@
+﻿@model DACS.Models.Address;
+
+<form id="editAddressForm" class="needs-validation" novalidate style="max-width: 400px; margin: 0 auto;">
+    <input type="hidden" id="addressId" name="Id" value="@Model.Id" />
+    <div class="mb-3">
+        <label for="numberAddress" class="form-label">Address</label>
+        <input type="text" class="form-control" id="numberAddress" name="NumberAddress" value="@Model.NumberAddress" required>
+        <div class="invalid-feedback">
+            Please provide a valid address.
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@* Optional: JavaScript for custom validation messages *@
+@section Scripts {
+    <script>
+        (function () {
+            'use strict';
+
+            var form = document.getElementById('editAddressForm');
+
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        })();
+    </script>
+}

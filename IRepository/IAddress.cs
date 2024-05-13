@@ -5,7 +5,9 @@ namespace DACS.IRepository
     public interface IAddress
     {
         Task<List<Address>> GetAddressesById(string id);
+        Task<Address> GetAddressById(int id);
         Task AddAddress(Address address);
-        Task RemoveAddress(int id);
+        Task RemoveAddress(Address address);
+        Task EditAddress(Address address);
     }
 }

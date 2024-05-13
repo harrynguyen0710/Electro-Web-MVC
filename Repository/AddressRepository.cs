@@ -1,23 +1,44 @@
-﻿using DACS.IRepository;
+﻿using DACS.Data;
+using DACS.IRepository;
 using DACS.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DACS.Repository
 {
     public class AddressRepository : IAddress
     {
-        public Task AddAddress(Address address)
+        private ApplicationDbContext _context;
+        public AddressRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task AddAddress(Address address)
+        {
+            await _context.ADDRESS.AddAsync(address);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Address>> GetAddressesById(string id)
+        public async Task EditAddress(Address address)
         {
-            throw new NotImplementedException();
+            _context.ADDRESS.Update(address);
+            await _context.SaveChangesAsync();
         }
 
-        public Task RemoveAddress(int id)
+        public async Task<Address> GetAddressById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.ADDRESS.FirstOrDefaultAsync(ad => ad.Id == id);
+        }
+
+
+        public async Task<List<Address>> GetAddressesById(string id)
+        {
+            return await _context.ADDRESS.Where(u => u.UserId == id).ToListAsync();
+        }
+
+        public async Task RemoveAddress(Address address)
+        {
+            _context.ADDRESS.Remove(address);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -8,6 +8,7 @@ using DACS.Service;
 using Microsoft.AspNetCore.Identity;
 using DACS.IRepository;
 using System.Web;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebDT.Controllers
 {
@@ -19,11 +20,12 @@ namespace WebDT.Controllers
         private readonly IDonHang _billRepository;
         private readonly IOrderDetails _orderDetailsRepository;
         private readonly IWishListService _wishlistService;
+        private readonly IAddress _addressRepository;
 
 
         public CartController(ApplicationDbContext _context, IEmailSender emailSender, 
             UserManager<AppUserModel> userManager, IDonHang billRepository
-            , IOrderDetails orderDetailsRepository, IWishListService wishlistService)
+            , IOrderDetails orderDetailsRepository, IWishListService wishlistService, IAddress addressRepository)
         {
             _dataContext = _context;
             _emailSender = emailSender;
@@ -31,6 +33,7 @@ namespace WebDT.Controllers
             _billRepository = billRepository;
             _orderDetailsRepository = orderDetailsRepository;
             _wishlistService = wishlistService;
+            _addressRepository = addressRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -51,7 +54,9 @@ namespace WebDT.Controllers
                 TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
                 DonHang = donHang
             };
+            var addresses = await _addressRepository.GetAddressesById(user.Id);
 
+            ViewBag.AddressUser = new SelectList(addresses, "NumberAddress", "NumberAddress");
             return View(cartVM);
         }
 
