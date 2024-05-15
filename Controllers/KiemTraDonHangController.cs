@@ -37,7 +37,7 @@ namespace WebDT.Controllers
                 ViewBag.ErrorMessage = "Vui lòng nhập số điện thoại.";
                 return View("Index");
             }
-            var donHang = await _donHangRepository.GetListDonHangByPhoneNum(phoneNumber);
+            var donHang = await _donHangRepository.GetListDonHangByPhoneNum(phoneNumber, true);
             if (donHang.Any())
             {
                 return View("ThongTinDonHang", donHang);

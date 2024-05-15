@@ -34,6 +34,17 @@ namespace DACS.Controllers
         public async Task<IActionResult> Index()
         {
             var sanPham = await _productRepository.GetSanPhamWithImg();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                // N?u ng??i dùng ?ã ??ng nh?p, g?i thông tin ng??i dùng ??n View
+                ViewData["Username"] = currentUser.UserName;
+            }
+            else
+            {
+                // N?u không, g?i m?t giá tr? m?c ??nh ho?c null ??n View
+                ViewData["Username"] = "Khách";
+            }
             return View(sanPham);
         }
 
@@ -169,6 +180,30 @@ namespace DACS.Controllers
 
             return View("Category", sanPham);
         }
+        public async Task<IActionResult> SearchProducts(string keyword)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(keyword))
+                {
+                    // N?u t? khóa tìm ki?m tr?ng, tr? v? t?t c? s?n ph?m
+                    var allProducts = await _productRepository.GetAllAsync();
+                    return Json(allProducts); // Tr? v? danh sách s?n ph?m d??i d?ng JSON
+                }
+                else
+                {
+                    // Tìm ki?m s?n ph?m theo t? khóa
+                    var searchResults = await _productRepository.SearchProductsAsync(keyword);
+                    return Json(searchResults); // Tr? v? k?t qu? tìm ki?m d??i d?ng JSON
+                }
+            }
+            catch (Exception ex)
+            {
+                // X? lý các l?i x?y ra trong quá trình tìm ki?m và tr? v? mã l?i 500 (Internal Server Error)
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
         public async Task<IActionResult> TopicsPartial()
         {
