@@ -20,7 +20,6 @@ namespace DACS.Areas.Admin.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
         public IActionResult Login(string returnUrl = null)
         {
             LoginViewModel login = new LoginViewModel();
@@ -85,7 +84,7 @@ namespace DACS.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUserModel { Email = register.Email, UserName = register.UserName, Address = register.DiaChi, PhoneNumber = register.SoDienThoai, Name = register.Name };
+                var user = new AppUserModel { Email = register.Email, UserName = register.UserName, PhoneNumber = register.SoDienThoai, Name = register.Name };
                 var result = await _userManager.CreateAsync(user, register.Password);
                 if (result.Succeeded)
                 {
