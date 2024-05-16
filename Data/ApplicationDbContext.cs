@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DACS.Models;
 
@@ -29,6 +29,7 @@ namespace DACS.Data
         public DbSet<TinTuc> TINTUC {  get; set; }
         public DbSet<Wishlist> WISHLIST { get;set; }
         public DbSet<Address> ADDRESS { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -98,7 +99,7 @@ namespace DACS.Data
                 .HasForeignKey(sc => sc.UserId);
 
             modelBuilder.Entity<BinhLuan>()
-                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham});
+                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham });
 
             modelBuilder.Entity<BinhLuan>()
                 .HasAlternateKey(bl => new { bl.Id, bl.MaSanPham });
@@ -128,7 +129,7 @@ namespace DACS.Data
                 .HasOne<ChuDe>(m => m.ChuDe)
                 .WithMany(s => s.TinTuc)
                 .HasForeignKey(s => s.MaChuDe);
-        
+
 
             modelBuilder.Entity<SanPham>()
            .ToTable("SanPham")
@@ -139,8 +140,6 @@ namespace DACS.Data
            .HasValue<Laptop>(4)
            .HasValue<SanPham>(0);
 
-
-
-}
+        }
     }
 }

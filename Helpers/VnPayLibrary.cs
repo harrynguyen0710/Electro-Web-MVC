@@ -1,4 +1,4 @@
-﻿/*using System.Globalization;
+﻿using System.Globalization;
 using System.Net.Sockets;
 using System.Net;
 using System.Security.Cryptography;
@@ -158,4 +158,3 @@ namespace DACS.Helpers
         }
     }
 }
-*/
