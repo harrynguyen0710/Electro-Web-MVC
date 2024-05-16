@@ -22,17 +22,13 @@ namespace WebDT.Controllers
         private readonly IDonHang _billRepository;
         private readonly IOrderDetails _orderDetailsRepository;
         private readonly PaypalClient _paypalClient;
-
-        public CartController(ApplicationDbContext _context, IEmailSender emailSender,
-            UserManager<AppUserModel> userManager, IDonHang billRepository,
-            IOrderDetails orderDetailsRepository, PaypalClient paypalClient)
-            
         private readonly IWishListService _wishlistService;
         private readonly IAddress _addressRepository;
 
         public CartController(ApplicationDbContext _context, IEmailSender emailSender, 
             UserManager<AppUserModel> userManager, IDonHang billRepository
-            , IOrderDetails orderDetailsRepository, IWishListService wishlistService, IAddress addressRepository)
+            , IOrderDetails orderDetailsRepository, IWishListService wishlistService, 
+            IAddress addressRepository,  PaypalClient paypalClient)
         {
             _dataContext = _context;
             _emailSender = emailSender;
