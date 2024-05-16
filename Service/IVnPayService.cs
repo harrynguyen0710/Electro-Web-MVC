@@ -1,4 +1,4 @@
-﻿/*using DACS.ViewModel;
+﻿using DACS.ViewModel;
 
 namespace DACS.Service
 {
@@ -8,4 +8,3 @@ namespace DACS.Service
         VnPaymentResponseModel PaymentExecute(IQueryCollection collections);
     }
 }
-*/

@@ -16,7 +16,6 @@ namespace WebDT.Controllers
         private readonly IDonHang _donHangRepository;
         private readonly ILogger<KiemTraDonHangController> _logger; 
 
-
         public KiemTraDonHangController(ApplicationDbContext dataContext, IDonHang donHangRepository, ILogger<KiemTraDonHangController> logger)
         {
             _dataContext = dataContext;

@@ -1,4 +1,4 @@
-﻿/*namespace DACS.ViewModel
+﻿namespace DACS.ViewModel
 {
     public class VnPaymentResponseModel
     {
@@ -21,4 +21,3 @@
         public DateTime CreatedDate { get; set; }
     }
 }
-*/

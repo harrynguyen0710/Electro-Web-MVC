@@ -8,6 +8,7 @@ using DACS.Service;
 using Microsoft.AspNetCore.Identity;
 using DACS.IRepository;
 using System.Web;
+using DACS.Helpers;
 
 namespace WebDT.Controllers
 {
@@ -18,16 +19,18 @@ namespace WebDT.Controllers
         private readonly UserManager<AppUserModel> _userManager;
         private readonly IDonHang _billRepository;
         private readonly IOrderDetails _orderDetailsRepository;
-
+        private readonly PaypalClient _paypalClient;
 
         public CartController(ApplicationDbContext _context, IEmailSender emailSender,
-            UserManager<AppUserModel> userManager, IDonHang billRepository, IOrderDetails orderDetailsRepository)
+            UserManager<AppUserModel> userManager, IDonHang billRepository,
+            IOrderDetails orderDetailsRepository, PaypalClient paypalClient)
         {
             _dataContext = _context;
             _emailSender = emailSender;
             _userManager = userManager;
             _billRepository = billRepository;
             _orderDetailsRepository = orderDetailsRepository;
+            _paypalClient = paypalClient;
         }
 
         public async Task<IActionResult> Index()
@@ -97,7 +100,6 @@ namespace WebDT.Controllers
             return RedirectToAction("BuySuccessfully", "Cart");
         }
 
-
         public async Task<IActionResult> Add(int maSanPham)
         {
             var sanPham = await _dataContext.SANPHAM.FirstOrDefaultAsync(x => x.MaSanPham == maSanPham);
@@ -126,7 +128,6 @@ namespace WebDT.Controllers
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
 
         public IActionResult Decrease(int maSanPham)
         {
@@ -172,9 +173,6 @@ namespace WebDT.Controllers
             }
             return RedirectToAction("Index");
         }
-
-
-
 
         public IActionResult Delete(int maSanPham)
         {

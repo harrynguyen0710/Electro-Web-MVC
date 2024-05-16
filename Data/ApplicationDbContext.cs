@@ -25,8 +25,8 @@ namespace DACS.Data
         public DbSet<DanhGia> DANHGIA { get; set; }
         public DbSet<BinhLuan> BINHLUAN { get; set; }
         public DbSet<VeGiamGia> VEGIAMGIA { get; set; }
-        public DbSet<ChuDe> CHUDE {  get; set; }
-        public DbSet<TinTuc> TINTUC {  get; set; }
+        public DbSet<ChuDe> CHUDE { get; set; }
+        public DbSet<TinTuc> TINTUC { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -81,7 +81,7 @@ namespace DACS.Data
                 .HasForeignKey(sc => sc.MaDonHang);
 
             modelBuilder.Entity<BinhLuan>()
-                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham});
+                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham });
 
             modelBuilder.Entity<BinhLuan>()
                 .HasAlternateKey(bl => new { bl.Id, bl.MaSanPham });
@@ -111,7 +111,7 @@ namespace DACS.Data
                 .HasOne<ChuDe>(m => m.ChuDe)
                 .WithMany(s => s.TinTuc)
                 .HasForeignKey(s => s.MaChuDe);
-        
+
 
             modelBuilder.Entity<SanPham>()
            .ToTable("SanPham")
@@ -122,8 +122,6 @@ namespace DACS.Data
            .HasValue<Laptop>(4)
            .HasValue<SanPham>(0);
 
-
-
-}
+        }
     }
 }

@@ -6,6 +6,7 @@ using DACS.Service;
 using DACS.IRepository;
 using DACS.Repository;
 using Microsoft.Extensions.Options;
+using DACS.Helpers;
 
 
 
@@ -83,8 +84,6 @@ builder.Services.AddAuthentication()
       {
           // Đọc thông tin Authentication:Google từ appsettings.json
 
-
-
           FacebookOptions.ClientId = builder.Configuration["Facebook:ClientId"];
           FacebookOptions.ClientSecret = builder.Configuration["Facebook:ClientSecret"];
 
@@ -94,14 +93,14 @@ builder.Services.AddAuthentication()
      });
 
 
-/*builder.Services.AddSingleton(x => new PaypalClient(
+builder.Services.AddSingleton(x => new PaypalClient(
         builder.Configuration["PaypalOptions:AppId"],
         builder.Configuration["PaypalOptions:AppSecret"],
         builder.Configuration["PaypalOptions:Mode"]
 ));
 
 builder.Services.AddSingleton<IVnPayService, VnPayService>();
-*/
+
 
 var app = builder.Build(); 
 
