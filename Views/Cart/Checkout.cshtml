@@ -1,0 +1,261 @@
+﻿@model DACS.ViewModel.CartItemViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techzone - Checkout</title>
+    <link rel="icon" href="~/favicon.png">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/all.css">
+    <link rel="stylesheet" href="~/css/flaticon.css">
+    <link rel="stylesheet" href="~/css/themify-icons.css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/css/slick.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        .checkout_area {
+            padding: 30px 0;
+        }
+
+        .billing_details h3, .order_box h2 {
+            margin-bottom: 20px;
+        }
+
+        .order_box ul.list, .order_box ul.list_2 {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+            .order_box ul.list li, .order_box ul.list_2 li {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px solid #eee;
+            }
+
+            .order_box ul.list_2 li {
+                font-weight: bold;
+            }
+
+        .payment_item {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+            .payment_item img {
+                max-width: 100px;
+                margin-top: 10px;
+            }
+
+        .btn_3 {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: #ff6600;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+            .btn_3:hover {
+                background-color: #cc5200;
+                color: #fff;
+            }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-group .form-control {
+            border-right: 0;
+        }
+
+        .input-group .btn {
+            border-left: 0;
+        }
+    </style>
+</head>
+<body>
+    <partial name="_Header" />
+    <partial name="_BannerPartial" />
+
+    <section class="checkout_area padding_top">
+        <div class="container">
+            <form asp-action="Checkout" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="cupon_area mb-4">
+                            <div class="input-group">
+                                <input id="voucherCode" asp-for="@Model.Code" type="text" class="form-control" placeholder="Enter coupon code" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" onclick="applyVoucher()" style="height: 42px; transform: translateY(18px);" type="button">Apply Coupon</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="voucherInfo"></div>
+                        @if (ViewBag.InvalidVoucher != null)
+                        {
+                            <p style="color:red;">@ViewBag.InvalidVoucher</p>
+                        }
+                        <div class="billing_details">
+                            <h3>Billing Details</h3>
+                            <div class="row contact_form">
+                                <div class="col-md-6 form-group">
+                                    <label asp-for="@Model.DonHang.TenKhachHang">First name</label>
+                                    <input asp-for="@Model.DonHang.TenKhachHang" value="@Model.DonHang.TenKhachHang" type="text" class="form-control" id="first" placeholder="Full name" />
+                                    <span asp-validation-for="@Model.DonHang.TenKhachHang" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label asp-for="@Model.DonHang.SoDienThoai">Phone number</label>
+                                    <input asp-for="@Model.DonHang.SoDienThoai" value="@Model.DonHang.SoDienThoai" type="text" class="form-control" id="number" placeholder="Phone number" />
+                                    <span asp-validation-for="@Model.DonHang.SoDienThoai" class="text-danger"></span>
+                                </div>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <div class="col-md-12 form-group">
+                                        <label asp-for="@Model.DonHang.DiaChi">Address</label>
+                                        <select asp-for="@Model.DonHang.DiaChi" class="form-control">
+                                            @if (ViewBag.AddressUser != null)
+                                            {
+                                                @foreach (var address in ViewBag.AddressUser)
+                                                {
+                                                    <option value="@address.Value">@address.Text</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option>No Address Exists</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="@Model.DonHang.DiaChi" class="text-danger"></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-12 form-group">
+                                        <label asp-for="@Model.DonHang.DiaChi">Address</label>
+                                        <input asp-for="@Model.DonHang.DiaChi" type="text" class="form-control" placeholder="Address line 02" />
+                                        <span asp-validation-for="@Model.DonHang.DiaChi" class="text-danger"></span>
+                                    </div>
+                                }
+                                <div class="col-md-12 form-group">
+                                    <label for="message">Order Notes</label>
+                                    <textarea class="form-control" name="message" id="message" rows="3" placeholder="Order Notes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.CartItems != null && Model.CartItems.Count > 0)
+                    {
+                        <div class="col-lg-4">
+                            <div class="order_box">
+                                <h2>Your Order</h2>
+                                <ul class="list mb-4">
+                                    <li>
+                                        <span>Product</span>
+                                        <span>Total</span>
+                                    </li>
+                                    @foreach (var product in Model.CartItems)
+                                    {
+                                        <li>
+                                            <span>@product.TenSanPham</span>
+                                            <span>x @product.Soluong</span>
+                                            <span>@((product.GiaKhuyenMai != null ? product.GiaKhuyenMai.Value : product.Gia).ToString("#,##0 đ"))</span>
+                                        </li>
+                                    }
+                                </ul>
+                                <ul class="list_2 mb-4">
+                                    <li>
+                                        <span>Total</span>
+                                        <strong>@Model.GrandTotal.ToString("#,##0 đ")</strong>
+                                    </li>
+                                </ul>
+                                <div class="payment_item mb-3">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="check-payment" name="payment_method" class="custom-control-input" />
+                                        <label class="custom-control-label" for="check-payment">Check payments</label>
+                                    </div>
+                                    <small class="text-muted">
+                                        Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.
+                                    </small>
+                                </div>
+                                <div class="payment_item active mb-3">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="paypal" name="payment_method" class="custom-control-input" />
+                                        <label class="custom-control-label" for="paypal">Paypal</label>
+                                    </div>
+                                    <img src="img/product/single-product/card.jpg" alt="Paypal" class="img-fluid mt-2" />
+                                    <input class="text-muted form-control mt-2" asp-for="@Model.DonHang.YeuCauKhac" type="text" placeholder="Other requests" />
+                                </div>
+                                <div class="creat_account custom-control custom-checkbox mb-3">
+                                    <input type="checkbox" id="terms" class="custom-control-input" />
+                                    <label class="custom-control-label" for="terms">
+                                        I’ve read and accept the <a href="#">terms & conditions*</a>
+                                    </label>
+                                </div>
+                                <div class="infor-customer" style="display:none;">
+                                    <label asp-for="@Model.DonHang.TrangThaiDonHang">Phone Number <span class="text-danger">*</span></label>
+                                    <input asp-for="@Model.DonHang.TrangThaiDonHang" type="text" value="@DACS.Enum.TrangThaiDonHang.Preparing">
+                                </div>
+                                <div class="infor-customer" style="display:none;">
+                                    <label asp-for="@Model.DonHang.TrangThaiThanhToan">Other Reason</label>
+                                    <input asp-for="@Model.DonHang.TrangThaiThanhToan" type="text" value="@DACS.Enum.TrangThaiThanhToan.Unpaid">
+                                </div>
+                                <button type="submit" class="btn_3">Order</button>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </form>
+        </div>
+    </section>
+    <script src="~/js/jquery-3.4.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>
+
+<script>
+    function applyVoucher() {
+        var voucherCode = encodeURIComponent(document.getElementById("voucherCode").value);
+        fetch(`/Cart/ApplyVoucher?code=${voucherCode}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    console.log(data);
+                    document.getElementById("voucherInfo").innerHTML = `
+                    <h4>Voucher Information</h4>
+                    <p>Code: ${data.voucher.code}</p>
+                    <p>Discount Percentage: ${data.voucher.tyleGiam} %</p>
+                    <p>Voucher Description: ${data.voucher.description}</p>
+                    <p style=\"color: green;\">Total cost after discount: ${new Intl.NumberFormat('vi-VN').format(data.totalCost)} đ</p>
+                `;
+                } else {
+                    document.getElementById("voucherInfo").innerHTML = "<p style=\"color: red;\">Invalid voucher</p>";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                document.getElementById("voucherInfo").innerHTML = "<p style=\"color: red;\">An error occurred while applying the voucher.</p>";
+            });
+    }
+</script>

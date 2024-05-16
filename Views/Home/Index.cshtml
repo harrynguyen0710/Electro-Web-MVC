@@ -46,12 +46,16 @@
                                     <img src="~/Images/@anh.FileHinhAnh" alt="" class="product_image">
                                     break;
                                 }
-                            <div class="product_info">
-                                <h4 class="product_name">@sanPham.TenSanPham</h4>
-                                <h3 class="product_price">@sanPham.Gia.ToString("#,##0 đ")</h3>
-                                <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" class="add_to_cart_button">ADD TO CART</a>
-                                <i class="ti-heart"></i>
-                            </div>
+                                <div class="product_info">
+                                    <h4 class="product_name">@sanPham.TenSanPham</h4>
+                                    <h3 class="product_price">@sanPham.Gia.ToString("#,##0 đ")</h3>
+                                    <a asp-controller="Cart" asp-action="Add" asp-route-MaSanPham="@sanPham.MaSanPham" class="add_to_cart_button">ADD TO CART</a>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <i class="ti-heart add-to-wishlist-btn" style="cursor:pointer;" data-maSanPham="@sanPham.MaSanPham"></i>
+                                    }
+
+                                </div>
                             </a>
                         </div>
                     </div>
@@ -59,7 +63,15 @@
             </div>
         </div>
     </section>
-
+    <div id="wishlistSuccessModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="notification">
+                <i class="fas fa-check-circle"></i>
+                <p>Product added to wishlist successfully!</p>
+            </div>
+        </div>
+    </div>
 
     <style>
         .product_item {
@@ -101,7 +113,7 @@
 
             .add_to_cart_button:hover {
                 background-color: #e45610;
-                color: #fff; 
+                color: #fff;
             }
 
         .product_link {
@@ -117,6 +129,67 @@
         .add_cart_item {
             margin-bottom: 30px;
         }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        /* Modal Content */
+        .modal-content {
+            position: relative;
+            width: 300px;
+            margin: 15% auto;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.2);
+        }
+
+        /* Close Button */
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 20px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        /* Notification */
+        .notification {
+            display: flex;
+            align-items: center;
+        }
+
+            .notification i {
+                font-size: 24px;
+                color: #4CAF50; /* Green color */
+                margin-right: 10px;
+            }
+
+            .notification p {
+                margin: 0;
+                font-size: 16px;
+                color: #333;
+            }
+
+            .notification i.fa-times-circle {
+                color: #f44336; /* Red color */
+            }
+
+            .notification i.fa-check-circle {
+                color: #4CAF50; /* Green color */
+            }
+
     </style>
 
 
@@ -172,6 +245,48 @@
 
 
 </body>
+@section Scripts {
+    <script>
+        // Function to add a product to the wishlist
+        function addToWishlist(productId) {
+            // AJAX request to add the product to the wishlist
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '@Url.Action("AddProductToWishList", "WishList")');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Success, show modal
+                    var modal = document.getElementById('wishlistSuccessModal');
+                    modal.style.display = "block";
+                    setTimeout(function () {
+                        modal.style.display = "none";
+                    }, 3000); // Hide modal after 3 seconds
+                } else {
+                    // Error handling
+                    alert("Failed to add product to wishlist!");
+                }
+            };
+            xhr.send('id=' + productId);
+        }
+
+        // Add click event listener to the heart icon
+        var addToWishlistButtons = document.querySelectorAll('.add-to-wishlist-btn');
+        addToWishlistButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var productId = button.getAttribute('data-maSanPham');
+                addToWishlist(productId);
+            });
+        });
+
+        // Close the modal when clicking on the close button
+        document.querySelectorAll('.close').forEach(function (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                var modal = closeBtn.parentElement.parentElement;
+                modal.style.display = "none";
+            });
+        });
+    </script>
+}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using DACS.IRepository;
 using System.Web;
 using DACS.Helpers;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace WebDT.Controllers
 {
@@ -24,6 +26,13 @@ namespace WebDT.Controllers
         public CartController(ApplicationDbContext _context, IEmailSender emailSender,
             UserManager<AppUserModel> userManager, IDonHang billRepository,
             IOrderDetails orderDetailsRepository, PaypalClient paypalClient)
+            
+        private readonly IWishListService _wishlistService;
+        private readonly IAddress _addressRepository;
+
+        public CartController(ApplicationDbContext _context, IEmailSender emailSender, 
+            UserManager<AppUserModel> userManager, IDonHang billRepository
+            , IOrderDetails orderDetailsRepository, IWishListService wishlistService, IAddress addressRepository)
         {
             _dataContext = _context;
             _emailSender = emailSender;
@@ -31,6 +40,9 @@ namespace WebDT.Controllers
             _billRepository = billRepository;
             _orderDetailsRepository = orderDetailsRepository;
             _paypalClient = paypalClient;
+            _wishlistService = wishlistService;
+            _addressRepository = addressRepository;
+
         }
 
         public async Task<IActionResult> Index()
@@ -41,7 +53,6 @@ namespace WebDT.Controllers
             DonHang donHang = new DonHang()
             {
                 TenKhachHang = user?.Name,
-                DiaChi = user?.Address,
                 SoDienThoai = user?.PhoneNumber
             };
 
@@ -52,12 +63,36 @@ namespace WebDT.Controllers
                 TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
                 DonHang = donHang
             };
+            var addresses = await _addressRepository.GetAddressesById(user.Id);
+
+            ViewBag.AddressUser = new SelectList(addresses, "NumberAddress", "NumberAddress");
+            return View(cartVM);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
+        {
+            List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            var user = await _userManager.GetUserAsync(User);
+
+            DonHang donHang = new DonHang()
+            {
+                TenKhachHang = user?.Name,
+                SoDienThoai = user?.PhoneNumber
+            };
+            CartItemViewModel cartVM = new CartItemViewModel
+            {
+                CartItems = cartItems,
+                GrandTotal = _billRepository.GetTotalBill(cartItems),
+                TongSoLuongHienThi = cartItems.Sum(x => x.Soluong),
+                DonHang = donHang
+            };
+            var addresses = await _addressRepository.GetAddressesById(user.Id);
+            ViewBag.AddressUser = new SelectList(addresses, "NumberAddress", "NumberAddress");
 
             return View(cartVM);
         }
-
         [HttpPost]
-        public async Task<IActionResult> Index(CartItemViewModel cartVM)
+        public async Task<IActionResult> CheckOut(CartItemViewModel cartVM)
         {
             List<CartItemModel> cartItems = HttpContext.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
             if (cartVM.DonHang == null || cartItems == null)
@@ -103,6 +138,7 @@ namespace WebDT.Controllers
         public async Task<IActionResult> Add(int maSanPham)
         {
             var sanPham = await _dataContext.SANPHAM.FirstOrDefaultAsync(x => x.MaSanPham == maSanPham);
+
 
             if (sanPham != null)
             {
