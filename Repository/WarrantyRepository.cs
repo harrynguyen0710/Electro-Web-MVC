@@ -22,6 +22,25 @@ namespace DACS.Repository
                 .Where(w => w.Id == id)
                 .FirstOrDefaultAsync();
         }
+        public async Task<List<Warranty>> GetAllByPhoneNumber(string phoneNumber, bool status)
+        {
+            if(status == null)
+            {
+                return await _context.WARRANTY
+                         .Include(p => p.OrderDetails)
+                         .ThenInclude(od => od.DonHang)
+                         .Where(p => p.OrderDetails.DonHang.SoDienThoai == phoneNumber)
+                         .ToListAsync();
+            }
+            var warranty = await _context.WARRANTY
+                         .Include(p => p.OrderDetails)
+                         .ThenInclude(od => od.DonHang)
+                         .Where(p => p.OrderDetails.DonHang.SoDienThoai == phoneNumber
+                                     && p.IsApproved == status)
+                         .ToListAsync();
+
+            return warranty;
+        }
 
 
     }
