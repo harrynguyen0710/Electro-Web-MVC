@@ -1,10 +1,10 @@
-﻿/*using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
 namespace DACS.Helpers
 {
-    public sealed class PaypalClient
+    public /*sealed*/ class PaypalClient
     {
         public string Mode { get; }
         public string ClientId { get; }
@@ -234,4 +234,3 @@ namespace DACS.Helpers
         public Paypal paypal { get; set; }
     }
 }
-*/

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DACS.Models;
 using DACS.IRepository;
@@ -31,6 +31,7 @@ namespace DACS.Data
         public DbSet<Wishlist> WISHLIST { get;set; }
         public DbSet<Address> ADDRESS { get; set; }
         public DbSet<Warranty> WARRANTY { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -100,7 +101,7 @@ namespace DACS.Data
                 .HasForeignKey(sc => sc.UserId);
 
             modelBuilder.Entity<BinhLuan>()
-                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham});
+                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham });
 
             modelBuilder.Entity<BinhLuan>()
                 .HasAlternateKey(bl => new { bl.Id, bl.MaSanPham });
@@ -135,8 +136,7 @@ namespace DACS.Data
                 .WithMany(p => p.Warranties)
                 .HasForeignKey(od => new { od.ProductId, od.OrderId });
 
-    
-
+  
 
 
             modelBuilder.Entity<SanPham>()
@@ -148,8 +148,6 @@ namespace DACS.Data
            .HasValue<Laptop>(4)
            .HasValue<SanPham>(0);
 
-
-
-}
+        }
     }
 }

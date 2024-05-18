@@ -6,16 +6,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Details</title>
+    <title>Chi tiết</title>
 </head>
 <body>
     <div style="background-color: #ffffff; display:flex; flex-direction:row;">
         <div>
-            <h1>Product Information</h1>
-            <p><strong>Product name:</strong> @Model.TenSanPham</p>
-            <p><strong>Capacity:</strong> @Model.BoNho.DungLuongBoNho</p>
-            <p><strong>Product: </strong> @Model.LoaiSanPham.TenLoaiSanPham</p>
-            <p><strong>Color:</strong> @Model.MauSac.TenMau</p>
+            <h3>Thông tin sản phẩm</h3>
+            <p><strong>Tên sản phẩm:</strong> @Model.TenSanPham</p>
+            <p><strong>Dung lượng:</strong> @Model.BoNho.DungLuongBoNho</p>
+            <p><strong>Loại sản phẩm: </strong> @Model.LoaiSanPham.TenLoaiSanPham</p>
+            <p><strong>Màu sắc:</strong> @Model.MauSac.TenMau</p>
             <p><strong>RAM:</strong> @Model.Ram.TenRam</p>
             <p><strong>Brand:</strong> @Model.ThuongHieu.TenThuongHieu</p>
             <p><strong>Resolution:</strong> @Model.DoPhanGiai</p>
@@ -23,29 +23,30 @@
             <p><strong>Physical size:</strong> @Model.KichThuocVatLy</p>
             <p><strong>Warranty:</strong> @Model.ThoiHanBaoHanh</p>
 
-            <h2>Product image</h2>
+
+            <h3>Hình ảnh sản phẩm</h3>
             @if (Model.HinhAnh != null)
             {
                 <div>
                     @foreach (var image in Model.HinhAnh)
                     {
-                        <img src="~/Images/@image.FileHinhAnh" alt="Product Image" />
+                        <img src="~/Images/@image.FileHinhAnh" alt="Hình ảnh" />
                     }
                 </div>
             }
             else
             {
-                <p>No images available for this product.</p>
+                <p>Không có hình ảnh cho sản phẩm này </p>
             }
 
 
         </div>
         <div>
             <div style="width:180px;  height:40px; text-align:center; margin-top:30px;" class="btn btn-primary">
-                <a style="color: #ffffff;" asp-area="Admin" asp-controller="iPad" asp-action="Index">Back</a>
+                <a style="color: #ffffff;" asp-area="Admin" asp-controller="iPad" asp-action="Index">Trở về</a>
             </div>
         </div>
-    </div>s
+    </div>
 
 </body>
 </html>
