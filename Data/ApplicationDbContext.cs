@@ -7,6 +7,8 @@ namespace DACS.Data
 {
     public class ApplicationDbContext : IdentityDbContext<AppUserModel>
     {
+        internal readonly object DonHangs;
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<BoNho> BONHO { get; set; }
         public DbSet<HinhAnh> HINHANH { get; set; }
