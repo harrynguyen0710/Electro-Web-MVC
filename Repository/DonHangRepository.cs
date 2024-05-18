@@ -49,73 +49,69 @@ namespace DACS.Repository
 
 
 
-        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum, bool sortByDateDescending)
+
+        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum, string? trangThaiDonHang, string? trangThaiThanhToan)
         {
             var query = _context.DONHANG
-                .Include(tt => tt.TrangThaiDonHang)
-                .Include(tt => tt.TrangThaiThanhToan)
                 .Include(v => v.VeGiamGia)
                 .Where(p => p.SoDienThoai == phoneNum);
 
-            if (sortByDateDescending)
+            if (!string.IsNullOrEmpty(trangThaiDonHang))
             {
-                query = query.OrderByDescending(d => d.NgayLapDonHang);
-            }
-            else
-            {
-                query = query.OrderBy(d => d.NgayLapDonHang);
+                query = query.Where(d => d.TrangThaiDonHang == trangThaiDonHang);
             }
 
-            return await query.ToListAsync();
-        }
-        public async Task<List<DonHang>> GetListDonHangByPhoneNum(string phoneNum)
-        {
-            return await _context.DONHANG
-                .Include(v => v.VeGiamGia)
-                .Where(p => p.SoDienThoai == phoneNum)
+            if (!string.IsNullOrEmpty(trangThaiThanhToan))
+            {
+                query = query.Where(d => d.TrangThaiThanhToan == trangThaiThanhToan);
+            }
+
+
+            return await query
+                .OrderByDescending(d => d.NgayLapDonHang)
+
                 .ToListAsync();
-
         }
 
-        public decimal GetTotalBill(List<CartItemModel>  cartItems)
-        {
-            decimal tongDonHang = 0;
-            foreach (var item in cartItems)
+
+        public decimal GetTotalBill(List<CartItemModel> cartItems)
             {
-                if (item.GiaKhuyenMai != null)
+                decimal tongDonHang = 0;
+                foreach (var item in cartItems)
                 {
-                    tongDonHang = (decimal)(tongDonHang + (item.Soluong * item.GiaKhuyenMai));
+                    if (item.GiaKhuyenMai != null)
+                    {
+                        tongDonHang = (decimal)(tongDonHang + (item.Soluong * item.GiaKhuyenMai));
+                    }
+                    else
+                    {
+                        tongDonHang += item.Soluong * item.Gia;
+                    }
                 }
-                else
-                {
-                    tongDonHang += item.Soluong * item.Gia;
-                }
+                return tongDonHang;
             }
-            return tongDonHang;
-        }
-        public decimal GetTotalBillWithVoucher(List<CartItemModel> cartItems, float? tyleGiam)
-        {
-            var tinhTong = cartItems.Sum(x => x.TongTien);
-            if (tyleGiam == null)
+            public decimal GetTotalBillWithVoucher(List<CartItemModel> cartItems, float? tyleGiam)
             {
-                return tinhTong;
+                var tinhTong = cartItems.Sum(x => x.TongTien);
+                if (tyleGiam == null)
+                {
+                    return tinhTong;
+                }
+
+                return tinhTong - (tinhTong * (decimal)tyleGiam) / 100;
             }
 
-            return tinhTong - (tinhTong * (decimal)tyleGiam) / 100;
-        }
 
+            public async Task Update(DonHang donHang)
+            {
+                _context.DONHANG.Update(donHang);
+                await _context.SaveChangesAsync();
+            }
 
-        public async Task Update(DonHang donHang)
-        {
-            _context.DONHANG.Update(donHang);
-            await _context.SaveChangesAsync();
-        }
-
-        Task IGenericRepository<DonHang>.Delete(DonHang entity)
+        public Task Delete(DonHang entity)
         {
             throw new NotImplementedException();
         }
-
-
     }
-}
+    }
+

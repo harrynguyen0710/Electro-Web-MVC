@@ -26,14 +26,19 @@ namespace WebDT.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ThongTinDonHang(string phoneNumber)
+        public async Task<IActionResult> ThongTinDonHang(string phoneNumber, string? trangThaiDonHang, string? trangThaiThanhToan)
         {
+            ViewBag.phoneNumber = phoneNumber;
             if (string.IsNullOrEmpty(phoneNumber))
             {
                 ViewBag.ErrorMessage = "Vui lòng nhập số điện thoại.";
                 return View("Index");
             }
-            var donHang = await _donHangRepository.GetListDonHangByPhoneNum(phoneNumber, true);
+            var donHang = await _donHangRepository.GetListDonHangByPhoneNum(phoneNumber, trangThaiDonHang, trangThaiThanhToan);
+            if(trangThaiThanhToan != null && trangThaiDonHang != null)
+            {
+                return View("ThongTinDonHang", donHang);
+            }
             if (donHang.Any())
             {
                 return View("ThongTinDonHang", donHang);
@@ -44,6 +49,7 @@ namespace WebDT.Controllers
                 return View("Index");
             }
         }
+      
 
         [HttpGet]
         public async Task<IActionResult> Details(int maDonHang)
