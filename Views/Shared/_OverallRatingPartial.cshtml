@@ -1,13 +1,13 @@
 ﻿@model DACS.Models.SanPham;
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @if (Model.DiemDanhGia != null && Model.SoLuongDanhGia != null)
 {
     float? DIEMDANHGIA = Model.DiemDanhGia / Model.SoLuongDanhGia;
     float? roundedDIEMDANHGIA = (float?)Math.Round(DIEMDANHGIA.Value, 1);
 
-    <div class="row total_rate">
-        <div class="col-6">
-            <div class="box_total">
+    <div class="row total_rate" style="width:300px;">
+        <div class="col-6" >
+            <div class="box_total" style="width:250px; height:170px;">
                 <h5>Overall</h5>
                 <h4>@roundedDIEMDANHGIA / 5</h4>
                 <h6>(@Model.SoLuongDanhGia Reviews)</h6>

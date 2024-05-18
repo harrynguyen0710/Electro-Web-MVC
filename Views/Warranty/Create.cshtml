@@ -1,0 +1,36 @@
+﻿@model DACS.Models.Warranty;
+@{
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center">Warranty Claim</h1>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="card-title">Product Information</h4>
+                </div>
+                <div class="card-body">
+                    <img src="~/Images/@Model.OrderDetails.SanPham.HinhAnh.FirstOrDefault()?.FileHinhAnh" class="img-fluid mb-3" alt="Product Image" style="max-height: 200px;" />
+                    <p><strong>Order ID:</strong> @Model.OrderDetails.DonHang.MaDonHang</p>
+                    <p><strong>Product Name:</strong> @Model.OrderDetails.SanPham.TenSanPham</p>
+                    <p><strong>Product ID:</strong> @Model.OrderDetails.MaSanPham</p>
+                    <p><strong>Price:</strong> @Model.OrderDetails.DonGiaBan.ToString("#,##0 đ")</p>
+                    <p><strong>Warranty Period:</strong> @Model.OrderDetails.SanPham.ThoiHanBaoHanh months</p>
+                </div>
+            </div>
+            <form method="post">
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="text" id="date" class="form-control" value="@DateTime.Now.ToString("dd/MM/yyyy")" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="reason">Reason for Warranty Claim:</label>
+                    <textarea id="reason" class="form-control" asp-for="@Model.Reason"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

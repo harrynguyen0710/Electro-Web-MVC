@@ -18,6 +18,7 @@ namespace DACS.Models
         public int? SoLuongDanhGia { get; set; } 
 
         public float? DiemDanhGia { get; set; }
+        public float ThoiHanBaoHanh { get; set; }
         [Column(TypeName = "decimal(18,2)")]
 
         public decimal? GiaKhuyenMai { get; set; }
@@ -49,6 +50,7 @@ namespace DACS.Models
         public ICollection<HinhAnh> HinhAnh { get; set; }
         public ICollection<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
         public ICollection<BinhLuan> BinhLuan { get; set; }
+        public ICollection<Wishlist> WishList { get; set; }
         [NotMapped]
         public ICollection<IFormFile> FormFiles { get; set; }
     }

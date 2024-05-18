@@ -6,42 +6,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Details</title>
+    <title>Chi tiết</title>
 </head>
 <body>
     <div style="background-color: #ffffff; display:flex; flex-direction:row;">
         <div>
-            <h1>Product information</h1>
-            <p><strong>Product name:</strong> @Model.TenSanPham</p>
-            <p><strong>Capacity:</strong> @Model.BoNho.DungLuongBoNho</p>
-            <p><strong>Product: </strong> @Model.LoaiSanPham.TenLoaiSanPham</p>
-            <p><strong>Color:</strong> @Model.MauSac.TenMau</p>
+            <h3>Thông tin sản phẩm</h3>
+            <p><strong>Tên sản phẩm:</strong> @Model.TenSanPham</p>
+            <p><strong>Dung lượng:</strong> @Model.BoNho.DungLuongBoNho</p>
+            <p><strong>Sản phẩm: </strong> @Model.LoaiSanPham.TenLoaiSanPham</p>
+            <p><strong>Màu sắc:</strong> @Model.MauSac.TenMau</p>
             <p><strong>RAM:</strong> @Model.Ram.TenRam</p>
-            <p><strong>Brand:</strong> @Model.ThuongHieu.TenThuongHieu</p>
+            <p><strong>Thương hiệu:</strong> @Model.ThuongHieu.TenThuongHieu</p>
             <p><strong>CPU:</strong> @Model.CPU</p>
-            <p><strong>Flow multipliers:</strong> @Model.SoNhanLuong</p>
+            <p><strong>Số nhân luồng:</strong> @Model.SoNhanLuong</p>
             <p><strong>VGA:</strong> @Model.VGA</p>
             <p><strong>Weight</strong> @Model.TrongLuong</p>
+            <p><strong>Warranty:</strong> @Model.ThoiHanBaoHanh</p>
 
-            <h2>Product image</h2>
+
+            <h3>Hình ảnh</h3>
             @if (Model.HinhAnh != null)
             {
                 <div>
                     @foreach (var image in Model.HinhAnh)
                     {
-                        <img src="~/Images/@image.FileHinhAnh" alt="Product Image" />
+                        <img src="~/Images/@image.FileHinhAnh" alt="Hình ảnh sản phẩm" />
                     }
                 </div>
             }
             else
             {
-                <p>No images available for this product.</p>
+                <p>Không có hình ảnh cho sản phẩm này.</p>
             }
 
         </div>
         <div>
             <div style="width:180px;  height:40px; text-align:center; margin-top:30px;" class="btn btn-primary">
-                <a style="color: #ffffff;" asp-area="Admin" asp-controller="Laptop" asp-action="Index">Back</a>
+                <a style="color: #ffffff;" asp-area="Admin" asp-controller="Laptop" asp-action="Index">Trở về</a>
             </div>
         </div>
     </div>

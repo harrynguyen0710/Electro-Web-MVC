@@ -1,0 +1,263 @@
+﻿@model List<DACS.Models.Wishlist>;
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<body>
+    <partial name="_BannerPartial" />
+
+    <form asp-action="Index" method="post" enctype="multipart/form-data">
+        <section class="cart_area padding_top">
+            <div class="container">
+                <div class="cart_inner">
+                    <div class="table-responsive">
+                        @if (Model.Count > 0)
+                        {
+                            <table class="table wishlist-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="product-column">
+                                                <a asp-controller="Home" asp-action="Details" asp-route-maSanPham="@item.ProductId">
+                                                    <div class="media">
+                                                        <div class="product-image">
+                                                            <img style="height:150px; width:150px;" src="~/Images/@(item.SanPham.HinhAnh.FirstOrDefault()?.FileHinhAnh)" alt="Product Image" />
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <p>@item.SanPham.TenSanPham</p>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td class="price-column">
+                                                <h5>@((item.SanPham.GiaKhuyenMai != null ? item.SanPham.GiaKhuyenMai.Value : item.SanPham.Gia).ToString("#,##0 đ"))</h5>
+                                            </td>
+                                            <td class="action-column">
+                                                <button type="button" class="btn btn-danger btn-sm delete-btn" data-maSanPham="@item.ProductId">
+                                                    <i class="fas fa-trash-alt"></i> Remove
+                                                </button>
+                                                <button type="button" class="btn btn-primary btn-sm buy-btn" data-maSanPham="@item.ProductId">
+                                                    <i class="fas fa-shopping-cart"></i> Buy
+                                                </button>
+
+
+
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="checkout-btn-container">
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary continue-shopping-btn">Continue Shopping</a>
+                                <button type="submit" class="btn btn-primary checkout-btn">Buy All</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center empty-wishlist">
+                                <h2>Your wish list is empty</h2>
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3 continue-shopping-btn">Continue Shopping</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</body>
+@section Scripts {
+    <script>
+        var deleteButtons = document.querySelectorAll('.delete-btn');
+        var confirmationModal = document.getElementById('confirmationModal');
+        var confirmRemoveBtn = document.getElementById('confirmRemove');
+        var cancelRemoveBtn = document.getElementById('cancelRemove');
+
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                confirmationModal.style.display = "block";
+                confirmRemoveBtn.setAttribute('data-maSanPham', button.getAttribute('data-maSanPham')); 
+            });
+        });
+        document.querySelector('.close').addEventListener('click', function () {
+            confirmationModal.style.display = "none";
+        });
+
+        cancelRemoveBtn.addEventListener('click', function () {
+            confirmationModal.style.display = "none";
+        });
+        confirmRemoveBtn.addEventListener('click', function () {
+            confirmationModal.style.display = "none";
+            var productId = this.getAttribute('data-maSanPham');
+            removeProduct(productId);
+        });
+
+        function removeProduct(productId) {
+            var row = document.querySelector('.delete-btn[data-maSanPham="' + productId + '"]').closest('tr');
+            row.parentNode.removeChild(row);
+            updateQuantity(productId, 0);
+        }
+       function addToCart(productId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Wishlist/BuyProduct'); 
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    showPopup('Product added to cart successfully');
+                } else {
+                    console.error('Error adding product to cart');
+                }
+            };
+           xhr.send('id=' + productId); 
+           var row = document.querySelector('.delete-btn[data-maSanPham="' + productId + '"]').closest('tr');
+           row.parentNode.removeChild(row);
+        }
+
+        function showPopup(message) {
+            var popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.textContent = message;
+
+            document.body.appendChild(popup);
+
+            popup.style.top = '20px';
+            popup.style.left = '50%';
+            popup.style.transform = 'translateX(-50%)';
+
+            setTimeout(function() {
+                popup.remove();
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var buyButtons = document.querySelectorAll('.buy-btn');
+            buyButtons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var productId = this.getAttribute('data-maSanPham');
+                    addToCart(productId);
+                });
+            });
+
+        });
+    </script>
+}
+
+
+
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to remove this item from your wishlist?</p>
+        <div class="buttons">
+            <button id="confirmRemove" class="btn btn-danger">Yes</button>
+            <button id="cancelRemove" class="btn btn-secondary">No</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto; /* 10% from the top and centered */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        width: 60%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    /* Button Styling */
+    .btn {
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin: 5px;
+    }
+
+    .btn-danger {
+        background-color: #f44336;
+        color: white;
+        border: none;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+    }
+
+    /* Table Styling */
+    .wishlist-table th, .wishlist-table td {
+        vertical-align: middle;
+    }
+
+    .product-column img {
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    .checkout-btn-container {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .empty-wishlist {
+        margin-top: 50px;
+    }
+
+
+    .popup {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        z-index: 9999;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+
+</style>

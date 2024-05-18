@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DACS.Models;
+using DACS.IRepository;
 
 namespace DACS.Data
 {
@@ -27,11 +28,14 @@ namespace DACS.Data
         public DbSet<VeGiamGia> VEGIAMGIA { get; set; }
         public DbSet<ChuDe> CHUDE {  get; set; }
         public DbSet<TinTuc> TINTUC {  get; set; }
+        public DbSet<Wishlist> WISHLIST { get;set; }
+        public DbSet<Address> ADDRESS { get; set; }
+        public DbSet<Warranty> WARRANTY { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+   
             modelBuilder.Entity<HinhAnh>()
                 .HasOne<SanPham>(s => s.SanPham)
                 .WithMany(g => g.HinhAnh)
@@ -67,6 +71,17 @@ namespace DACS.Data
                .WithMany(s => s.SanPham)
                .HasForeignKey(s => s.MaSanPhamDacBiet);
 
+            modelBuilder.Entity<Wishlist>()
+                .HasKey(sc => new { sc.ProductId, sc.UserId });
+            modelBuilder.Entity<Wishlist>()
+                .HasOne(sc => sc.SanPham)
+                .WithMany(sc => sc.WishList)
+                .HasForeignKey(sc => sc.ProductId);
+            modelBuilder.Entity<Wishlist>()
+                .HasOne(sc => sc.User)
+                .WithMany(sc => sc.WishList)
+                .HasForeignKey(sc => sc.UserId);
+
             modelBuilder.Entity<ChiTietDonHangSanPham>()
                 .HasKey(sc => new { sc.MaSanPham, sc.MaDonHang });
 
@@ -80,8 +95,13 @@ namespace DACS.Data
                 .WithMany(s => s.ChiTietDonHangSanPham)
                 .HasForeignKey(sc => sc.MaDonHang);
 
+            modelBuilder.Entity<Address>()
+                .HasOne(sc => sc.User)
+                .WithMany(sc => sc.Addresses)
+                .HasForeignKey(sc => sc.UserId);
+
             modelBuilder.Entity<BinhLuan>()
-                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham});
+                .HasKey(bl => new { bl.MaDanhGia, bl.Id, bl.MaSanPham });
 
             modelBuilder.Entity<BinhLuan>()
                 .HasAlternateKey(bl => new { bl.Id, bl.MaSanPham });
@@ -111,7 +131,13 @@ namespace DACS.Data
                 .HasOne<ChuDe>(m => m.ChuDe)
                 .WithMany(s => s.TinTuc)
                 .HasForeignKey(s => s.MaChuDe);
-        
+            modelBuilder.Entity<Warranty>()
+                .HasOne(w => w.OrderDetails)
+                .WithMany(p => p.Warranties)
+                .HasForeignKey(od => new { od.ProductId, od.OrderId });
+
+  
+
 
             modelBuilder.Entity<SanPham>()
            .ToTable("SanPham")
@@ -122,8 +148,6 @@ namespace DACS.Data
            .HasValue<Laptop>(4)
            .HasValue<SanPham>(0);
 
-
-
-}
+        }
     }
 }

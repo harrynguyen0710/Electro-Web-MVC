@@ -1,4 +1,18 @@
 ﻿@model DACS.ViewModel.CartItemViewModel
+@{
+    Layout = null;
+}
+<title>Techzone</title>
+<link rel="icon" href="~/favicon.png">
+<link rel="stylesheet" href="~/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/animate.css">
+<link rel="stylesheet" href="~/css/owl.carousel.min.css">
+<link rel="stylesheet" href="~/css/all.css">
+<link rel="stylesheet" href="~/css/flaticon.css">
+<link rel="stylesheet" href="~/css/themify-icons.css">
+<link rel="stylesheet" href="~/css/magnific-popup.css">
+<link rel="stylesheet" href="~/css/slick.css">
+<link rel="stylesheet" href="~/css/style.css">
 <style>
     .apply-voucher-btn {
         background-color: #4CAF50; /* Green background */
@@ -17,13 +31,11 @@
         .apply-voucher-btn:hover {
             background-color: #45a049; /* Darker green on hover */
         }
-
-
 </style>
 <body>
-    <partial name="_BannerPartial"/>
+    <partial name="_Header"/>
+    <partial name="_BannerPartial" />
 
-    <form asp-action="Index" method="post" enctype="multipart/form-data">
         <section class="cart_area padding_top">
             <div class="container">
                 <div class="cart_inner">
@@ -38,7 +50,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (Model.CartItems.Count > 0 || Model.CartItems != null)
+                                @if (Model.CartItems.Count > 0 && Model.CartItems != null)
                                 {
                                     foreach (var item in Model.CartItems)
                                     {
@@ -95,9 +107,7 @@
                                         <td></td>
                                         <td></td>
                                         <td>
-                                            <div class="cupon_text float-right">
-                                                <a class="btn_1" href="#">Close Coupon</a>
-                                            </div>
+    
                                         </td>
                                     </tr>
                                     <tr>
@@ -109,62 +119,6 @@
                                         <td>
                                             <h5 id="grandTotal" style="white-space: nowrap;">@Model.GrandTotal.ToString("#,##0 đ")</h5>
                                         </td>
-                                    </tr>
-                                    /*Form here*/
-                                    <tr class="shipping_area">
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <h5>Information Customer</h5>
-                                        </td>
-                                        <td>
-                                                <div class="shipping_box">
-                                                    <div class="product-details-infor">
-                                                        <div class="general-infor set-background">
-                                                            <div class="infor-customer">
-                                                                <label asp-for="@Model.DonHang.TenKhachHang">Full Name <span class="text-danger">*</span></label>
-                                                                <input  asp-for="@Model.DonHang.TenKhachHang" type="text" value="@Model.DonHang.TenKhachHang">
-                                                                <span asp-validation-for="@Model.DonHang.TenKhachHang" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="@Model.DonHang.DiaChi">Address <span class="text-danger">*</span></label>
-                                                                <input asp-for="@Model.DonHang.DiaChi" type="text" value="@Model.DonHang.DiaChi">
-                                                                <span asp-validation-for="@Model.DonHang.DiaChi" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="@Model.DonHang.SoDienThoai">Phone Number <span class="text-danger">*</span></label>
-                                                                <input asp-for="@Model.DonHang.SoDienThoai" type="text" value="@Model.DonHang.SoDienThoai">
-                                                                <span asp-validation-for="@Model.DonHang.SoDienThoai" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer">
-                                                                <label asp-for="@Model.DonHang.YeuCauKhac">Other Reason</label>
-                                                                <input asp-for="@Model.DonHang.YeuCauKhac" type="text">
-                                                                <span asp-validation-for="@Model.DonHang.YeuCauKhac" class="text-danger"></span>
-                                                            </div>
-                                                            <div class="infor-customer" id="applyVoucherForm">
-                                                                <label asp-for="@Model.Code">Discount code</label>
-                                                                <input id="voucherCode" asp-for="@Model.Code" type="text">
-                                                                <button type="button" onclick="applyVoucher()" class="apply-voucher-btn">Apply voucher</button>
-                                                            </div>
-                                                            @if (ViewBag.InvalidVoucher != null)
-                                                            {
-                                                                <p style="color:red;">@ViewBag.InvalidVoucher</p>
-                                                            }
-                                                            <div id="voucherInfo"></div>
-                                                            <div class="infor-customer" style="display:none;">
-                                                                <label asp-for="@Model.DonHang.TrangThaiDonHang">Phone Number <span class="text-danger">*</span></label>
-                                                                <input asp-for="@Model.DonHang.TrangThaiDonHang" type="text" value="@DACS.Enum.TrangThaiDonHang.Preparing">
-                                                            </div>
-                                                            <div class="infor-customer" style="display:none;">
-                                                                <label asp-for="@Model.DonHang.TrangThaiThanhToan">Other Reason</label>
-                                                                <input asp-for="@Model.DonHang.TrangThaiThanhToan" type="text" value="@DACS.Enum.TrangThaiThanhToan.Unpaid">
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-
                                     </tr>
                                 }
                                 else
@@ -180,15 +134,14 @@
                         </table>
                         <div class="checkout_btn_inner float-right">
                             <a href="@Url.Action("Index", "Home")" class="btn_1" style="border: none;">Continue Shopping</a>
-                            @if(Model.CartItems.Count > 0)
+                            @if (Model.CartItems.Count > 0)
                             {
-                                <button type="submit" class="btn_1 checkout_btn_1" style="border: none;">Proceed to checkout</button>
+                                <a asp-controller="Cart" asp-action="Checkout" class="btn_1 checkout_btn_1" style="border: none;">Proceed to checkout</a>
                             }
                         </div>
                     </div>
                 </div>
         </section>
-    </form>
 </body>
 </html>
 
@@ -209,12 +162,12 @@
                 if (data.valid) {
                     console.log(data);
                     document.getElementById("voucherInfo").innerHTML = `
-                    <h4>Voucher Information</h4>
-                    <p>Code: ${data.voucher.code}</p>
-                    <p>Discount Percentage: ${data.voucher.tyleGiam} %</p>
-                    <p>Voucher Description: ${data.voucher.description}</p>
-                    <p>Total cost after discount: ${new Intl.NumberFormat('vi-VN').format(data.totalCost)} đ</p>
-                `;
+                        <h4>Voucher Information</h4>
+                        <p>Code: ${data.voucher.code}</p>
+                        <p>Discount Percentage: ${data.voucher.tyleGiam} %</p>
+                        <p>Voucher Description: ${data.voucher.description}</p>
+                        <p>Total cost after discount: ${new Intl.NumberFormat('vi-VN').format(data.totalCost)} đ</p>
+                    `;
                 } else {
                     document.getElementById("voucherInfo").innerHTML = "<p style=\"color: red;\">Invalid voucher</p>";
                 }

@@ -22,6 +22,28 @@ namespace DACS.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DACS.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("NumberAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ADDRESS");
+                });
+
             modelBuilder.Entity("DACS.Models.AppUserModel", b =>
                 {
                     b.Property<string>("Id")
@@ -29,10 +51,6 @@ namespace DACS.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -390,6 +408,9 @@ namespace DACS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("ThoiHanBaoHanh")
+                        .HasColumnType("real");
+
                     b.HasKey("MaSanPham");
 
                     b.HasIndex("MaBoNho");
@@ -513,6 +534,55 @@ namespace DACS.Migrations
                     b.HasKey("MaVeGiamGia");
 
                     b.ToTable("VEGIAMGIA");
+                });
+
+            modelBuilder.Entity("DACS.Models.Warranty", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId", "OrderId");
+
+                    b.ToTable("WARRANTY");
+                });
+
+            modelBuilder.Entity("DACS.Models.Wishlist", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WISHLIST");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -736,6 +806,17 @@ namespace DACS.Migrations
                     b.HasDiscriminator().HasValue(4);
                 });
 
+            modelBuilder.Entity("DACS.Models.Address", b =>
+                {
+                    b.HasOne("DACS.Models.AppUserModel", "User")
+                        .WithMany("Addresses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DACS.Models.BinhLuan", b =>
                 {
                     b.HasOne("DACS.Models.AppUserModel", "Customer")
@@ -864,6 +945,36 @@ namespace DACS.Migrations
                     b.Navigation("ChuDe");
                 });
 
+            modelBuilder.Entity("DACS.Models.Warranty", b =>
+                {
+                    b.HasOne("DACS.Models.ChiTietDonHangSanPham", "OrderDetails")
+                        .WithMany("Warranties")
+                        .HasForeignKey("ProductId", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("DACS.Models.Wishlist", b =>
+                {
+                    b.HasOne("DACS.Models.SanPham", "SanPham")
+                        .WithMany("WishList")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DACS.Models.AppUserModel", "User")
+                        .WithMany("WishList")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SanPham");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -917,12 +1028,21 @@ namespace DACS.Migrations
 
             modelBuilder.Entity("DACS.Models.AppUserModel", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("BinhLuan");
+
+                    b.Navigation("WishList");
                 });
 
             modelBuilder.Entity("DACS.Models.BoNho", b =>
                 {
                     b.Navigation("SanPham");
+                });
+
+            modelBuilder.Entity("DACS.Models.ChiTietDonHangSanPham", b =>
+                {
+                    b.Navigation("Warranties");
                 });
 
             modelBuilder.Entity("DACS.Models.ChuDe", b =>
@@ -962,6 +1082,8 @@ namespace DACS.Migrations
                     b.Navigation("ChiTietDonHangSanPham");
 
                     b.Navigation("HinhAnh");
+
+                    b.Navigation("WishList");
                 });
 
             modelBuilder.Entity("DACS.Models.SanPhamDacBiet", b =>

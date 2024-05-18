@@ -6,11 +6,13 @@ using DACS.Service;
 using DACS.IRepository;
 using DACS.Repository;
 using Microsoft.Extensions.Options;
+using DACS.Helpers;
 
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -33,6 +35,10 @@ builder.Services.AddScoped<IBlog,BlogRepository>();
 builder.Services.AddScoped<IHinhAnh, HinhAnhRepository>();
 builder.Services.AddScoped<IDonHang, DonHangRepository>();
 builder.Services.AddScoped<IOrderDetails, OrderDetailsRepository>();
+builder.Services.AddScoped<IWishList, WishListRepository>();
+builder.Services.AddScoped<IWishListService, WishListService>();
+builder.Services.AddScoped<IAddress, AddressRepository>();
+builder.Services.AddScoped<IWarranty, WarrantyRepository>();
 
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
 {
@@ -61,7 +67,6 @@ builder.Services.AddSession(options =>
 });
 
 
-
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddScoped<UserManager<AppUserModel>>();
@@ -84,8 +89,6 @@ builder.Services.AddAuthentication()
       {
           // Đọc thông tin Authentication:Google từ appsettings.json
 
-
-
           FacebookOptions.ClientId = builder.Configuration["Facebook:ClientId"];
           FacebookOptions.ClientSecret = builder.Configuration["Facebook:ClientSecret"];
 
@@ -95,10 +98,18 @@ builder.Services.AddAuthentication()
      });
 
 
-var app = builder.Build();
+builder.Services.AddSingleton(x => new PaypalClient(
+        builder.Configuration["PaypalOptions:AppId"],
+        builder.Configuration["PaypalOptions:AppSecret"],
+        builder.Configuration["PaypalOptions:Mode"]
+));
+
+builder.Services.AddSingleton<IVnPayService, VnPayService>();
+
+
+var app = builder.Build(); 
 
 app.UseSession();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -146,7 +157,6 @@ using (var scope = app.Services.CreateScope())
         var user = new AppUserModel();
         user.UserName = email;
         user.Email = email;
-        user.Address = address;
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Manager");
     }
@@ -155,11 +165,8 @@ using (var scope = app.Services.CreateScope())
         var user = new AppUserModel();
         user.UserName = emailtStaff;
         user.Email = emailtStaff;
-        user.Address = address;
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Staff");
     }
-
-
 }
 app.Run();

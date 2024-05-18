@@ -18,5 +18,6 @@ namespace DACS.Models
 
         public virtual DonHang DonHang { get; set; }
         public virtual SanPham SanPham { get; set; }
+        public ICollection<Warranty> Warranties { get; set; }
     }
 }

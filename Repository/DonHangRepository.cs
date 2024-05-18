@@ -66,8 +66,10 @@ namespace DACS.Repository
                 query = query.Where(d => d.TrangThaiThanhToan == trangThaiThanhToan);
             }
 
+
             return await query
                 .OrderByDescending(d => d.NgayLapDonHang)
+
                 .ToListAsync();
         }
 
