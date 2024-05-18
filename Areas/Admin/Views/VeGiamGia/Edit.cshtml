@@ -3,46 +3,39 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "_DashBoardAdmin";
-
 }
 
-<h1>Edit</h1>
+<h1>Chỉnh sửa mã giảm giá</h1>
 
-<h4>Discount voucher</h4>
-<hr />
-<div class="row" style="background-color:#ffffff;">
-    <div class="col-md-4">
+<div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="MaVeGiamGia" />
             <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
+                <label asp-for="Code" class="control-label">Mã giảm giá</label>
                 <input asp-for="Code" class="form-control" />
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NgayThietLap" class="control-label">Date founded</label>
+                <label asp-for="NgayThietLap" class="control-label">Ngày tạo</label>
                 <input asp-for="NgayThietLap" class="form-control" />
                 <span asp-validation-for="NgayThietLap" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SoLuongToiDaSuDung" class="control-label">Max quantity use</label>
+                <label asp-for="SoLuongToiDaSuDung" class="control-label">Số lượng sử dụng tối đa</label>
                 <input asp-for="SoLuongToiDaSuDung" class="form-control" />
                 <span asp-validation-for="SoLuongToiDaSuDung" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TyleGiam" class="control-label">Reduction rate code</label>
+                <label asp-for="TyleGiam" class="control-label">Tỷ lệ giảm</label>
                 <input asp-for="TyleGiam" class="form-control" />
                 <span asp-validation-for="TyleGiam" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Trở về</a>
             </div>
         </form>
     </div>
 </div>
-
-<div style="background-color:#ffffff;">
-    <a asp-action="Index">Back to List</a>
-</div>
-

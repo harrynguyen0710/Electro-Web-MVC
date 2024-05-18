@@ -7,7 +7,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                    <h6>Basic Information</h6>
+                    <h6>Thông tin cơ bản</h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
@@ -17,29 +17,29 @@
                                     <div class="product-details-infor">
                                         <div class="general-infor set-background">
                                             <div class="infor-details-products">
-                                                <label asp-for="@Model.MaSanPham">Product code</label>
+                                                <label asp-for="@Model.MaSanPham">Mã sản phẩm</label>
                                                 <input asp-for="@Model.MaSanPham" type="text" readonly>
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="@Model.TenSanPham">Product name</label>
+                                                <label asp-for="@Model.TenSanPham">Tên sản phẩm</label>
                                                 <input asp-for="@Model.TenSanPham" type="text">
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="@Model.Mota">Description</label>
+                                                <label asp-for="@Model.Mota">Mô tả</label>
                                                 <textarea asp-for="@Model.Mota"></textarea>
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="@Model.Gia">Price</label>
+                                                <label asp-for="@Model.Gia">Giá</label>
                                                 <input asp-for="@Model.Gia" type="number">
                                             </div>
                                             <div class="infor-details-products">
-                                                <label asp-for="@Model.GiaKhuyenMai">Promotional price</label>
+                                                <label asp-for="@Model.GiaKhuyenMai">Giá khuyến mãi</label>
                                                 <input asp-for="@Model.GiaKhuyenMai" type="number">
                                             </div>
                                         </div>
                                         <div class="option-infor">
                                             <div>
-                                                <label asp-for="@Model.MaThuongHieu">Product brand</label>
+                                                <label asp-for="@Model.MaThuongHieu">Thương hiệu sản phẩm</label>
                                                 <select asp-for="@Model.MaThuongHieu" id="MaThuongHieu" name="MaThuongHieu">
                                                     @if (ViewBag.ThuongHieu != null)
                                                     {
@@ -50,12 +50,12 @@
                                                     }
                                                     else
                                                     {
-                                                        <option value="">No data available</option>
+                                                        <option value="">Không có dữ liệu</option>
                                                     }
                                                 </select>
                                             </div>
                                             <div>
-                                                <label asp-for="@Model.MaLoaiSanPham">Product category</label>
+                                                <label asp-for="@Model.MaLoaiSanPham">Loại sản phẩm</label>
                                                 <select asp-for="@Model.MaLoaiSanPham" id="MaLoaiSanPham" name="MaLoaiSanPham">
                                                     @if (ViewBag.LoaiSanPham != null)
                                                     {
@@ -66,7 +66,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <option value="">No data available</option>
+                                                        <option value="">Không có dữ liệu </option>
                                                     }
                                                 </select>
                                             </div>
@@ -83,13 +83,13 @@
                                                     }
                                                     else
                                                     {
-                                                        <option value="">No data available</option>
+                                                        <option value="">Không có dữ liệu</option>
                                                     }
                                                 </select>
                                             </div>
 
                                             <div>
-                                                <label asp-for="@Model.MaBoNho">Product memory</label>
+                                                <label asp-for="@Model.MaBoNho">Bộ nhớ</label>
                                                 <select asp-for="@Model.MaBoNho" id="MaBoNho" name="MaBoNho">
                                                     @if (ViewBag.BoNho != null)
                                                     {
@@ -100,13 +100,13 @@
                                                     }
                                                     else
                                                     {
-                                                        <option value="">No data available</option>
+                                                        <option value="">Không có dữ liệu</option>
                                                     }
                                                 </select>
                                             </div>
 
                                             <div>
-                                                <label asp-for="@Model.MaMauSac">Product color</label>
+                                                <label asp-for="@Model.MaMauSac">Màu sắc</label>
                                                 <select asp-for="@Model.MaMauSac"id="MaMauSac" name="MaMauSac">
                                                     @if (ViewBag.MauSac != null)
                                                     {
@@ -117,12 +117,12 @@
                                                     }
                                                     else
                                                     {
-                                                        <option value="">No data available</option>
+                                                        <option value="">Không có dữ liệu</option>
                                                     }
                                                 </select>
                                             </div>
                                             <div>
-                                                <label asp-for="@Model.MaSanPhamDacBiet">Special product</label>
+                                                <label asp-for="@Model.MaSanPhamDacBiet">Sản phẩm đặc biệt</label>
                                                 <select asp-for="@Model.MaSanPhamDacBiet" id="MaSanPhamDacBiet" name="MaSanPhamDacBiet">
                                                     @if (ViewBag.SanPhamDacBiet != null)
                                                     {
@@ -133,7 +133,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <option value="">No data available</option>
+                                                        <option value="">Không có dữ liệu</option>
                                                     }
                                                 </select>
                                             </div>
@@ -142,7 +142,7 @@
                                         <div style="margin-left:150px;">
                                             <div class="form-group col-4 p-0">
                                                 <label class="control-label"></label>
-                                                <img id="PreviewPhoto" src="~/Images/noimage.png" alt="Logo Image"
+                                                <img id="PreviewPhoto" src="~/Images/noimage.png" alt="Hình ảnh"
                                                      style="width:260px; height:260px; border: 1px solid #333333; border-radius:5px;" />
                                             </div>
 
@@ -161,14 +161,14 @@
                                     </div>
                                     <div class="infor-details set-background" style="margin-top:30px;">
                                         <div>
-                                            <h5>Product Parameters</h5>
+                                            <h5>Thông số sản phẩm</h5>
                                             <div class="details">
                                                 <div class="infor-details-products">
                                                     <label asp-for="@Model.Chip">Chip</label>
                                                     <input asp-for="@Model.Chip" type="text">
                                                 </div>
                                                 <div class="infor-details-products">
-                                                    <label asp-for="@Model.ManHinh">Monitor</label>
+                                                    <label asp-for="@Model.ManHinh">Màn hình </label>
                                                     <input asp-for="@Model.ManHinh" type="text">
                                                 </div>
                                             </div>
@@ -184,11 +184,11 @@
                                             </div>
                                             <div class="details">
                                                 <div class="infor-details-products">
-                                                    <label asp-for="@Model.CameraTruoc">Front Camera</label>
+                                                    <label asp-for="@Model.CameraTruoc">Camera trước</label>
                                                     <input asp-for="@Model.CameraTruoc" type="text">
                                                 </div>
                                                 <div class="infor-details-products">
-                                                    <label asp-for="@Model.CameraSau">Back Camera</label>
+                                                    <label asp-for="@Model.CameraSau">Camera sau</label>
                                                     <input asp-for="@Model.CameraSau" type="text">
                                                 </div>
                                             </div>
@@ -198,7 +198,7 @@
                                 </div>
                             </table>
                             <div>
-                               <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Add</button>
+                               <button class="btn btn-primary" type="submit" style="height:40px; width:100px; transform:translate(1000px,-60px)">Thêm</button>
                             </div>
                         </form>
                     </div>
