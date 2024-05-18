@@ -44,6 +44,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Product</th>
+                                    <th scope="col">Price Product</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Quantity</th>
                                 </tr>
@@ -64,9 +65,14 @@
                                                     </div>
                                                 </div>
                                             </td>
+
                                             <td>
+
+
                                                 <h5>@((item.GiaKhuyenMai != null ? item.GiaKhuyenMai.Value : item.Gia).ToString("#,##0 đ"))</h5>
+
                                             </td>
+
                                             <td>
                                                 <div class="product_count d-flex align-items-center">
                                                     <a class="btn btn-primary px-3 me-2 btn-sm" asp-action="Decrease" asp-route-MaSanPham="@item.MaSanPham"
@@ -111,10 +117,9 @@
                                             <h5>Subtotal</h5>
                                         </td>
                                         <td>
-                                            <h5 id="grandTotal">đ</h5>
+                                            <h5 id="grandTotal" style="white-space: nowrap;">@Model.GrandTotal.ToString("#,##0 đ")</h5>
                                         </td>
                                     </tr>
-                                   
                                 }
                                 else
                                 {
@@ -139,15 +144,14 @@
         </section>
 </body>
 </html>
+
 <script>
     function formatCurrency(value) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
 
-    var grandTotalElement = document.getElementById('grandTotal');
-    var giaSanPham = document.getElementById('price-product');
-    grandTotalElement.textContent = formatCurrency(@Model.GrandTotal);
 </script>
+
 
 <script>
     function applyVoucher() {
@@ -158,12 +162,12 @@
                 if (data.valid) {
                     console.log(data);
                     document.getElementById("voucherInfo").innerHTML = `
-                    <h4>Voucher Information</h4>
-                    <p>Code: ${data.voucher.code}</p>
-                    <p>Discount Percentage: ${data.voucher.tyleGiam} %</p>
-                    <p>Voucher Description: ${data.voucher.description}</p>
-                    <p>Total cost after discount: ${new Intl.NumberFormat('vi-VN').format(data.totalCost)} đ</p>
-                `;
+                        <h4>Voucher Information</h4>
+                        <p>Code: ${data.voucher.code}</p>
+                        <p>Discount Percentage: ${data.voucher.tyleGiam} %</p>
+                        <p>Voucher Description: ${data.voucher.description}</p>
+                        <p>Total cost after discount: ${new Intl.NumberFormat('vi-VN').format(data.totalCost)} đ</p>
+                    `;
                 } else {
                     document.getElementById("voucherInfo").innerHTML = "<p style=\"color: red;\">Invalid voucher</p>";
                 }
@@ -174,3 +178,4 @@
             });
     }
 </script>
+
