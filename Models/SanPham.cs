@@ -18,6 +18,7 @@ namespace DACS.Models
         public int? SoLuongDanhGia { get; set; } 
 
         public float? DiemDanhGia { get; set; }
+        public float ThoiHanBaoHanh { get; set; }
         [Column(TypeName = "decimal(18,2)")]
 
         public decimal? GiaKhuyenMai { get; set; }

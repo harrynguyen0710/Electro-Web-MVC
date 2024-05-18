@@ -1,6 +1,7 @@
 ﻿using DACS.Data;
 using DACS.IRepository;
 using DACS.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DACS.Repository
 {
@@ -16,6 +17,7 @@ namespace DACS.Repository
             await _context.AddRangeAsync(items);
             await _context.SaveChangesAsync(); 
         }
+        
 
         public List<ChiTietDonHangSanPham> GetAllOrderDetails(List<CartItemModel> cartItems, DonHang donHang)
         {
@@ -28,6 +30,15 @@ namespace DACS.Repository
             }).ToList();
 
             return orderList;
+        }
+
+        public async Task<ChiTietDonHangSanPham> GetOrderDetailsById(int productId, int orderId)
+        {
+            return await _context.CHITIETDONHANGSANPHAM
+                          .Include(s => s.SanPham)
+                            .ThenInclude(i => i.HinhAnh)
+                          .Include(d => d.DonHang)
+                          .FirstOrDefaultAsync(p => p.MaSanPham == productId && p.MaDonHang == orderId);
         }
     }
 }

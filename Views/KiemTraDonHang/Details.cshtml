@@ -35,7 +35,7 @@
                                                 <th scope="col">Product</th>
                                                 <th scope="col">Price</th>
                                                 <th scope="col">Quantity</th>
-                                                <th scope="col"></th>
+                                                <th scope="col">Warranty</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -53,7 +53,11 @@
                                                     <td>@sanPhamDaBan.SanPham.TenSanPham</td>
                                                     <td>@sanPhamDaBan.DonGiaBan</td>
                                                     <td>@sanPhamDaBan.SoluongMua</td>
-
+                                                    <td>
+                                                        <a asp-controller="Warranty" asp-action="Create" asp-route-productId="@sanPhamDaBan.SanPham.MaSanPham" asp-route-orderId="@Model.MaDonHang">
+                                                            Warranty
+                                                        </a>
+                                                    </td>
                                                 </tr>
 
                                             }

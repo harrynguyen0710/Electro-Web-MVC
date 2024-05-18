@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DACS.Models;
+using DACS.IRepository;
 
 namespace DACS.Data
 {
@@ -29,6 +30,7 @@ namespace DACS.Data
         public DbSet<TinTuc> TINTUC {  get; set; }
         public DbSet<Wishlist> WISHLIST { get;set; }
         public DbSet<Address> ADDRESS { get; set; }
+        public DbSet<Warranty> WARRANTY { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -129,6 +131,12 @@ namespace DACS.Data
                 .HasOne<ChuDe>(m => m.ChuDe)
                 .WithMany(s => s.TinTuc)
                 .HasForeignKey(s => s.MaChuDe);
+            modelBuilder.Entity<Warranty>()
+                .HasOne(w => w.OrderDetails)
+                .WithMany(p => p.Warranties)
+                .HasForeignKey(od => new { od.ProductId, od.OrderId });
+
+  
 
 
             modelBuilder.Entity<SanPham>()
