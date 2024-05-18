@@ -37,6 +37,7 @@ builder.Services.AddScoped<IOrderDetails, OrderDetailsRepository>();
 builder.Services.AddScoped<IWishList, WishListRepository>();
 builder.Services.AddScoped<IWishListService, WishListService>();
 builder.Services.AddScoped<IAddress, AddressRepository>();
+builder.Services.AddScoped<IWarranty, WarrantyRepository>();
 
 builder.Services.AddIdentity<AppUserModel, IdentityRole>(options =>
 {

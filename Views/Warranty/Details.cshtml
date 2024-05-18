@@ -1,0 +1,99 @@
+﻿@model DACS.Models.Warranty
+
+@{
+    ViewData["Title"] = "Warranty Details";
+}
+
+<h1>Warranty Details</h1>
+
+<div class="warranty-details-card">
+    <div class="warranty-header">
+        <h2>Warranty ID: @Model.Id</h2>
+    </div>
+
+    <div class="warranty-info">
+        <p><strong>Product ID:</strong> @Model.ProductId</p>
+
+        <p>
+            <strong>Status:</strong>
+            @if (Model.IsApproved)
+            {
+                <span class="status accepted">Accepted</span>
+            }
+            else
+            {
+                <span class="status rejected">Rejected</span>
+            }
+        </p>
+
+        @if (!string.IsNullOrEmpty(Model.Reason))
+        {
+            <p><strong>Reason:</strong> @Model.Reason</p>
+        }
+
+        @if (Model.OrderDetails != null)
+        {
+            <div class="order-details">
+                <h3>Order Details</h3>
+
+                @if (Model.OrderDetails.SanPham != null)
+                {
+                    <p><strong>Product Name:</strong> @Model.OrderDetails.SanPham.TenSanPham</p>
+                }
+
+                <p><strong>Order Price:</strong> @Model.OrderDetails.DonGiaBan.ToString("#,##0 đ")</p>
+
+                @if (Model.OrderDetails.DonHang != null)
+                {
+                    <p><strong>Customer Name:</strong> @Model.OrderDetails.DonHang.TenKhachHang</p>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .warranty-details-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #f9f9f9;
+    }
+
+    .warranty-header {
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+
+    .warranty-info p, .order-details p {
+        margin: 10px 0;
+    }
+
+    .status {
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: white;
+    }
+
+        .status.accepted {
+            background-color: #4CAF50;
+        }
+
+        .status.rejected {
+            background-color: #f44336;
+        }
+
+    .order-details {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+        .order-details h3 {
+            margin-top: 0;
+        }
+</style>

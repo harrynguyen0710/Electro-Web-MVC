@@ -4,6 +4,7 @@ using DACS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DACS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516035905_WarrantyFeature")]
+    partial class WarrantyFeature
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -550,9 +553,6 @@ namespace DACS.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -562,7 +562,7 @@ namespace DACS.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId", "OrderId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("WARRANTY");
                 });
@@ -947,13 +947,13 @@ namespace DACS.Migrations
 
             modelBuilder.Entity("DACS.Models.Warranty", b =>
                 {
-                    b.HasOne("DACS.Models.ChiTietDonHangSanPham", "OrderDetails")
-                        .WithMany("Warranties")
-                        .HasForeignKey("ProductId", "OrderId")
+                    b.HasOne("DACS.Models.SanPham", "Product")
+                        .WithMany("Warranty")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OrderDetails");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DACS.Models.Wishlist", b =>
@@ -1040,11 +1040,6 @@ namespace DACS.Migrations
                     b.Navigation("SanPham");
                 });
 
-            modelBuilder.Entity("DACS.Models.ChiTietDonHangSanPham", b =>
-                {
-                    b.Navigation("Warranties");
-                });
-
             modelBuilder.Entity("DACS.Models.ChuDe", b =>
                 {
                     b.Navigation("TinTuc");
@@ -1082,6 +1077,8 @@ namespace DACS.Migrations
                     b.Navigation("ChiTietDonHangSanPham");
 
                     b.Navigation("HinhAnh");
+
+                    b.Navigation("Warranty");
 
                     b.Navigation("WishList");
                 });
