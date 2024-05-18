@@ -6,16 +6,14 @@
 }
 
 <div class="container-fluid py-4">
-    <div style="display: flex; flex-direction: row;justify-content:space-between;  height: 650px; width:100%; background-color:#ffffff; border-radius:9px;">
-
-        <div class="container mt-5">
-            <h1>Memory List</h1>
+    <div class="row justify-content-between" style="background-color: #ffffff; border-radius: 9px; padding: 20px;">
+        <div class="col-md-8">
+            <h1 class="mb-4">Danh sách bộ nhớ</h1>
             <table class="table">
-                <thead>
+                <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Capacity</th>
-                        <th></th>
-
+                        <th scope="col">Dung lượng</th>
+                        <th scope="col">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,28 +22,19 @@
                         <tr>
                             <td>@item.DungLuongBoNho</td>
                             <td>
-                                <a class="btn btn-primary" asp-route-id="@item.MaBoNho"  asp-action="Edit">
-                                    Edit
-                                </a>
-                                <a class="btn btn-danger" asp-route-id="@item.MaBoNho"  asp-action="Delete">
-                                    Delete
-                                </a>
+                                <a class="btn btn-primary mr-2" asp-route-id="@item.MaBoNho" asp-action="Edit">Chỉnh sửa</a>
+                                <a class="btn btn-danger" asp-route-id="@item.MaBoNho" asp-action="Delete">Xóa</a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <div style="transform:translate(-65px,90px);">
-            <a asp-action="Create">
-                <i class="fa-solid fa-plus" style="color: forestgreen; font-size:30px;"></i>
+        <div class="col-md-4 d-flex align-items-end justify-content-end" style="margin-top: auto;">
+            <a asp-action="Create" class="btn btn-success rounded-circle p-3 shadow">
+                <i class="fa-solid fa-plus" style="font-size: 20px;"></i>
+                Thêm mới
             </a>
         </div>
     </div>
-
-
 </div>
-
-
-
-
