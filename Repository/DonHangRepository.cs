@@ -2,10 +2,11 @@
 using DACS.IRepository;
 using DACS.Models;
 using Microsoft.EntityFrameworkCore;
+using X.PagedList;
 
 namespace DACS.Repository
 {
-    public class DonHangRepository :  IDonHang
+    public class DonHangRepository : IDonHang
     {
         private readonly ApplicationDbContext _context;
         public DonHangRepository(ApplicationDbContext context)
@@ -18,6 +19,7 @@ namespace DACS.Repository
                 .Include(v => v.VeGiamGia)
                 .AsSplitQuery()
                 .ToListAsync();
+           /* return await _context.DONHANG.ToListAsync();*/
         }
 
         public async Task AddAsync(DonHang donHang)
@@ -46,6 +48,7 @@ namespace DACS.Repository
 
             return donHang;
         }
+
 
 
 
@@ -112,6 +115,26 @@ namespace DACS.Repository
         {
             throw new NotImplementedException();
         }
+
+
+
+/*NOTE HERE*/
+        public async Task<PaginatedList<DonHang>> GetPaginatedAsync(int pageIndex, int pageSize)
+        {
+            var query = _context.DONHANG.AsQueryable();
+            return await PaginatedList<DonHang>.CreateAsync(query, pageIndex, pageSize);
+        }
+
+        Task<IPagedList<DonHang>> IDonHang.GetPaginatedAsync(int pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+        public IQueryable<DonHang> GetAll()
+        {
+            return _context.DONHANG.AsQueryable();
+        }
+
+
     }
     }
 

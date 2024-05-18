@@ -2,6 +2,7 @@
 using DACS.Data;
 using DACS.Models;
 using DACS.IRepository;
+using X.PagedList;
 
 
 namespace DACS.Areas.Admin.Controllers
@@ -14,10 +15,13 @@ namespace DACS.Areas.Admin.Controllers
         {
             _donHangRepository = donHangRepository;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 3)
         {
-            var donHang = await _donHangRepository.GetAllAsync();
-            return View(donHang);
+            var donHangQueryable = _donHangRepository.GetAll();
+            var pagedDonHang = await PaginatedList<DonHang>.CreateAsync(donHangQueryable, page, pageSize);
+
+            return View(pagedDonHang);
+
         }
 
         public async Task<IActionResult> Details(int? maDonHang)
@@ -49,8 +53,6 @@ namespace DACS.Areas.Admin.Controllers
             }
             return View(donHang);
         }
-       
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -63,8 +65,5 @@ namespace DACS.Areas.Admin.Controllers
             await _donHangRepository.Update(donHang);
             return View(donHang);
         }
-        
-
-
     }
 }

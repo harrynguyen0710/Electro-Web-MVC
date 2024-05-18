@@ -1,4 +1,4 @@
-﻿<section class="product_list best_seller section_padding">
+<section class="product_list best_seller section_padding">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-12">
@@ -10,40 +10,44 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="product_list_slider owl-carousel">
-                   @*  <a href="@Url.Action("Details", "Home", new { MaSanPham = sanPham.MaSanPham })" class="product_link">
-                        <div class="single_product_list_slider">
-                            <div class="row align-items-center justify-content-between">
-                                @{
-                                    int count = 0;
-                                    foreach (var sanPham in Model)
-                                    {
-                                        <div class="col-lg-3 col-sm-6">
-                                            <div class="single_product_item">
-                                                @foreach (var anh in sanPham.HinhAnh)
-                                                {
-                                                    <img src="~/Images/@anh.FileHinhAnh" alt="">
-                                                    break;
-                                                }
-                                                <div class="single_product_text">
-                                                    <h4>@sanPham.TenSanPham</h4>
-                                                    <h3>@sanPham.Gia</h3>
-                                                    <a href="#" class="add_cart">Add to cart<i class="ti-heart"></i></a>
-                                                </div>
+
+                    <div class="single_product_list_slider">
+                        <div class="row align-items-center justify-content-between">
+                            @{
+                                int count = 0;
+                                foreach (var sanPham in Model)
+                                {
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="single_product_item">
+                                            @foreach (var anh in sanPham.HinhAnh)
+                                            {
+                                                <img src="~/Images/@anh.FileHinhAnh" alt="">
+                                                break;
+                                            }
+                                            <div class="single_product_text">
+                                                <h4>@sanPham.TenSanPham</h4>
+                                                <h3>@sanPham.Gia</h3>
+                                                <a href="#" class="add_cart">Add to cart<i class="ti-heart"></i></a>
+
+
                                             </div>
                                         </div>
-                                        count++;
-                                        if (count == 4)
-                                        {
-                                            count = 0;
-                                            break;
-                                        }
+                                    </div>
+                                    count++;
+                                    if (count == 4)
+                                    {
+                                        count = 0;
+                                        break;
                                     }
                                 }
-                            </div>
+                            }
                         </div>
-                    </a> *@
+
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </div>
-</section>
+</section> 
