@@ -1,15 +1,44 @@
 ﻿@using DACS.Models
 @model List<DonHang>
-
+@{
+    Layout = null;
+}
+<link rel="icon" href="~/favicon.png">
+<link rel="stylesheet" href="~/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/animate.css">
+<link rel="stylesheet" href="~/css/owl.carousel.min.css">
+<link rel="stylesheet" href="~/css/all.css">
+<link rel="stylesheet" href="~/css/flaticon.css">
+<link rel="stylesheet" href="~/css/themify-icons.css">
+<link rel="stylesheet" href="~/css/magnific-popup.css">
+<link rel="stylesheet" href="~/css/slick.css">
+<link rel="stylesheet" href="~/css/style.css">
     <body>
-        <div class="row">
+        <form class="row" method="get" asp-controller="KiemTraDonHang" asp-action="ThongTinDonHang">
+            
             <div class="col-md-12 mt-4">
                 <div class="card">
                     <div class="card-header pb-0 px-3">
                         <h6 class="mb-0">Order information</h6>
                     </div>
                     <div class="card-body pt-4 p-3">
-                        <ul class="list-group">
+                    <select id="selectState" name="trangThaiDonHang">
+                        <option value="Preparing">Preparing</option>
+                        <option value="Shipping">Shipping</option>
+                        <option value="Received">Received</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                    <select id="trangThaiThanhToan" name="trangThaiThanhToan">
+                        <option value="Unpaid">Unpaid</option>
+                        <option value="Paid">Paid</option>
+                    </select>
+                    <div style="display:none;">
+                            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" value="@ViewBag.phoneNumber" />
+                    </div>
+                    <button type="submit">Check</button>
+                    <ul  class="list-group">
+                       
+
                             @if (Model != null)
                             {
                                 @foreach (var donhang in Model)
@@ -22,8 +51,8 @@
                                             <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.DiaChi</span></span>
                                             <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
 
-                                            <span class="mb-2 text-xs">Order status: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TrangThaiDonHang.TenTrangThaiDonHang</span></span>
-                                            <span class="mb-2 text-xs">Payment status: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TrangThaiThanhToan.TenTrangThaiThanhToan</span></span>
+                                            <span class="mb-2 text-xs">Order status: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TrangThaiDonHang</span></span>
+                                            <span class="mb-2 text-xs">Payment status: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TrangThaiThanhToan</span></span>
                                             <span class="mb-2 text-xs">Total value of Order: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TongGiaTriDonHang</span></span>
 
 
@@ -50,6 +79,34 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </body>
 </html>
+<script>
+    $(document).ready(function () {
+        $('#phoneNumber, #selectState, #trangThaiThanhToan').change(function () {
+            var phoneNumber = $('#phoneNumber').val();
+            var selectState = $('#selectState').val();
+            var trangThaiThanhToan = $('#trangThaiThanhToan').val();
+
+            // Thực hiện AJAX để gửi yêu cầu tới server
+            $.ajax({
+                url: '@Url.Action("ThongTinDonHang", "KiemTraDonHang")',
+                type: 'GET',
+                data: {
+                    phoneNumber: phoneNumber,
+                    trangThaiDonHang: selectState,
+                    trangThaiThanhToan: trangThaiThanhToan
+                },
+                success: function (result) {
+                    // Xử lý kết quả trả về
+                    $('#order-list').html(result);
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi (nếu có)
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>

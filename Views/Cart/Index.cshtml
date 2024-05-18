@@ -107,7 +107,7 @@
                                             <h5>Subtotal</h5>
                                         </td>
                                         <td>
-                                            <h5 id="grandTotal" style="white-space: nowrap;">@FormatCurrency(Model.GrandTotal).Replace(",00", "")</h5>
+                                            <h5 id="grandTotal" style="white-space: nowrap;">@Model.GrandTotal.ToString("#,##0 đ")</h5>
                                         </td>
                                     </tr>
                                     /*Form here*/
@@ -196,11 +196,6 @@
     function formatCurrency(value) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
-
-
-    var grandTotalElement = document.getElementById('grandTotal');
-    var formattedGrandTotal = '@FormatCurrency(Model.GrandTotal)'.replace('đ', '&#x20AB;').replace(',00', ''); // Thay thế ký tự 'đ' bằng ₫ và loại bỏ phần phụ định ,00
-    grandTotalElement.innerHTML = formattedGrandTotal;
 
 </script>
 

@@ -1,0 +1,165 @@
+﻿@model List<DACS.Models.SanPham>
+
+@{
+    Layout = null;
+}
+
+<link rel="icon" href="~/favicon.png">
+<link rel="stylesheet" href="~/css/bootstrap.min.css">
+<link rel="stylesheet" href="~/css/animate.css">
+<link rel="stylesheet" href="~/css/owl.carousel.min.css">
+<link rel="stylesheet" href="~/css/all.css">
+<link rel="stylesheet" href="~/css/flaticon.css">
+<link rel="stylesheet" href="~/css/themify-icons.css">
+<link rel="stylesheet" href="~/css/magnific-popup.css">
+<link rel="stylesheet" href="~/css/slick.css">
+<link rel="stylesheet" href="~/css/style.css">
+
+<style>
+    .search-box {
+        flex: 1;
+        max-width: 500px;
+    }
+
+    .search-result {
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+    .selected-product {
+        width: 500px;
+        height: 250px;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    select {
+        width: 100%;
+    }
+
+    /* Màu chữ đỏ cho tiêu đề */
+    #comparisonTitle {
+        text-align: center;
+        color: red;
+    }
+
+    /* Màu chữ đỏ cho tên sản phẩm */
+    .red-text {
+        color: red;
+    }
+
+    /* Màu chữ đen cho từ "Compare" */
+    .black-text {
+        color: black;
+    }
+</style>
+
+<h3 id="comparisonTitle"><span class="black-text">Compare Products</span></h3>
+
+<div style="display: flex; justify-content: space-around;">
+    <div class="search-box">
+        <input style="width:500px" type="text" id="searchInput1" onkeyup="searchFunction(1)" placeholder="Search for products...">
+        <div id="searchResult1" class="search-result"></div>
+        <select id="dropdown1" onchange="selectFromDropdown(1)">
+            <option value="">Select a product</option>
+        </select>
+        <!-- Áp dụng class red-text cho tên sản phẩm 1 -->
+        <div id="selectedProduct1" class="selected-product"></div>
+    </div>
+
+    <div class="search-box">
+        <input style="width:500px" type="text" id="searchInput2" onkeyup="searchFunction(2)" placeholder="Search for products...">
+        <div id="searchResult2" class="search-result"></div>
+        <select id="dropdown2" onchange="selectFromDropdown(2)">
+            <option value="">Select a product</option>
+        </select>
+        <!-- Áp dụng class red-text cho tên sản phẩm 2 -->
+        <div id="selectedProduct2" class="selected-product"></div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="pt-5">
+        <h6 class="mb-0">
+            <a href="@Url.Action("Index", "Home")" class="text-body" style="text-decoration: none;">
+                <i class="fas fa-long-arrow-alt-left me-2"></i>Back
+            </a>
+        </h6>
+    </div>
+</div>
+@section scripts {
+    <script>
+        var productImages = {};
+        var productName1 = ""; // Tên sản phẩm 1
+        var productName2 = ""; // Tên sản phẩm 2
+        var productprice = {};
+      
+        @foreach (var product in ViewBag.Images)
+        {
+            <text>
+                productImages["@product.Value"] = "Contents/img/" + "@product.Text";
+            </text>
+        }
+        @foreach (var product in ViewBag.Price)
+        {
+            <text>
+                productprice["@product.Value"] = "@product.Text";
+            </text>
+        }
+
+
+            function selectProduct(productName, productId, searchBox) {
+                var selectedProductDiv = document.getElementById('selectedProduct' + searchBox);
+                selectedProductDiv.innerHTML = "<h4>" + productName + "</h4><img src='" + productImages[productId] + "' alt='" + productName + "' style='height:200px;width:265px;object-fit: cover;'/>" + "<h4 class='red-text'>" + productprice[productId] + "</h4>";
+                updateComparisonTitle(searchBox, productName); // Cập nhật tiêu đề so sánh
+            }
+
+        function addToDropdown(productName, productId, searchBox) {
+            var dropdown = document.getElementById('dropdown' + searchBox);
+            var option = document.createElement("option");
+            option.text = productName;
+            option.value = productId;
+            dropdown.add(option);
+        }
+
+        function selectFromDropdown(searchBox) {
+            var dropdown = document.getElementById('dropdown' + searchBox);
+            var selectedProductId = dropdown.value;
+            var selectedProductName = dropdown.options[dropdown.selectedIndex].text;
+            if (searchBox === 1) {
+                productName1 = selectedProductName;
+            } else {
+                productName2 = selectedProductName;
+            }
+            selectProduct(selectedProductName, selectedProductId, searchBox);
+        }
+
+        function searchFunction(searchBox) {
+            var input, filter, div;
+            input = document.getElementById('searchInput' + searchBox);
+            filter = input.value.toUpperCase();
+            div = document.getElementById('searchResult' + searchBox);
+            div.innerHTML = "";
+
+            var dropdown = document.getElementById('dropdown' + searchBox);
+            dropdown.innerHTML = ""; // Clear dropdown before adding new options
+
+        @foreach (var product in ViewBag.Product)
+        {
+            <text>
+                        if ("@product.Text".ToUpperCase().indexOf(filter) > -1) {
+                    addToDropdown("@product.Text", "@product.Value", searchBox);
+                }
+            </text>
+        }
+        }
+
+        function updateComparisonTitle(searchBox, productName) {
+            var comparisonTitle = document.getElementById("comparisonTitle");
+            if (searchBox === 1) {
+                comparisonTitle.innerHTML = "<span class='black-text'>Compare</span> " + productName + "<span class='black-text'> vs </span>" + productName2;
+            } else {
+                comparisonTitle.innerHTML = "<span class='black-text'>Compare</span> " + productName1 + "<span class='black-text'> vs </span>" + productName;
+            }
+        }
+    </script>
+}
