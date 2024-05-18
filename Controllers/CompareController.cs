@@ -1,46 +1,72 @@
 ﻿using DACS.Data;
+using DACS.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DACS.Controllers
 {
     public class CompareController : Controller
     {
         private readonly ApplicationDbContext _dataContext;
+
         public CompareController(ApplicationDbContext dataContext)
         {
             _dataContext = dataContext;
         }
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(int? productId1, int? productId2)
         {
-            var products = await _dataContext.SANPHAM.ToListAsync();
+            ViewBag.ProductSelectList = new SelectList(_dataContext.SANPHAM, "MaSanPham", "TenSanPham");
 
-            ViewBag.Images = new Dictionary<string, object>();
-            ViewBag.Price = new Dictionary<string, object>();
-            ViewBag.Product = new List<SelectListItem>();
+            var productsQuery = _dataContext.SANPHAM
+                .Include(p => p.HinhAnh)
+                .Include(p => p.Ram)
+                .Include(p => p.BoNho)
+                .Include(p => p.MauSac)
+                .AsQueryable();
 
-            foreach (var product in products)
+            var product1 = await productsQuery.FirstOrDefaultAsync(p => p.MaSanPham == productId1);
+            var product2 = await productsQuery.FirstOrDefaultAsync(p => p.MaSanPham == productId2);
+
+            List<SanPham> products = new List<SanPham>();
+            if (product1 != null && product2 != null)
             {
-                var hinhAnh = await _dataContext.HINHANH
-                    .Where(x => x.MaSanPham == product.MaSanPham)
-                    .Select(x => x.FileHinhAnh)
-                    .FirstOrDefaultAsync();
-
-                ViewBag.Images[product.MaSanPham.ToString()] = hinhAnh;
-                ViewBag.Price[product.MaSanPham.ToString()] = product.Gia.ToString();
-
-                ViewBag.Product.Add(new SelectListItem
-                {
-                    Text = product.TenSanPham,
-                    Value = product.MaSanPham.ToString()
-                });
+                products.Add(product1);
+                products.Add(product2);
             }
 
             return View(products);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetProductDetails(int id)
+        {
+            var product = await _dataContext.SANPHAM
+                .Where(p => p.MaSanPham == id)
+                .FirstOrDefaultAsync();
 
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var hinhAnh = await _dataContext.HINHANH
+                .Where(x => x.MaSanPham == product.MaSanPham)
+                .Select(x => x.FileHinhAnh)
+                .FirstOrDefaultAsync();
+
+            var productDetails = new
+            {
+                Name = product.TenSanPham,
+                Image = hinhAnh,
+                Price = product.Gia
+            };
+
+            return Json(productDetails);
+        }
     }
 }

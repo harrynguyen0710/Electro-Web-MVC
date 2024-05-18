@@ -3,109 +3,105 @@
 @{
     Layout = null;
 }
+<partial name="_Header" />
 
-<link rel="icon" href="~/favicon.png">
-<link rel="stylesheet" href="~/css/bootstrap.min.css">
-<link rel="stylesheet" href="~/css/animate.css">
-<link rel="stylesheet" href="~/css/owl.carousel.min.css">
-<link rel="stylesheet" href="~/css/all.css">
-<link rel="stylesheet" href="~/css/flaticon.css">
-<link rel="stylesheet" href="~/css/themify-icons.css">
-<link rel="stylesheet" href="~/css/magnific-popup.css">
-<link rel="stylesheet" href="~/css/slick.css">
-<link rel="stylesheet" href="~/css/style.css">
+<h3 id="comparisonTitle" style="color: #4CAF50; transform: translateY(60px);">Compare Products</h3>
 
-<style>
-    .search-box {
-        flex: 1;
-        max-width: 500px;
-    }
-
-    .search-result {
-        max-height: 150px;
-        overflow-y: auto;
-    }
-
-    .selected-product {
-        width: 500px;
-        height: 250px;
-        overflow: hidden;
-        text-align: center;
-    }
-
-    select {
-        width: 100%;
-    }
-
-    /* Màu chữ đỏ cho tiêu đề */
-    #comparisonTitle {
-        text-align: center;
-        color: red;
-    }
-
-    /* Màu chữ đỏ cho tên sản phẩm */
-    .red-text {
-        color: red;
-    }
-
-    /* Màu chữ đen cho từ "Compare" */
-    .black-text {
-        color: black;
-    }
-</style>
-
-<h3 id="comparisonTitle"><span class="black-text">Compare Products</span></h3>
-
-<div style="display: flex; justify-content: space-around;">
-    <div class="search-box">
-        <input style="width:500px" type="text" id="searchInput1" onkeyup="searchFunction(1)" placeholder="Search for products...">
-        <div id="searchResult1" class="search-result"></div>
-        <select id="dropdown1" onchange="selectFromDropdown(1)">
-            <option value="">Select a product</option>
+<form style="display: flex; justify-content: space-around; margin: 20px 0; flex-wrap: wrap; transform: translateY(40px);">
+    <div style="margin: 10px;">
+        <label for="productId1" style="color: #333;">Product 1</label>
+        <select name="productId1" id="productId1" style="width: 100%; padding: 5px; background-color: #f2f2f2;">
+            @if (ViewBag.ProductSelectList != null)
+            {
+                foreach (var product in ViewBag.ProductSelectList)
+                {
+                    <option value="@product.Value" style="background-color: #fff; color: #333;">@product.Text</option>
+                }
+            }
+            else
+            {
+                <option style="background-color: #fff; color: #333;">No products available</option>
+            }
         </select>
-        <!-- Áp dụng class red-text cho tên sản phẩm 1 -->
-        <div id="selectedProduct1" class="selected-product"></div>
     </div>
-
-    <div class="search-box">
-        <input style="width:500px" type="text" id="searchInput2" onkeyup="searchFunction(2)" placeholder="Search for products...">
-        <div id="searchResult2" class="search-result"></div>
-        <select id="dropdown2" onchange="selectFromDropdown(2)">
-            <option value="">Select a product</option>
+    <div style="margin: 10px;">
+        <label for="productId2" style="color: #333;">Product 2</label>
+        <select name="productId2" id="productId2" style="width: 100%; padding: 5px; background-color: #f2f2f2;">
+            @if (ViewBag.ProductSelectList != null)
+            {
+                foreach (var product in ViewBag.ProductSelectList)
+                {
+                    <option value="@product.Value" style="background-color: #fff; color: #333;">@product.Text</option>
+                }
+            }
+            else
+            {
+                <option style="background-color: #fff; color: #333;">No products available</option>
+            }
         </select>
-        <!-- Áp dụng class red-text cho tên sản phẩm 2 -->
-        <div id="selectedProduct2" class="selected-product"></div>
     </div>
-</div>
-<div class="col-md-6">
+    <div style="align-self: center; margin: 10px;">
+        <button type="submit" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Compare</button>
+    </div>
+</form>
+
+@if (Model != null && Model.Any())
+{
+    <h1 style="color: #4CAF50;">Result</h1>
+    <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+        @foreach (var product in Model)
+        {
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 45%; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); background-color: #f9f9f9;">
+                <p style="font-weight: bold; color: #333;">@product.TenSanPham</p>
+                <p style="color: #666;">Price: @product.Gia.ToString("#,##0 đ")</p>
+                <p style="color: #666;">Screen: @product.ManHinh</p>
+                <p style="color: #666;">RAM: @product.Ram.TenRam</p>
+                <p style="color: #666;">Storage: @product.BoNho.DungLuongBoNho</p>
+                <p style="color: #666;">Color: @product.MauSac.TenMau</p>
+                @if (product.HinhAnh.Any())
+                {
+                    <img src="~/Images/@product.HinhAnh.FirstOrDefault().FileHinhAnh" alt="Product Image" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+                }
+                <hr style="border: 0; height: 1px; background: #ccc;" />
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p style="text-align: center; margin-top: 20px; color: #999; transform: translateY(40px);">No products selected for comparison.</p>
+}
+
+<div class="col-md-6" style="margin-top: 20px;">
     <div class="pt-5">
         <h6 class="mb-0">
-            <a href="@Url.Action("Index", "Home")" class="text-body" style="text-decoration: none;">
+            <a href="@Url.Action("Index", "Home")" class="text-body" style="text-decoration: none; color: #4CAF50;">
                 <i class="fas fa-long-arrow-alt-left me-2"></i>Back
             </a>
         </h6>
     </div>
 </div>
+
+
 @section scripts {
     <script>
         var productImages = {};
         var productName1 = ""; // Tên sản phẩm 1
         var productName2 = ""; // Tên sản phẩm 2
         var productprice = {};
-      
+
         @foreach (var product in ViewBag.Images)
         {
             <text>
-                productImages["@product.Value"] = "Contents/img/" + "@product.Text";
+                productImages["@product.Key"] = "Contents/img/" + "@product.Value";
             </text>
         }
         @foreach (var product in ViewBag.Price)
         {
             <text>
-                productprice["@product.Value"] = "@product.Text";
+                productprice["@product.Key"] = "@product.Value";
             </text>
         }
-
 
             function selectProduct(productName, productId, searchBox) {
                 var selectedProductDiv = document.getElementById('selectedProduct' + searchBox);
@@ -137,6 +133,7 @@
             var input, filter, div;
             input = document.getElementById('searchInput' + searchBox);
             filter = input.value.toUpperCase();
+            console.log('Filter:', filter);
             div = document.getElementById('searchResult' + searchBox);
             div.innerHTML = "";
 
@@ -146,12 +143,25 @@
         @foreach (var product in ViewBag.Product)
         {
             <text>
-                        if ("@product.Text".ToUpperCase().indexOf(filter) > -1) {
+                    console.log('Checking product:', "@product.Text".toUpperCase());
+                if ("@product.Text".toUpperCase().indexOf(filter) > -1) {
+                    console.log('Adding product:', "@product.Text");
                     addToDropdown("@product.Text", "@product.Value", searchBox);
                 }
             </text>
         }
+                }
+
+        // Hiển thị tất cả sản phẩm khi trang được tải
+        document.addEventListener('DOMContentLoaded', function () {
+        @foreach (var product in ViewBag.Product)
+        {
+            <text>
+                    addToDropdown("@product.Text", "@product.Value", 1);
+                addToDropdown("@product.Text", "@product.Value", 2);
+            </text>
         }
+                });
 
         function updateComparisonTitle(searchBox, productName) {
             var comparisonTitle = document.getElementById("comparisonTitle");
