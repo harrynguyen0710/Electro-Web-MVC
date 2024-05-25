@@ -6,7 +6,7 @@
 }
 @inject SignInManager<AppUserModel> _signInManager
 <body>
-    <section class="breadcrumb breadcrumb_bg">
+    @* <section class="breadcrumb breadcrumb_bg">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> *@
     <section class="login_part padding_top">
         <div class="container">
             <div class="row align-items-center">
@@ -66,7 +66,7 @@
                             </form>
                             
                             <div class="login-social">
-                                <a style="margin-bottom:100px;" >Đăng nhập khác bằng:</a>
+                                <a style="margin-bottom:100px;">Other login by:</a>
 
                                 @{
                                     var loginProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -77,7 +77,7 @@
                                                 if (string.Equals(provider.Name, "google", StringComparison.OrdinalIgnoreCase))
                                                 {
                                                     <button style="width:342px;height:55px;" type="submit" class="btn_3" class=" btn btn-google text-uppercase mt-3" name="provider" value="@provider.Name"
-                                                            title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
+                                                            title="Use your account to sign in or register">
                                                     
                                                         <i style="height:14px;width:14px;" class="fab fa-google mr-2"></i>
                                                         @provider.DisplayName
@@ -87,18 +87,14 @@
                                                 {
 
                                                     <button style="width:342px;height:55px;  transform:translateY(15px);" type="submit" class="btn_3" class="btn btn-facebook text-uppercase" name="provider" value="@provider.Name"
-                                                            title="Sử dụng tài khoản của bạn để đăng nhập hoặc đăng ký">
+                                                            title="Use your account to sign in or register">
                                                         <i style="height:14px;width:14px;" class="fab fa-facebook mr-2"></i>
                                                         @provider.DisplayName
                                                     </button>
-
-
                                                 }
                                             }
                                         </form>
                                     </div>
-
-
                                 }
                             </div>
                         </div>

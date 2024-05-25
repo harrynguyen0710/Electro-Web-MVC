@@ -23,7 +23,7 @@ namespace DACS.Areas.Admin.Controllers
             var donHang = _donHangRepository.GetAll();
             return View(donHang.ToPagedList(page.Value, pageSize.Value));
         }
-
+        
         public async Task<IActionResult> Details(int? maDonHang)
         {
             if (maDonHang == null)
