@@ -182,18 +182,17 @@ namespace DACS.Controllers
         {
             try
             {
+                List<SanPham> products;
                 if (string.IsNullOrWhiteSpace(keyword))
                 {
-                    // N?u t? khóa tìm ki?m tr?ng, tr? v? t?t c? s?n ph?m
-                    var allProducts = await _productRepository.GetAllAsync();
-                    return Json(allProducts); // Tr? v? danh sách s?n ph?m d??i d?ng JSON
+                    products = await _productRepository.GetAllAsync();
                 }
                 else
                 {
-                    // Tìm ki?m s?n ph?m theo t? khóa
-                    var searchResults = await _productRepository.SearchProductsAsync(keyword);
-                    return Json(searchResults); // Tr? v? k?t qu? tìm ki?m d??i d?ng JSON
+                    products = await _productRepository.SearchProductsAsync(keyword);
                 }
+
+                return Json(products); // Tr? v? danh sách s?n ph?m d??i d?ng JSON
             }
             catch (Exception ex)
             {
@@ -201,6 +200,7 @@ namespace DACS.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
 
         public async Task<IActionResult> TopicsPartial()
