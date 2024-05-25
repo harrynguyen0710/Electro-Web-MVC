@@ -10,6 +10,8 @@ namespace DACS.Enum
         [Display(Name = "Received")]
         Received,
         [Display(Name = "Rejected")]
-        Rejected
+        Rejected,
+        [Display(Name = "Cancelled")]
+        Cancelled
     }
 }

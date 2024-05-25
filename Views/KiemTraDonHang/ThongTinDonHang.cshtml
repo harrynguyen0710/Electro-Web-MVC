@@ -13,83 +13,97 @@
 <link rel="stylesheet" href="~/css/magnific-popup.css">
 <link rel="stylesheet" href="~/css/slick.css">
 <link rel="stylesheet" href="~/css/style.css">
-    <body>
-        <form class="row" method="get" asp-controller="KiemTraDonHang" asp-action="ThongTinDonHang">
-            
-            <div class="col-md-12 mt-4">
-                <div class="card">
-                    <div class="card-header pb-0 px-3">
-                        <h6 class="mb-0">Order information</h6>
-                    </div>
-                    <div class="card-body pt-4 p-3">
-                    <select id="selectState" name="trangThaiDonHang">
-                        <option value="Preparing">Preparing</option>
-                        <option value="Shipping">Shipping</option>
-                        <option value="Received">Received</option>
-                        <option value="Rejected">Rejected</option>
-                    </select>
-                    <select id="trangThaiThanhToan" name="trangThaiThanhToan">
-                        <option value="Unpaid">Unpaid</option>
-                        <option value="Paid">Paid</option>
-                    </select>
-                    <div style="display:none;">
-                            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" value="@ViewBag.phoneNumber" />
-                    </div>
-                    <button type="submit">Check</button>
-                    <ul  class="list-group">
-                       
+<style>
+    .custom-container {
+        max-width: 80%;
+    }
 
+    .custom-card {
+        padding: 20px;
+    }
+
+    .custom-list-group-item {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+</style>
+<body>
+    <partial name="_Header" />
+    <partial name="_BannerPartial" />
+
+    <div class="container custom-container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card custom-card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Order Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="orderForm">
+                            <div class="form-group mb-3">
+                                <label for="selectState">Order Status</label>
+                                <select id="selectState" name="trangThaiDonHang" class="form-control">
+                                    <option value="Preparing">Preparing</option>
+                                    <option value="Shipping">Shipping</option>
+                                    <option value="Received">Received</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="trangThaiThanhToan">Payment Status</label>
+                                <select id="trangThaiThanhToan" name="trangThaiThanhToan" class="form-control">
+                                    <option value="Unpaid">Unpaid</option>
+                                    <option value="Paid">Paid</option>
+                                </select>
+                            </div>
+                            <input type="hidden" name="phoneNumber" id="phoneNumber" value="@ViewBag.phoneNumber" />
+                            <button id="filterButton" type="button" class="btn btn-primary w-100">Check</button>
+                        </div>
+
+                        <ul id="order-list" class="list-group mt-4">
                             @if (Model != null)
                             {
-                                @foreach (var donhang in Model)
+                                foreach (var donhang in Model)
                                 {
-                                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-3 text-sm">@donhang.TenKhachHang</h6>
-                                            <span class="mb-2 text-xs">Invoice date: <span class="text-dark font-weight-bold ms-sm-2">@donhang.NgayLapDonHang</span></span>
-                                            <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.SoDienThoai</span></span>
-                                            <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.DiaChi</span></span>
-                                            <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.YeuCauKhac</span></span>
-
-                                            <span class="mb-2 text-xs">Order status: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TrangThaiDonHang</span></span>
-                                            <span class="mb-2 text-xs">Payment status: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TrangThaiThanhToan</span></span>
-                                            <span class="mb-2 text-xs">Total value of Order: <span class="text-dark ms-sm-2 font-weight-bold">@donhang.TongGiaTriDonHang</span></span>
-
-
+                                    <li class="list-group-item d-flex justify-content-between align-items-start custom-list-group-item">
+                                        <div>
+                                            <h6 class="mb-1">@donhang.TenKhachHang</h6>
+                                            <p class="mb-1">Invoice date: @donhang.NgayLapDonHang</p>
+                                            <p class="mb-1">Phone number: @donhang.SoDienThoai</p>
+                                            <p class="mb-1">Address: @donhang.DiaChi</p>
+                                            <p class="mb-1">Other request: @donhang.YeuCauKhac</p>
+                                            <p class="mb-1">Order status: @donhang.TrangThaiDonHang</p>
+                                            <p class="mb-1">Payment status: @donhang.TrangThaiThanhToan</p>
+                                            <p class="mb-1">Total value of Order: @donhang.TongGiaTriDonHang.ToString("#, ##0 đ")</p>
                                         </div>
-
-                                        <div class="ms-auto text-end">
-                                            <a asp-controller="KiemTraDonHang" asp-action="Details" asp-route-maDonHang="@donhang.MaDonHang" class="btn btn-link text-dark px-3 mb-0">
-                                                <i aria-hidden="true"></i>Details
-                                            </a>
-                                        </div>
+                                        <a asp-controller="KiemTraDonHang" asp-action="Details" asp-route-maDonHang="@donhang.MaDonHang" class="btn btn-link">Details</a>
                                     </li>
                                 }
                             }
-                            <div class="col-md-6">
-                                <div class="pt-5">
-                                    <h6 class="mb-0">
-                                        <a href="@Url.Action("Index", "Home")" class="text-body" style="text-decoration: none;">
-                                            <i class="fas fa-long-arrow-alt-left me-2"></i>Back
-                                        </a>
-                                    </h6>
-                                </div>
-                            </div>
                         </ul>
+                        <div class="text-center mt-4">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">
+                                <i class="fas fa-long-arrow-alt-left me-2"></i>Back
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </body>
+        </div>
+    </div>
+</body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#phoneNumber, #selectState, #trangThaiThanhToan').change(function () {
+        $('#filterButton').on('click', function (e) {
             var phoneNumber = $('#phoneNumber').val();
             var selectState = $('#selectState').val();
             var trangThaiThanhToan = $('#trangThaiThanhToan').val();
 
-            // Thực hiện AJAX để gửi yêu cầu tới server
+            $('#order-list').html('<li class="list-group-item">Loading...</li>');
+
             $.ajax({
                 url: '@Url.Action("ThongTinDonHang", "KiemTraDonHang")',
                 type: 'GET',
@@ -99,11 +113,10 @@
                     trangThaiThanhToan: trangThaiThanhToan
                 },
                 success: function (result) {
-                    // Xử lý kết quả trả về
                     $('#order-list').html(result);
                 },
                 error: function (xhr, status, error) {
-                    // Xử lý lỗi (nếu có)
+                    $('#order-list').html('<li class="list-group-item text-danger">An error occurred. Please try again.</li>');
                     console.error(error);
                 }
             });

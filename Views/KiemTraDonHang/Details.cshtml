@@ -1,82 +1,149 @@
 ﻿@using DACS.Models
-@using DACS.ViewModel
 @model DonHang;
-    <body>
-        <div class="container-fluid py-4">
-            
-            <div class="row">
-                <div class="col-md-12 mt-4">
-                    <div class="card">
-                        <div class="card-header pb-0 px-3">
-                            <h6 class="mb-0">Order Information Details</h6>
-                        </div>
-                        <div class="card-body pt-4 p-3">
-                            <ul class="list-group">
-                                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-3 text-sm">@Model.TenKhachHang</h6>
-                                            <span class="mb-2 text-xs">Invoice date: <span class="text-dark font-weight-bold ms-sm-2">@Model.NgayLapDonHang</span></span>
-                                            <span class="mb-2 text-xs">Phone number: <span class="text-dark ms-sm-2 font-weight-bold">@Model.SoDienThoai</span></span>
-                                            <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2 font-weight-bold">@Model.DiaChi</span></span>
-                                            <span class="mb-2 text-xs">Other request: <span class="text-dark ms-sm-2 font-weight-bold">@Model.YeuCauKhac</span></span>
-                                            <span class="mb-2 text-xs">Order status: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TrangThaiDonHang</span></span>
-                                            <span class="mb-2 text-xs">Payment status: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TrangThaiThanhToan</span></span>
-                                            <span class="mb-2 text-xs">Total price: <span class="text-dark ms-sm-2 font-weight-bold">@Model.TongGiaTriDonHang</span></span>
 
-                                        </div>
-                                    </li>
-                            </ul>
-                            <div>
-                                <div class="container mt-5">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"></th>
-                                                <th scope="col">Product</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Quantity</th>
-                                                <th scope="col">Warranty</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var sanPhamDaBan in Model.ChiTietDonHangSanPham)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Information Details</title>
+    <link rel="icon" href="~/favicon.png">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        .order-details-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-info {
+            margin-bottom: 20px;
+        }
+
+            .order-info h6 {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+
+            .order-info span {
+                font-size: 0.9rem;
+                color: #333;
+            }
+
+            .order-info .text-dark {
+                font-weight: 600;
+            }
+
+        .table-responsive {
+            margin-top: 30px;
+        }
+
+        .product-img {
+            height: 80px;
+            width: 80px;
+            object-fit: cover;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #007bff;
+            display: inline-flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+            .back-link:hover {
+                color: #0056b3;
+            }
+
+            .back-link i {
+                margin-right: 8px;
+            }
+    </style>
+</head>
+<body>
+    <div>
+        @if (Model.TrangThaiDonHang.ToString() == "Preparing")
+        {
+            <a asp-controller="KiemTraDonHang" asp-action="CancelOrder" asp-route-id="@Model.MaDonHang">Cancel order</a>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(ViewBag.CancelOrderMessage))
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.CancelOrderMessage
+        </div>
+    }
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <div class="order-details-card">
+                    <div class="order-info">
+                        <h6 class="mb-0">Order Information Details</h6>
+                        <div class="d-flex flex-column">
+                            <span class="mb-2 text-xs">Customer Name: <span class="text-dark ms-sm-2">@Model.TenKhachHang</span></span>
+                            <span class="mb-2 text-xs">Invoice Date: <span class="text-dark ms-sm-2">@Model.NgayLapDonHang</span></span>
+                            <span class="mb-2 text-xs">Phone Number: <span class="text-dark ms-sm-2">@Model.SoDienThoai</span></span>
+                            <span class="mb-2 text-xs">Address: <span class="text-dark ms-sm-2">@Model.DiaChi</span></span>
+                            <span class="mb-2 text-xs">Other Requests: <span class="text-dark ms-sm-2">@Model.YeuCauKhac</span></span>
+                            <span class="mb-2 text-xs">Order Status: <span class="text-dark ms-sm-2">@Model.TrangThaiDonHang</span></span>
+                            <span class="mb-2 text-xs">Payment Status: <span class="text-dark ms-sm-2">@Model.TrangThaiThanhToan</span></span>
+                            <span class="mb-2 text-xs">Total Price: <span class="text-dark ms-sm-2">@Model.TongGiaTriDonHang.ToString("#, ##0 đ")</span></span>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Warranty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var sanPhamDaBan in Model.ChiTietDonHangSanPham)
+                                {
+                                    <tr>
+                                        <td>
+                                            @foreach (var hinhAnh in sanPhamDaBan.SanPham.HinhAnh)
                                             {
-                                                <tr>
-                                                    @foreach (var hinhAnh in sanPhamDaBan.SanPham.HinhAnh)
-                                                    {
-                                                        <th scope="row">
-                                                            <img src="~/Images/@hinhAnh.FileHinhAnh" style="height: 80px; width: 80px;" />
-                                                        </th>
-                                                        break;
-
-                                                    }
-                                                    <td>@sanPhamDaBan.SanPham.TenSanPham</td>
-                                                    <td>@sanPhamDaBan.DonGiaBan</td>
-                                                    <td>@sanPhamDaBan.SoluongMua</td>
-                                                    <td>
-                                                        <a asp-controller="Warranty" asp-action="Create" asp-route-productId="@sanPhamDaBan.SanPham.MaSanPham" asp-route-orderId="@Model.MaDonHang">
-                                                            Warranty
-                                                        </a>
-                                                    </td>
-                                                </tr>
-
+                                                <img src="~/Images/@hinhAnh.FileHinhAnh" class="product-img" />
+                                                break;
                                             }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="pt-5">
-                                    <h6 class="mb-0">
-                                        <a href="@Url.Action("Index", "Home")" class="text-body" style="text-decoration: none;">
-                                            <i class="fas fa-long-arrow-alt-left me-2"></i>Back
-                                        </a>
-                                    </h6>
-                                </div>
-                            </div>
-                        </div>
+                                        </td>
+                                        <td>@sanPhamDaBan.SanPham.TenSanPham</td>
+                                        <td>@sanPhamDaBan.DonGiaBan.ToString("#, ##0 đ")</td>
+                                        <td>@sanPhamDaBan.SoluongMua</td>
+                                        <td>
+                                            <a asp-controller="Warranty" asp-action="Create" asp-route-productId="@sanPhamDaBan.SanPham.MaSanPham" asp-route-orderId="@Model.MaDonHang" class="btn btn-primary btn-sm">
+                                                Warranty
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-6 mt-4">
+                        <h6 class="mb-0">
+                            <a href="@Url.Action("Index", "Home")" class="back-link">
+                                <i class="fas fa-long-arrow-alt-left"></i>Back
+                            </a>
+                        </h6>
                     </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
