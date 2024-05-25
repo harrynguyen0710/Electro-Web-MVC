@@ -3,6 +3,7 @@ using DACS.Data;
 using DACS.Models;
 using DACS.IRepository;
 using X.PagedList;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace DACS.Areas.Admin.Controllers
@@ -15,13 +16,12 @@ namespace DACS.Areas.Admin.Controllers
         {
             _donHangRepository = donHangRepository;
         }
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 3)
+        public async Task<IActionResult> Index(int? page , int? pageSize)
         {
-            var donHangQueryable = _donHangRepository.GetAll();
-            var pagedDonHang = await PaginatedList<DonHang>.CreateAsync(donHangQueryable, page, pageSize);
-
-            return View(pagedDonHang);
-
+            page = page ?? 1;
+            pageSize = pageSize ?? 3;
+            var donHang = _donHangRepository.GetAll();
+            return View(donHang.ToPagedList(page.Value, pageSize.Value));
         }
 
         public async Task<IActionResult> Details(int? maDonHang)
