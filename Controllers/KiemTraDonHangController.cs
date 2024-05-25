@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using DACS.Data;
 using DACS.IRepository;
-using Microsoft.Extensions.Logging; 
+using Microsoft.Extensions.Logging;
+using DACS.Models;
+using DACS.Enum;
 
 
 namespace WebDT.Controllers
@@ -35,7 +37,13 @@ namespace WebDT.Controllers
                 return View("Index");
             }
             var donHang = await _donHangRepository.GetListDonHangByPhoneNum(phoneNumber, trangThaiDonHang, trangThaiThanhToan);
-            if(trangThaiThanhToan != null && trangThaiDonHang != null)
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("_OrderListPartial", donHang);
+            }
+
+            if (trangThaiThanhToan != null && trangThaiDonHang != null)
             {
                 return View("ThongTinDonHang", donHang);
             }
@@ -49,7 +57,7 @@ namespace WebDT.Controllers
                 return View("Index");
             }
         }
-      
+
 
         [HttpGet]
         public async Task<IActionResult> Details(int maDonHang)
@@ -66,6 +74,27 @@ namespace WebDT.Controllers
             }
 
         }
+        [HttpGet]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            var order = await _donHangRepository.GetByIdAsync(id);
+            return View(order);
+        }
+        [HttpPost]
+        public IActionResult CancelOrder(DonHang order)
+        {
+            order.TrangThaiDonHang = TrangThaiDonHang.Cancelled.ToString();
+            _dataContext.Attach(order);
+            _dataContext.Entry(order).Property(x => x.TrangThaiDonHang).IsModified = true;
+            _dataContext.SaveChanges();
+
+            ViewBag.CancelOrderMessage = "Order cancelled successfully.";
+
+            return RedirectToAction("Details", "KiemTraDonHang", new { maDonHang = order.MaDonHang });
+        }
+
+
+
 
     }
 }

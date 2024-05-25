@@ -30,6 +30,7 @@ namespace DACS.Models
 
         public string TrangThaiDonHang { get; set; }
         public string TrangThaiThanhToan { get; set; }
+        public string? LyDoHuy { get; set; }
 
         public ICollection<ChiTietDonHangSanPham> ChiTietDonHangSanPham { get; set; }
     }

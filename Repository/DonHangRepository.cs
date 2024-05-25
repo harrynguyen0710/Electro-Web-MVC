@@ -78,7 +78,7 @@ namespace DACS.Repository
 
 
         public decimal GetTotalBill(List<CartItemModel> cartItems)
-            {
+        {
                 decimal tongDonHang = 0;
                 foreach (var item in cartItems)
                 {
@@ -92,7 +92,7 @@ namespace DACS.Repository
                     }
                 }
                 return tongDonHang;
-            }
+        }
             public decimal GetTotalBillWithVoucher(List<CartItemModel> cartItems, float? tyleGiam)
             {
                 var tinhTong = cartItems.Sum(x => x.TongTien);
@@ -105,11 +105,11 @@ namespace DACS.Repository
             }
 
 
-            public async Task Update(DonHang donHang)
-            {
+        public async Task Update(DonHang donHang)
+        {  
                 _context.DONHANG.Update(donHang);
                 await _context.SaveChangesAsync();
-            }
+       }
 
         public Task Delete(DonHang entity)
         {

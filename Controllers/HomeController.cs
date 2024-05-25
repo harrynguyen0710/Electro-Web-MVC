@@ -37,12 +37,10 @@ namespace DACS.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser != null)
             {
-                // N?u ng??i dùng ?ã ??ng nh?p, g?i thông tin ng??i dùng ??n View
                 ViewData["Username"] = currentUser.UserName;
             }
             else
             {
-                // N?u không, g?i m?t giá tr? m?c ??nh ho?c null ??n View
                 ViewData["Username"] = "Khách";
             }
             return View(sanPham);

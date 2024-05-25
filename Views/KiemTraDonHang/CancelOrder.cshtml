@@ -1,0 +1,86 @@
+﻿@model DACS.Models.DonHang
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Information Details</title>
+    <link rel="icon" href="~/favicon.png">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        /* Your custom styles here */
+    </style>
+</head>
+<body>
+
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title">Order Information Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-controller="KiemTraDonHang" asp-action="CancelOrder">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Customer Name</label>
+                                        <input asp-for="TenKhachHang" class="form-control" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Invoice Date</label>
+                                        <input asp-for="NgayLapDonHang" class="form-control" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input asp-for="SoDienThoai" class="form-control" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input asp-for="DiaChi" class="form-control" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Other Requests</label>
+                                        <input asp-for="YeuCauKhac" class="form-control" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Order Status</label>
+                                        <input asp-for="TrangThaiDonHang" class="form-control" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Payment Status</label>
+                                        <input asp-for="TrangThaiThanhToan" class="form-control" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Total Price</label>
+                                        <input asp-for="TongGiaTriDonHang" class="form-control" readonly />
+                                    </div>
+                                    <!-- Add other form fields here -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Reason for Cancellation</label>
+                                    <textarea asp-for="LyDoHuy" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-danger">Cancel Order</button>
+                                    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Back to Home</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
